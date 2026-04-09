@@ -1,0 +1,41 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}
+                
+            {% endblock %}    
+        </title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <nav>
+                    <a href="">Головна сторінка</a>
+                    <a href="">Мої публікації</a>
+                    <a href="">Друзі</a>
+                    <a href="">Чати</a>
+                    <a href="">Налаштування</a>
+                </nav> 
+            </div>
+        </header>
+
+        <main>
+            <div class="side-menu">
+                {% block side-menu %}
+                    
+                {% endblock %}
+            </div>
+
+
+            <div class = 'content'>
+                {% block content %}
+                    
+                {% endblock %}
+            </div>
+        </main>
+    </body>
+</html>
