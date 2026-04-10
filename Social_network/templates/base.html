@@ -9,16 +9,58 @@
             {% endblock %}    
         </title>
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/header.css' %}">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        {% block links %}
+            
+        {% endblock links %}
     </head>
+
     <body>
         <header>
             <div class="container">
-                <nav>
-                    <a href="">Головна сторінка</a>
-                    <a href="">Мої публікації</a>
-                    <a href="">Друзі</a>
-                    <a href="">Чати</a>
-                    <a href="">Налаштування</a>
+
+                <div class="logo"> 
+                    <img src="{% static 'images/header/logo.svg' %}" alt="logo">
+                </div>
+                
+                <nav class="navigation">
+                    <div class="links">
+                        <div class="link-page">
+                            <img class="link-icon" src="{% static 'images/header/house.svg' %}" alt="">
+                            <a href="{% url 'home' %}">Головна</a>
+                        </div>
+                        
+                        <div class="link-page">
+                            <img class="link-icon"src="{% static 'images/header/posts.svg' %}" alt="">
+                            <a href="{% url 'post_view' %}">Мої публікації</a>
+                        </div>
+                        
+                        <div class="link-page">
+                            <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
+                            <a href="">Друзі</a>
+                        </div>
+                        
+                        <div class="link-page">
+                            <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
+                            <a href="">Чати</a>
+                        </div>
+                        
+                        <div class="link-page">
+                            <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
+                            <a href="">Налаштування</a>
+                        </div>
+                    </div>
+
+                
+                    <div class="button-leave">
+                        <img src="{% static 'images/header/leave.svg' %}" alt="">
+                        <p>Вихід</p>
+                    </div>
+                    
                 </nav> 
             </div>
         </header>
@@ -37,5 +79,8 @@
                 {% endblock %}
             </div>
         </main>
+
+
+        <script src="{% static 'js/links_page.js' %}"></script>
     </body>
 </html>

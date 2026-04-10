@@ -1,0 +1,102 @@
+header {
+    width: 100%;
+    height: 88px;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    /* background-color: green; */
+}
+
+
+.logo{
+    height: 100%;
+    display: flex;
+    position: relative;
+    align-items: center;
+    /* background-color: green; */
+}
+
+.logo img{
+    height: 20.5%;
+}
+
+.container{
+    max-width: 1440px;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: orange; */
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    height: 40px;
+    /* background-color: pink; */
+}
+
+.links {
+    gap: 22px;
+    display: flex;
+}
+
+.link-page {
+    height: 28px;
+    border-radius: 3px;
+    gap: 8px;
+    padding: 4px 8px;
+    /* background-color: green; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.link-page:hover {
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+
+.link-page a{
+    color: #070A1C;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.link-icon{
+    height: 71.4%;
+    object-fit: contain;
+    /* background-color: green; */
+}
+
+.button-leave {
+    border-radius: 1234px;
+    border: 1px #543C52 solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 16px;
+}
+
+.button-leave:hover {
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+
+.button-leave p {
+    font-weight: 500;
+    color: #543C52;
+    font-size: 0.875rem;
+}
+
+.button-leave img {
+    height: 50%;
+}
+
