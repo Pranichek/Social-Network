@@ -69,9 +69,8 @@ header {
 }
 
 .link-icon{
-    height: 71.4%;
+    height: 20px;
     object-fit: contain;
-    /* background-color: green; */
 }
 
 .button-leave {

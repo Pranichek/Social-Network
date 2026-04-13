@@ -10,6 +10,7 @@
         </title>
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/header.css' %}">
+        <link rel="stylesheet" href="{% static 'css/content.css' %}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +42,7 @@
                         
                         <div class="link-page">
                             <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
-                            <a href="">Друзі</a>
+                            <a href="{% url 'friends_view' %}">Друзі</a>
                         </div>
                         
                         <div class="link-page">
@@ -51,7 +52,7 @@
                         
                         <div class="link-page">
                             <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
-                            <a href="">Налаштування</a>
+                            <a href="{% url 'settings_view' %}">Налаштування</a>
                         </div>
                     </div>
 
@@ -82,5 +83,6 @@
 
 
         <script src="{% static 'js/links_page.js' %}"></script>
+        <script src = "{% static 'js/lightining_bg.js' %}"></script>
     </body>
 </html>

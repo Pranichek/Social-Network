@@ -1,0 +1,25 @@
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0 80px;
+    max-width: 1440px;
+    /* background-color: green; */
+    position: relative;
+}
+
+.side-menu {
+    width: 350.87px;
+    height: 100%;
+    display: flex;
+    padding: 16px 0;
+    /* background-color: blue; */
+    min-width: 350.80px;
+}
+
+.content {
+    flex: 1;
+    /* background-color: pink; */
+    height: 100%;
+}
