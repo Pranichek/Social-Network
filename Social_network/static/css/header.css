@@ -57,10 +57,11 @@ header {
     justify-content: center;
 }
 
-.link-page:hover {
+.link-page:hover , .light_bg{
     background-color: #E9E5EE;
     cursor: pointer;
 }
+
 
 .link-page a{
     color: #070A1C;
