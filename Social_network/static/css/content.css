@@ -13,9 +13,13 @@ main {
     width: 350.87px;
     height: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
     padding: 16px 0;
     /* background-color: blue; */
     min-width: 350.80px;
+    gap: 8px;
 }
 
 .content {

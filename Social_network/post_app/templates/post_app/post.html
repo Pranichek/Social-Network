@@ -1,8 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     Публікації
 {% endblock title %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+{% endblock links %}
+
+
+{% block side-menu %}
+    <div class = 'profile-block'>
+        <div class = 'top-data'>
+            <div class = 'indicator'>
+                <img src="{%static 'images/home/avatar.svg'%}" alt="Аватар">
+            </div>
+
+            <div class = 'text-data'>
+                <p class="username">Lina li</p>
+                <p class="nickname">@theli</p>
+            </div>
+        </div>
+
+
+        <div class = 'bottom-data'>
+            <div class = 'user-data border-style' >
+                <p class="number-text">566</p>
+                <p class="text">Дописи</p>
+            </div>
+                
+            <div class = 'user-data border-style'>
+                <p class="number-text">12.1К</p>
+                <p class="text">Читачі</p>
+            </div>
+            
+            <div class = 'user-data'>
+                <p class="number-text">222</p>
+                <p class="text">Друзі</p>
+            </div>
+        </div>
+    </div>
+{% endblock side-menu %}
+
 
 {% block content %}
     <h1>Тут будуть ваші публікації<h1>

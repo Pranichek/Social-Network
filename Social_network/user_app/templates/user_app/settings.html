@@ -1,8 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock links %}
 
 {% block title %}
     Налаштування
 {% endblock %}
+
+{% block side-menu %}
+    <div class = 'side-links'>
+        <div class = 'private-data bottom-line'>
+            <p class = 'private-data-text'>Особиста інформація</p>
+        </div>
+
+        <div class = 'albums'>
+            <p class = 'albums-text'>Альбоми</p>
+        </div>
+    </div>
+{% endblock side-menu %}
 
 {% block content %}
     <h1>Налаштування</h1>
