@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block meta %}
+            
+        {% endblock meta %}
         <title>
             {% block title %}
                 
@@ -35,32 +38,36 @@
                             <a href="{% url 'home' %}">Головна</a>
                         </div>
                         
-                        <div class="link-page posts-link">
+                        <div class="link-page post-link">
                             <img class="link-icon"src="{% static 'images/header/posts.svg' %}" alt="">
                             <a href="{% url 'post_view' %}">Мої публікації</a>
                         </div>
                         
-                        <div class="link-page">
+                        <div class="link-page friends-link">
                             <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
                             <a href="{% url 'friends_view' %}">Друзі</a>
                         </div>
                         
-                        <div class="link-page">
+                        <div class="link-page chats-link">
                             <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
                             <a href="">Чати</a>
                         </div>
                         
-                        <div class="link-page">
+                        <div class="link-page settings-link">
                             <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
                             <a href="{% url 'settings_view' %}">Налаштування</a>
                         </div>
                     </div>
 
-                
-                    <div class="button-leave">
+                    
+                    <div class="button-leave" onclick="document.getElementById('logout-form').submit(); return false;">
                         <img src="{% static 'images/header/leave.svg' %}" alt="">
                         <p>Вихід</p>
                     </div>
+
+                    <form action="{% url 'logout_view' %}" id="logout-form" method="post" style="display: none;">
+                        {% csrf_token %}
+                    </form>
                     
                 </nav> 
             </div>
@@ -84,5 +91,8 @@
 
         <script src="{% static 'js/links_page.js' %}"></script>
         <script src = "{% static 'js/lightining_bg.js' %}"></script>
+        {% block scripts %}
+            
+        {% endblock scripts %}
     </body>
 </html>

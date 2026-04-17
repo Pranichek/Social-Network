@@ -123,3 +123,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+
+LOGOUT_REDIRECT_URL = 'registration_view'
+
+LOGIN_URL = 'login_view' 

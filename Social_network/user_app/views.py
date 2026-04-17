@@ -1,5 +1,54 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.shortcuts import render , redirect
+from django.views.generic import TemplateView , FormView, View
+from .forms import RegistrationForm, LoginForm
+from django.contrib.auth.forms import User
+from django.contrib.auth.views import LogoutView
+from django.contrib.auth import authenticate, login
 
 class SettingsView(TemplateView):
     template_name = 'user_app/settings.html'
+
+class RegistrationView(FormView):
+    template_name = 'user_app/registration.html'
+    form_class = RegistrationForm
+
+class LoginView(FormView):
+    template_name = 'user_app/login.html'
+    form_class = LoginForm
+
+class LogoutUser(LogoutView):
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+    
+
+class CheckRegistration(View):
+    def post(self, request, *args, **kwargs):
+        # print(request.POST)
+        form = RegistrationForm(request.POST)
+
+        if form.is_valid():
+            # form.save()
+            data = request.POST
+            email = data.get('email')
+            password = data.get('password')
+
+            User.objects.create_user(username = email, password = password)
+            return redirect('login_view')
+            
+        return render(request, 'user_app/registration.html', {'form': form})
+
+class CheckLogin(View):
+    def post(self, request, *args, **kwargs):
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            data = request.POST
+            email = data.get('email')
+            password = data.get('password')
+
+            user = authenticate(request, username = email, password = password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+        return render(request, 'user_app/login.html', {'form': form})

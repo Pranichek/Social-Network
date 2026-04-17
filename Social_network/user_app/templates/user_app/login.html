@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Авторізация
+{% endblock title %}
+
+{% block content %}
+    <h1>Це сторінка авторізация</h1>
+    <form action="{% url 'check_login_view' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type = "submit">Відправити</button>
+    </form>
+    
+{% endblock content %}
