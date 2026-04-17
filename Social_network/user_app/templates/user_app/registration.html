@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Реєстрація
+{% endblock title %}
+
+{% block content %}
+    <h1>Це сторінка реєстрації</h1>
+    <form action="{% url 'check_registration' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <!-- <div>
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                {{ field.errors }}
+            {% endfor %}
+        </div> -->
+        <button type="submit">Відправити</button>
+    </form>
+{% endblock content %}
+

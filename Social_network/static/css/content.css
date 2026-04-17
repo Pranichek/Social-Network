@@ -2,24 +2,24 @@ main {
     flex: 1;
     display: flex;
     justify-content: center;
-    width: 100%;
-    padding: 0 80px;
+    width: 100vw;
+    padding: 0 5.6vw;
     max-width: 1440px;
     /* background-color: green; */
     position: relative;
 }
 
 .side-menu {
-    width: 350.87px;
+    width: 24.3vw;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    padding: 16px 0;
+    padding: 1.7vh 0;
     /* background-color: blue; */
-    min-width: 350.80px;
-    gap: 8px;
+    min-width: 24.3vw;
+    gap: 0.8vh;
 }
 
 .content {
