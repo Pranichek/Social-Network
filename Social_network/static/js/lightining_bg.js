@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // let currentUrl = '/post/posts';
 
     let currentUrl = window.location.pathname.split('/')[1];
-    console.log(currentUrl);
 
     // currentUrl = currentUrl.split('/')
 

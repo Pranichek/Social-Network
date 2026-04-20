@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block meta %}
+    <meta>
+{% endblock meta %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock links %}
+
+{% block title %}
+    Реєстрація
+{% endblock  %}
+
+{% block content %}
+    <div>
+        {% include 'user_app/particles/form_confirm_email.html' %}
+        {% include 'user_app/particles/form_login.html' %}
+        {% include 'user_app/particles/form_registration.html' %}
+    </div>
+{% endblock content %}
+
+
+{% block scripts %}
+    <script src="{% static 'js/user_app/change_forms.js' %}"></script>
+{% endblock scripts %}

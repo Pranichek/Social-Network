@@ -3,3 +3,4 @@ venv/
 .env
 instance/
 .DS_Store
+.prettierrc

@@ -3,23 +3,25 @@ main {
     display: flex;
     justify-content: center;
     width: 100vw;
-    padding: 0 5.6vw;
-    max-width: 1440px;
+    max-width: 90rem;
+    margin: 0 auto;
+    padding: 0 2.55vw; 
     /* background-color: green; */
     position: relative;
 }
 
 .side-menu {
-    width: 24.3vw;
+    width: 24.36vw;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    padding: 1.7vh 0;
+    padding: 1rem 0;
+    max-width: 21.93rem;
     /* background-color: blue; */
-    min-width: 24.3vw;
-    gap: 0.8vh;
+    /* min-width: 350.80px; */
+    gap: 0.5rem;
 }
 
 .content {

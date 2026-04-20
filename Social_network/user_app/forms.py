@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate
 
 
 class RegistrationForm(forms.Form):
@@ -30,5 +31,41 @@ class LoginForm(forms.Form):
     email = forms.EmailField(label='you@example.com', max_length = 255)
     password = forms.CharField(label = 'Введи пароль', widget = forms.PasswordInput)
             
-        
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        if email and password:
+            user = authenticate(username = email, password = password)
+            if user is None:
+                raise ValidationError('Невірний email або пароль')
+        return self.cleaned_data 
+    
+
+class ConfirmEmailForm(forms.Form):
+    first_number = forms.CharField(max_length=1)
+    second_number = forms.CharField(max_length=1)
+    third_number = forms.CharField(max_length=1)
+    fourth_number = forms.CharField(max_length=1)
+    fifth_number = forms.CharField(max_length=1)
+    sixth_number = forms.CharField(max_length=1)
+    
+
+    
+
+class UserForm(forms.Form):
+    author = forms.CharField(
+        label= "Псевдонім автора",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Введіть Псевдонім автора',
+            'class': 'form-input'
+        })
+    )
+    username = forms.CharField(
+        label= "Ім'я користувача",
+        widget=forms.TextInput(attrs={
+            'class': 'form-input',
+            'placeholder': 'username'
+        })
+    )        
 

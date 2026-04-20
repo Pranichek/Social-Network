@@ -1,63 +1,62 @@
 header {
-    width: 100vw;
-    height: 9.2vh;
+    width: 100%;
+    min-height: 5.5rem; 
     background-color: #FFFFFF;
     display: flex;
     align-items: center;
-    /* background-color: green; */
+    justify-content: center;
+    padding: 1rem 0; 
 }
-
 
 .logo{
     height: 100%;
     display: flex;
     position: relative;
     align-items: center;
-    /* background-color: green; */
 }
 
 .logo img{
     height: 20.5%;
 }
 
-.container{
-    max-width: 1440px;
-    height: 100%;
-    width: 100vw;
+.container {
+    width: 100%;
+    max-width: 90rem; 
     margin: 0 auto;
-    padding: 0 5.6vw;
+    padding: 0 2.55vw; 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* background-color: orange; */
+    flex-wrap: wrap; 
+    gap: 1rem; 
 }
-
 .navigation {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.7vw;
-    height: 4.2vh;
-    /* background-color: pink; */
+    gap: 1.5rem;
+    height: auto;
+    flex-wrap: wrap; 
 }
 
 .links {
-    gap: 1.53vw;
+    gap: 1.375rem;
     display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
 }
-
 .link-page {
-    height: 2.91vh;
+    height: 1.75rem;
     border-radius: 3px;
-    gap: 0.6vw;
-    padding: 0.4vh 0.6vw;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
     /* background-color: green; */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.link-page:hover, .active {
+.link-page:hover , .light_bg{
     background-color: #E9E5EE;
     cursor: pointer;
 }
@@ -69,12 +68,9 @@ header {
     font-size: 1rem;
 }
 
-
-
 .link-icon{
     height: 100%;
     object-fit: contain;
-    /* background-color: green; */
 }
 
 .button-leave {
@@ -83,9 +79,9 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.6vw;
-    height: 4.2vh;
-    padding: 0 1.1vw;
+    gap: 0.5rem; 
+    height: 2.5rem; 
+    padding: 0 1rem;
 }
 
 .button-leave:hover {
