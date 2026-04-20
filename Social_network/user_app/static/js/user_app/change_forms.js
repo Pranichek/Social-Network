@@ -15,3 +15,4 @@ back.addEventListener('click', () => {
     sectionRegister.classList.toggle('hidden')
     sectionConfirmEmail.classList.toggle('hidden')
 })
+
