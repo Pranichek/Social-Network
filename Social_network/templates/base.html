@@ -6,11 +6,8 @@
         {% block meta %}
             
         {% endblock meta %}
-        <title>
-            {% block title %}
-                
-            {% endblock %}    
-        </title>
+        <title>{% block title %}{% endblock %}</title>
+        
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/content.css' %}">
@@ -25,38 +22,40 @@
 
     <body>
         <header>
-            <div class="container">
+            <nav class="container">
 
-                <div class="logo"> 
+                <a href="{% url 'home' %}" class="logo"> 
                     <img src="{% static 'images/header/logo.svg' %}" alt="logo">
-                </div>
+                </a>
                 
-                <nav class="navigation">
-                    <div class="links">
-                        <div class="link-page home-link">
-                            <img class="link-icon" src="{% static 'images/header/house.svg' %}" alt="">
-                            <a href="{% url 'home' %}">Головна</a>
-                        </div>
-                        
-                        <div class="link-page post-link">
-                            <img class="link-icon"src="{% static 'images/header/posts.svg' %}" alt="">
-                            <a href="{% url 'post_view' %}">Мої публікації</a>
-                        </div>
-                        
-                        <div class="link-page friends-link">
-                            <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
-                            <a href="{% url 'friends_view' %}">Друзі</a>
-                        </div>
-                        
-                        <div class="link-page chats-link">
-                            <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
-                            <a href="">Чати</a>
-                        </div>
-                        
-                        <div class="link-page settings-link">
-                            <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
-                            <a href="{% url 'settings_view' %}">Налаштування</a>
-                        </div>
+                
+                {% if request.resolver_match.url_name != 'auth_view'  %}
+                    <div class="navigation">
+                        <div class="links">
+                            <div class="link-page home-link">
+                                <img class="link-icon" src="{% static 'images/header/house.svg' %}" alt="">
+                                <a href="{% url 'home' %}">Головна</a>
+                            </div>
+                            
+                            <div class="link-page post-link">
+                                <img class="link-icon"src="{% static 'images/header/posts.svg' %}" alt="">
+                                <a href="{% url 'post_view' %}">Мої публікації</a>
+                            </div>
+                            
+                            <div class="link-page friends-link">
+                                <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
+                                <a href="{% url 'friends_view' %}">Друзі</a>
+                            </div>
+                            
+                            <div class="link-page chats-link">
+                                <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
+                                <a href="">Чати</a>
+                            </div>
+                            
+                            <div class="link-page settings-link">
+                                <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
+                                <a href="{% url 'settings_view' %}">Налаштування</a>
+                            </div>
                     </div>
 
                     
@@ -68,9 +67,12 @@
                     <form action="{% url 'logout_view' %}" id="logout-form" method="post" style="display: none;">
                         {% csrf_token %}
                     </form>
-                    
-                </nav> 
-            </div>
+                {% endif %}
+
+                
+
+                </div>
+            </nav> 
         </header>
 
         <main>
@@ -83,10 +85,14 @@
 
             <div class = 'content'>
                 {% block content %}
-                    
+
                 {% endblock %}
             </div>
         </main>
+
+
+        <div class="shadow"></div>
+        <div class="message"></div>
 
 
         <script src="{% static 'js/links_page.js' %}"></script>

@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect
 from django.views.generic import TemplateView , FormView, View
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, ConfirmEmailForm
 from django.contrib.auth.forms import User
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
@@ -8,9 +8,20 @@ from django.contrib.auth import authenticate, login
 class SettingsView(TemplateView):
     template_name = 'user_app/settings.html'
 
-class RegistrationView(FormView):
-    template_name = 'user_app/registration.html'
-    form_class = RegistrationForm
+# class RegistrationView(FormView):
+#     template_name = 'user_app/registration.html'
+#     form_class = RegistrationForm
+
+class AuthUser(TemplateView):
+    template_name = 'user_app/auth.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_login'] = LoginForm
+        context['form_confirm_email'] = ConfirmEmailForm
+        context['form_register'] = RegistrationForm
+
+        return context
+        
 
 class LoginView(FormView):
     template_name = 'user_app/login.html'
