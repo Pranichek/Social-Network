@@ -68,4 +68,3 @@ class UserForm(forms.Form):
             'placeholder': 'username'
         })
     )        
-
