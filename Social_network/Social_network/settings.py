@@ -125,6 +125,6 @@ STATICFILES_DIRS = [
 ]
 
 
-LOGOUT_REDIRECT_URL = 'registration_view'
+LOGOUT_REDIRECT_URL = 'auth_view'
 
 LOGIN_URL = 'login_view' 
