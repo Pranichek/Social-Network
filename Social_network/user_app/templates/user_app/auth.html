@@ -6,6 +6,7 @@
 {% endblock meta %}
 
 {% block links %}
+    <link rel="stylesheet" href="{% static 'css/registration_section.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 {% endblock links %}
 
@@ -14,13 +15,15 @@
 {% endblock  %}
 
 {% block content %}
-    <div>
-        {% include 'user_app/particles/form_confirm_email.html' %}
-        {% include 'user_app/particles/form_login.html' %}
-        {% include 'user_app/particles/form_registration.html' %}
+    {% include 'user_app/particles/form_confirm_email.html' %}
+    {% include 'user_app/particles/form_login.html' %}
+    {% include 'user_app/particles/form_registration.html' %}
+    <div class="laptop-image">
+        <img src="{%static 'images/registration/Container.svg' %}" alt="">
     </div>
 {% endblock content %}
 
+<div></div>
 
 {% block scripts %}
     <script src="{% static 'js/user_app/change_forms.js' %}"></script>

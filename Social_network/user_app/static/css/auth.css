@@ -5,6 +5,20 @@
     /* background-color: green; */
 }
 
+
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.side-menu {
+    display: none;
+}
+
+
+
 .hidden{
     display: none;
 }

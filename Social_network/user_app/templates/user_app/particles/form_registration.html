@@ -1,10 +1,21 @@
 <div class="section-register section"> 
-    <nav>
-        <p id="ButtonRegister">Реєстрація</p>
-        <p id="ButtonLogin">Авторизація</p>
-    </nav>
-    <p>Приєднуйся до World IT</p>
-    <form method="post">
+    
+    <div class = 'toggle'>
+        <div class="register-block" id="ButtonRegister">
+            <p class="register-text">Реєстрація</p>
+            <div class="line"></div>
+        </div>
+        <div class="login-block" id="ButtonLogin">
+            <p class = 'login-text'>Авторизація</p>
+        </div>
+        
+    </div>
+
+
+    <p class="welcom-text">Приєднуйся до World IT</p>
+
+
+    <form method="post" class="container-input">
         {{ form_register.as_p }}
         <button type="button" class="create-user">Створити акаунт</button>
     </form>
