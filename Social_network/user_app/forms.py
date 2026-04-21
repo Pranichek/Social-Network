@@ -5,9 +5,23 @@ from django.contrib.auth import authenticate
 
 
 class RegistrationForm(forms.Form):
-    email = forms.EmailField(label='you@example.com', max_length = 255)
-    password = forms.CharField(label = 'Введи пароль', widget = forms.PasswordInput)
-    confirm_password = forms.CharField(label = 'Повтори пароль', widget = forms.PasswordInput)
+    email = forms.EmailField(
+        label='Електронна пошта', 
+        max_length = 255,
+        widget = forms.EmailInput(attrs={'placeholder': 'you@example.com'})
+    )
+    
+    password = forms.CharField(
+        label = 'Пароль', 
+        widget = forms.PasswordInput(attrs={'placeholder': 'Введи пароль'})
+    )
+    
+    confirm_password = forms.CharField(
+        label = 'Підтвердити пароль', 
+        widget=forms.PasswordInput(attrs={
+        'placeholder': 'Повтори пароль'
+    })
+    )
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
