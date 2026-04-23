@@ -8,7 +8,6 @@ passwordInputs.forEach(input => {
         const eyeImg = eyeIcon.querySelector('#eye-img')
         
 
-        // inputField.type = 'text'
         if(inputField.type === 'password'){
             inputField.type = 'text'
             eyeImg.src = '/static/images/fields_images/open_eye.svg'
