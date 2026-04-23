@@ -22,3 +22,14 @@
 .hidden{
     display: none;
 }
+
+
+.laptop-image{
+    height: 50vh;
+    width: 30vw;
+}
+
+.laptop-image img{
+    height: 100%;
+    object-fit: contain;
+}

@@ -12,15 +12,19 @@ class RegistrationForm(forms.Form):
     )
     
     password = forms.CharField(
-        label = 'Пароль', 
-        widget = forms.PasswordInput(attrs={'placeholder': 'Введи пароль'})
+        label = 'Пароль',
+        widget = forms.PasswordInput(attrs={
+            'placeholder': 'Введи пароль', 
+            'id': 'password-input'
+        })
     )
     
     confirm_password = forms.CharField(
         label = 'Підтвердити пароль', 
         widget=forms.PasswordInput(attrs={
-        'placeholder': 'Повтори пароль'
-    })
+            'placeholder': 'Повтори пароль',
+            'id': 'password-input'
+        })
     )
     
     def clean_email(self):
@@ -42,8 +46,14 @@ class RegistrationForm(forms.Form):
         return self.cleaned_data
             
 class LoginForm(forms.Form):
-    email = forms.EmailField(label='you@example.com', max_length = 255)
-    password = forms.CharField(label = 'Введи пароль', widget = forms.PasswordInput)
+    email = forms.EmailField(label='Електронна пошта', max_length = 255, widget=forms.EmailInput(attrs={
+        'class': 'input-with-email',
+        'placeholder': 'you@example.com',
+    }))
+    password = forms.CharField(label = 'Пароль', widget = forms.PasswordInput(attrs={
+        'class': 'input-with-eye',
+        'placeholder': 'Введи пароль'
+    }))
             
     def clean(self):
         email = self.cleaned_data.get('email')
@@ -53,16 +63,16 @@ class LoginForm(forms.Form):
             user = authenticate(username = email, password = password)
             if user is None:
                 raise ValidationError('Невірний email або пароль')
-        return self.cleaned_data 
+        return self.cleaned_data  
     
 
 class ConfirmEmailForm(forms.Form):
-    first_number = forms.CharField(max_length=1)
-    second_number = forms.CharField(max_length=1)
-    third_number = forms.CharField(max_length=1)
-    fourth_number = forms.CharField(max_length=1)
-    fifth_number = forms.CharField(max_length=1)
-    sixth_number = forms.CharField(max_length=1)
+    first_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
+    second_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
+    third_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
+    fourth_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
+    fifth_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
+    sixth_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
     
 
     

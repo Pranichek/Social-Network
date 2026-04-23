@@ -26,7 +26,6 @@
 
 .messages-part{
     padding: 0 1rem;
-    /* background-color: green; */
 }
 
 .left-part{
@@ -156,5 +155,10 @@
 .text-message{
     font-weight: 400;
     font-size: 0.875rem;
+}
 
+
+
+@media (max-height: 900px){
+    
 }

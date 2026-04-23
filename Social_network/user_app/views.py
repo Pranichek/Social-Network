@@ -62,4 +62,4 @@ class CheckLogin(View):
             if user is not None:
                 login(request, user)
                 return redirect('home')
-        return render(request, 'user_app/login.html', {'form': form})
+        return render(request, 'user_app/auth.html', {'form': form})

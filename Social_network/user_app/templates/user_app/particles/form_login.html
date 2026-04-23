@@ -1,12 +1,26 @@
 <div class="section-login section hidden"> 
-    <nav>
+    <!-- <nav>
         <p id="ButtonRegister">Реєстрація</p>
         <p id="ButtonLogin">Авторизація</p>
-    </nav>
-    <p>Раді тебе знову бачити!</p>
-    <form method="post">
+    </nav> -->
+
+    <div class = 'toggle'>
+        <div class="register-block" id="ButtonRegister">
+            <p class="register-text">Реєстрація</p>
+        </div>
+        <div class="login-block active" id="ButtonLogin">
+            <p class = 'login-text'>Авторизація</p>
+            <div class="line"></div>
+        </div>
+    </div>
+
+    <p class="welcom-text">Раді тебе знову бачити!</p>
+
+    <form method="post" class="container-input" action="{% url 'check_login_view' %}">
+        {% csrf_token %}
         {{ form_login.as_p }}
-        <button type="button">Увійти</button>
     </form>
+
+    <button type="button" class="login-user" onclick="document.querySelector('.container-input').submit(); return false;">Увійти</button>
 </div>
 

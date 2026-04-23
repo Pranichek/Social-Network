@@ -72,6 +72,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Social_network.wsgi.application'
 
+AUTH_USER_MODEL = 'user_app.User'
+
+
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
