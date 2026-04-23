@@ -8,7 +8,6 @@
     flex-direction: column;
     justify-content: space-between;    
     padding: 1rem 0; 
-    /* background-color: green; */
 }
 
 .top-data{
@@ -86,3 +85,6 @@
 .border-style{
     border-right: 1px #CDCED2 solid;
 }
+
+
+

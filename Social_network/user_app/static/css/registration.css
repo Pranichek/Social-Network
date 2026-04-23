@@ -2,27 +2,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: rgba(221, 160, 221, 0.504); */
     color: black;
 }
 .wrapper {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-    
-    /* height: 100vh; */
+    align-items: center;    
 }
 
 .card {
     display: flex;
-    /* width: 850px;
-    height: 500px; */
     background: white;
     border-radius: 15px;
-    overflow: hidden;
-    /* box-shadow: 0 10px 30px rgba(0,0,0,0.1); */
-    
+    overflow: hidden;    
 }
 
 .form-block {
@@ -81,7 +74,7 @@
 
 .image-block img {
     width: 100%;
-    margin-left: -50 ;
+    margin-left: -50;
 }
 .simple-header {
     width: 100%;
@@ -95,9 +88,7 @@
     left: 0;
     z-index: 10;
 }
-/* .navigation {
-    display: none;
-} */
+
 .side-menu {
     display: none;
 }

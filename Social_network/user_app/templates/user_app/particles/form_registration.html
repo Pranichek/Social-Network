@@ -1,23 +1,43 @@
+{% load static %}
 <div class="section-register section"> 
     
     <div class = 'toggle'>
-        <div class="register-block" id="ButtonRegister">
+        <div class="register-block active" id="ButtonRegister">
             <p class="register-text">Реєстрація</p>
             <div class="line"></div>
         </div>
         <div class="login-block" id="ButtonLogin">
             <p class = 'login-text'>Авторизація</p>
         </div>
-        
     </div>
-
 
     <p class="welcom-text">Приєднуйся до World IT</p>
 
-
     <form method="post" class="container-input">
-        {{ form_register.as_p }}
-        <button type="button" class="create-user">Створити акаунт</button>
+        <div class="form-group">
+            <label for="">{{ form_register.email.label }}</label>
+            {{ form_register.email }}
+            {{ form_register.email.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="">{{ form_register.password.label }}</label>
+            <div class="password-wrapper">
+                {{ form_register.password }}
+                <span id="eye-button" class="eye-icon toggle-password"><img id="eye-img" src="{% static 'images/fields_images/closed_eye.svg' %}" alt="eye-img"></span> 
+            </div>
+            {{ form_register.password.errors }}
+        </div>
+
+        <div class="form-group">
+            <label for="">{{ form_register.confirm_password.label }}</label>
+            <div class="password-wrapper">
+                {{ form_register.confirm_password }}
+                <span id="eye-button" class="eye-icon toggle-password"><img id="eye-img" src="{% static 'images/fields_images/closed_eye.svg' %}" alt="eye-img"></span>
+            </div>
+            {{ form_register.confirm_password.errors }}
+        </div>
     </form>
+    <button type="button" class="create-user">Створити акаунт</button>
 </div>
 

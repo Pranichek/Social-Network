@@ -1,4 +1,4 @@
-.section-register {
+.section-register, .section-login{
     background-color: #FFFFFF;
     border-radius: 20px;
     gap: 3.75vh;
@@ -20,20 +20,22 @@
 .register-text{
     font-weight: 700;
     font-size:3.5vh;
+}
+
+.active p{
     color: #070A1C;
 }
 
-.register-block{
+.register-block, .login-block{
     display: flex;
     flex-direction: column;
     gap: 0.8vh;
-    
+    color: #81818D;
 }
 
 .login-text{
     font-weight: 500;
     font-size: 3.5vh;
-    color: #81818D;
 }
 
 .register-text:hover, .login-text:hover{
@@ -76,14 +78,47 @@ label {
     font-weight: 400; 
 }
 
-.container-input p{
+/* .container-input p{
+    display: flex;
+    flex-direction: column;
+    gap: 0.625vh;
+} */
+.form-group {
     display: flex;
     flex-direction: column;
     gap: 0.625vh;
 }
 
-.create-user{
+.password-wrapper {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 2.5vw; 
+}
+
+.eye-icon {
+    position: absolute;
+    right: 1.04vh;
+    top: 50%; 
+    transform: translateY(-50%);
+    height: 47%;
+    cursor: pointer;
+    user-select: none;
+    color: #81818D;
+    transition: opacity 0.2s ease;
+}
+
+.eye-icon img{
+    height: 100%;
+    object-fit: contain;
+}
+
+.create-user, .login-user{
     background-color: #543C52;
+    width: 100%;
     border-radius: 128.54vh;
     color: #FFFFFF;
     font-size: 1.7vh;
@@ -91,16 +126,15 @@ label {
     border: none;
 }
 
-.create-user:hover{
+.create-user:hover, .login-user:hover{
     cursor: pointer;
 }
 
-.laptop-image{
-    height: 50vh;
-    width: 30vw;
+
+.info-text{
+    font-weight: 500;
+    font-size: 1.7vh;
 }
 
-.laptop-image img{
-    height: 100%;
-    object-fit: contain;
-}
+
+
