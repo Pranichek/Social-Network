@@ -4,6 +4,7 @@ from .forms import RegistrationForm, LoginForm, ConfirmEmailForm
 from django.contrib.auth.forms import User
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
 
 class SettingsView(TemplateView):
     template_name = 'user_app/settings.html'
@@ -34,19 +35,32 @@ class LogoutUser(LogoutView):
 
 class CheckRegistration(View):
     def post(self, request, *args, **kwargs):
-        # print(request.POST)
+
         form = RegistrationForm(request.POST)
 
-        if form.is_valid():
-            # form.save()
-            data = request.POST
-            email = data.get('email')
-            password = data.get('password')
 
-            User.objects.create_user(username = email, password = password)
-            return redirect('login_view')
+        if form.is_valid():
+            form.save()
+            return JsonResponse({
+                'success': True,
+                'message': 'Користувача успішно разеєстровано'
+            })
+                
+        return JsonResponse({
+            'success': False,
+            'message': form.errors.get_json_data()
+        }, status = 400)
+        
+
             
-        return render(request, 'user_app/registration.html', {'form': form})
+        #     data = request.POST
+        #     email = data.get('email')
+        #     password = data.get('password')
+
+        #     User.objects.create_user(username = email, password = password)
+        #     return redirect('login_view')
+            
+        # return render(request, 'user_app/registration.html', {'form': form})
 
 class CheckLogin(View):
     def post(self, request, *args, **kwargs):
