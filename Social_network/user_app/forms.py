@@ -1,15 +1,15 @@
 from django import forms
-from django.contrib.auth.models import User
+from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
 
 
-class RegistrationForm(forms.Form):
-    email = forms.EmailField(
-        label='Електронна пошта', 
-        max_length = 255,
-        widget = forms.EmailInput(attrs={'placeholder': 'you@example.com'})
-    )
+class RegistrationForm(forms.ModelForm):
+    # email = forms.EmailField(
+    #     label='Електронна пошта', 
+    #     max_length = 255,
+    #     widget = forms.EmailInput(attrs={'placeholder': 'you@example.com'})
+    # )
     
     password = forms.CharField(
         label = 'Пароль',
@@ -26,10 +26,20 @@ class RegistrationForm(forms.Form):
             'id': 'password-input'
         })
     )
+
+    class Meta():
+        model = User
+        fields = ('email',)
+        widgets = {
+            'email': forms.EmailInput(attrs={'placeholder': 'you@example.com'})
+        }
+        
+
+        
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        user = User.objects.filter(username = email).exists()
+        user = User.objects.filter(email = email).exists()
         
         if user:
             raise ValidationError("Ця пошта вже зайнята")
@@ -44,6 +54,16 @@ class RegistrationForm(forms.Form):
             raise ValidationError('Паролі не співпадають')
             
         return self.cleaned_data
+    
+    def save(self, commit = True):
+        user = super().save(commit=False)
+
+        user.username = ""
+        user.set_password(self.cleaned_data.get('password'))
+        if commit:
+            user.save()
+
+        return user
             
 class LoginForm(forms.Form):
     email = forms.EmailField(label='Електронна пошта', max_length = 255, widget=forms.EmailInput(attrs={

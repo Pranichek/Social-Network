@@ -13,7 +13,7 @@
 
     <p class="welcom-text">Приєднуйся до World IT</p>
 
-    <form method="post" class="container-input">
+    <form action="{% url 'check_registration' %}" method="post" class="container-input" id="form-registration">
         <div class="form-group">
             <label for="">{{ form_register.email.label }}</label>
             {{ form_register.email }}
@@ -37,7 +37,8 @@
             </div>
             {{ form_register.confirm_password.errors }}
         </div>
+
+        <button type="submit" class="create-user">Створити акаунт</button>
     </form>
-    <button type="button" class="create-user">Створити акаунт</button>
 </div>
 
