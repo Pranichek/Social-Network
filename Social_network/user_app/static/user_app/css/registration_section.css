@@ -1,6 +1,6 @@
 .section-register, .section-login{
     background-color: #FFFFFF;
-    border-radius: 20px;
+    border-radius: 2.08vh;
     gap: 3.75vh;
     display: flex;
     flex-direction: column;
@@ -15,22 +15,27 @@
     justify-content: space-between;
     gap: 1.6vw;
     /* background-color: green; */
-    
 }
+
 .register-text{
     font-weight: 700;
     font-size:3.5vh;
 }
 
-.active p{
-    color: #070A1C;
-}
 
 .register-block, .login-block{
     display: flex;
     flex-direction: column;
-    gap: 0.8vh;
     color: #81818D;
+    height: 4.9vh;
+}
+
+.active-form{
+    border-bottom: 0.2vh #543C52 solid;
+}
+
+.active-form p{
+    color: #070A1C;
 }
 
 .login-text{
@@ -44,7 +49,7 @@
 
 .line {
     width: 100%;
-    height: 2px;
+    height: 0.2vh;
     background-color: #543C52;
 }
 
@@ -63,8 +68,8 @@
 
 .container-input  input {
     width: 100%;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: 0.83vh;
+    border: 0.08vw solid #ccc;
     font-size: 1.7vh;
     color:#81818D;
     padding: 1.04vh;
@@ -121,8 +126,9 @@ label {
     width: 100%;
     border-radius: 128.54vh;
     color: #FFFFFF;
-    font-size: 1.7vh;
-    padding: 1.7vh 1.66vw;
+    font-size: 1.67vh;
+    font-weight: 500;
+    padding: 1.67vh 1.67vw;
     border: none;
 }
 

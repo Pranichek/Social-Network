@@ -1,0 +1,115 @@
+.section-confirm.hidden {
+    display: none;
+}
+
+.section-confirm {
+    background: #ffffff;
+    border-radius: 2.08vh;
+    padding: 4.6vh 3.06vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 3.75vh;
+    width: 33.9vw;
+}
+
+.accept-text{
+    font-weight: 500;
+    font-size: 3.54vh;
+}
+
+
+.info-text{
+    width: 76%;
+    font-weight: 500;
+    font-size: 1.67vh;
+    text-align: justify;
+    text-align-last: center;
+    /* background-color: green; */
+}
+
+.confirm-form{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 90%;
+    position: relative;
+    gap: 1.67vh;
+    /* background-color: green; */
+}
+
+.confirm-form p{
+    font-weight: 400;
+    font-size: 1.67vh;
+    margin: 0;
+}
+
+.code-inputs{
+    display: flex;
+    justify-content: space-between;
+    height: 5vh;
+    width: 100%;
+    /* background-color: green; */
+}
+
+.part-numbers {
+    height: 100%;
+    width: 29%;
+    display: flex;
+    position: relative;
+    justify-content: space-between; 
+
+}
+
+.confirm-number {
+    height: 100%;
+    width: 43%; 
+    text-align: center;
+    border-radius: 1.04vh;
+    border: 0.1vh #CDCED2 solid;
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: #81818D;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.confirm-actions{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.67vh;
+    width: 90%;
+}
+
+.btn-confirm{
+    width: 100%;
+    background-color: #543C52;
+    border-radius: 128.54vh;
+    border: none;
+    padding: 1.67vh 1.67vw;
+    color: #FFFFFF;
+    font-size: 1.67vh;
+    font-weight: 500;
+}
+
+.back-btn{
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #543C52;
+    cursor: pointer;
+}
