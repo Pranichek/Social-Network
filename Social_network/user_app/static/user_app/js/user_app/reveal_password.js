@@ -10,11 +10,11 @@ passwordInputs.forEach(input => {
 
         if(inputField.type === 'password'){
             inputField.type = 'text'
-            eyeImg.src = '/static/images/fields_images/open_eye.svg'
+            eyeImg.src = '/static/user_app/images/fields_images/open_eye.svg'
         }
         else{
             inputField.type = 'password'
-            eyeImg.src = '/static/images/fields_images/closed_eye.svg'
+            eyeImg.src = '/static/user_app/images/fields_images/closed_eye.svg'
         }
     })
 })

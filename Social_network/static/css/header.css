@@ -1,55 +1,60 @@
 header {
     width: 100%;
-    min-height: 5.5rem; 
+    height: 9.17vh;
+    /* min-height: 5.5rem;  */
     background-color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 0; 
+    padding: 2.5vh 5.55vw; 
 }
 
 .logo{
-    height: 100%;
+    height: 1.875vh;
     display: flex;
     position: relative;
     align-items: center;
+    /* background-color: green; */
 }
 
 .logo img{
-    height: 20.5%;
+    height: 100%;
 }
 
 .container {
     width: 100%;
-    max-width: 90rem; 
+    /* max-width: 90rem;  */
+    height: 4.17vh; 
     margin: 0 auto;
-    padding: 0 2.55vw; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap; 
-    gap: 1rem; 
+    /* background-color: pink; */
+    /* background-color: green; */
 }
 .navigation {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 1.67vw;
     height: auto;
     flex-wrap: wrap; 
+    /* background-color: orange; */
 }
 
 .links {
-    gap: 1.375rem;
+    gap: 1.52vw;
     display: flex;
     flex-wrap: wrap; 
     justify-content: center;
+    /* background-color: pink; */
 }
 .link-page {
-    height: 1.75rem;
-    border-radius: 3px;
-    gap: 0.5rem;
-    padding: 0.25rem 0.5rem;
+    height: 2.92vh;
+    border-radius: 0.3125vh;
+    gap: 0.55vw;
+    padding: 0.42vh 0.55vw;
     /* background-color: green; */
     display: flex;
     align-items: center;
@@ -61,11 +66,14 @@ header {
     cursor: pointer;
 }
 
+.active{
+    background-color: #E9E5EE;
+}
 
 .link-page a{
     color: #070A1C;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 1.67vh;
 }
 
 .link-icon{
@@ -74,14 +82,14 @@ header {
 }
 
 .button-leave {
-    border-radius: 1234px;
-    border: 1px #543C52 solid;
+    border-radius: 85.69vw;
+    border: 0.08vw #543C52 solid;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem; 
-    height: 2.5rem; 
-    padding: 0 1rem;
+    gap: 0.55vw; 
+    height: 4.17vh; 
+    padding: 0 1.11vw;
 }
 
 .button-leave:hover {
@@ -92,7 +100,7 @@ header {
 .button-leave p {
     font-weight: 500;
     color: #543C52;
-    font-size: 0.875rem;
+    font-size: 1.45vh;
 }
 
 .button-leave img {

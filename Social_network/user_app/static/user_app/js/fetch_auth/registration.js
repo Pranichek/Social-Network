@@ -12,12 +12,24 @@ if (form) {
             method: 'POST',
             headers: {
                 'X-CSRFToken': csrfToken,
-                // 'Content-Type': 'application/json'
-                // 'X-Requested-With': 'XMLHttpRequest'
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: formData
-        })
+        }).then(async (response) => {
+            const data = await response.json()
 
-        console.log(1)
+            if (!response.ok){
+                throw data;
+            }
+            return data  
+        })
+        .then((data) => {
+            console.log("Користувач був успішно створений!");
+        })
+        .catch((data) => {
+            if (data.errors){
+                console.log(data.errors);
+            }
+        })
     });
 }

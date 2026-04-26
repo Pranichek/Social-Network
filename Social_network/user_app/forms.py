@@ -1,7 +1,8 @@
 from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegistrationForm(forms.ModelForm):
@@ -30,11 +31,12 @@ class RegistrationForm(forms.ModelForm):
     class Meta():
         model = User
         fields = ('email',)
+        labels = {
+            'email': 'Електронна пошта'
+        }
         widgets = {
             'email': forms.EmailInput(attrs={'placeholder': 'you@example.com'})
         }
-        
-
         
     
     def clean_email(self):
@@ -65,34 +67,60 @@ class RegistrationForm(forms.ModelForm):
 
         return user
             
-class LoginForm(forms.Form):
-    email = forms.EmailField(label='Електронна пошта', max_length = 255, widget=forms.EmailInput(attrs={
+class LoginForm(AuthenticationForm):
+    username = forms.EmailField(label='Електронна пошта', max_length = 255, widget=forms.EmailInput(attrs={
         'class': 'input-with-email',
         'placeholder': 'you@example.com',
     }))
     password = forms.CharField(label = 'Пароль', widget = forms.PasswordInput(attrs={
         'class': 'input-with-eye',
-        'placeholder': 'Введи пароль'
+        'placeholder': 'Введи пароль',
+        'id': 'password-input'
     }))
             
     def clean(self):
-        email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
+        email = self.cleaned_data.get("username")
+        password = self.cleaned_data.get("password")
 
         if email and password:
-            user = authenticate(username = email, password = password)
-            if user is None:
-                raise ValidationError('Невірний email або пароль')
-        return self.cleaned_data  
-    
+            self.user_cache = authenticate(
+                self.request,
+                username=email,
+                password=password
+            )
+
+            if self.user_cache is None:
+                raise forms.ValidationError("Неправильна пошта або пароль")
+            
+            self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
 
 class ConfirmEmailForm(forms.Form):
-    first_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
-    second_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
-    third_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
-    fourth_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
-    fifth_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
-    sixth_number = forms.CharField(max_length = 1, widget = forms.TextInput(attrs={'placeholder': '___'}))
+    first_number = forms.CharField(
+        max_length = 1, 
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+    )
+    second_number = forms.CharField(
+        max_length = 1, 
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+    )
+    third_number = forms.CharField(
+        max_length = 1, 
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+    )
+    fourth_number = forms.CharField(
+        max_length = 1, 
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+    )
+    fifth_number = forms.CharField(
+        max_length = 1, 
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+    )
+    sixth_number = forms.CharField(
+        max_length = 1, 
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+    )
     
 
     
