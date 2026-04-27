@@ -35,7 +35,9 @@ class RegistrationForm(forms.ModelForm):
             'email': 'Електронна пошта'
         }
         widgets = {
-            'email': forms.EmailInput(attrs={'placeholder': 'you@example.com'})
+            'email': forms.EmailInput(attrs={
+                'placeholder': 'you@example.com'
+            })
         }
         
     
@@ -95,6 +97,7 @@ class LoginForm(AuthenticationForm):
             self.confirm_login_allowed(self.user_cache)
 
         return self.cleaned_data
+    
 
 class ConfirmEmailForm(forms.Form):
     first_number = forms.CharField(
