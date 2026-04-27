@@ -15,13 +15,13 @@
 
     <form action="{% url 'check_registration' %}" method="post" class="container-input" id="form-registration">
         <div class="form-group">
-            <label for="">{{ form_register.email.label }}</label>
+            <label >{{ form_register.email.label }}</label>
             {{ form_register.email }}
             {{ form_register.email.errors }}
         </div>
 
         <div class="form-group">
-            <label for="">{{ form_register.password.label }}</label>
+            <label >{{ form_register.password.label }}</label>
             <div class="password-wrapper">
                 {{ form_register.password }}
                 <span id="eye-button" class="eye-icon toggle-password"><img id="eye-img" src="{% static 'user_app/images/fields_images/closed_eye.svg' %}" alt="eye-img"></span> 
@@ -30,7 +30,7 @@
         </div>
 
         <div class="form-group">
-            <label for="">{{ form_register.confirm_password.label }}</label>
+            <label>{{ form_register.confirm_password.label }}</label>
             <div class="password-wrapper">
                 {{ form_register.confirm_password }}
                 <span id="eye-button" class="eye-icon toggle-password"><img id="eye-img" src="{% static 'user_app/images/fields_images/closed_eye.svg' %}" alt="eye-img"></span>

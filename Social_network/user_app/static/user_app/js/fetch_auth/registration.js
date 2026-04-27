@@ -21,6 +21,7 @@ if (form) {
             if (!response.ok){
                 throw data;
             }
+            
             return data  
         })
         .then((data) => {

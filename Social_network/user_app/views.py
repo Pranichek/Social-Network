@@ -1,10 +1,12 @@
-from django.shortcuts import render , redirect
+from .send_email import generate_mail
+
+
 from django.views.generic import TemplateView , FormView, View
 from .forms import RegistrationForm, LoginForm, ConfirmEmailForm
-from django.contrib.auth.forms import User
 from django.contrib.auth.views import LogoutView
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import  login
 from django.http import JsonResponse
+
 
 class SettingsView(TemplateView):
     template_name = 'user_app/settings.html'
@@ -12,6 +14,7 @@ class SettingsView(TemplateView):
 
 class AuthUser(TemplateView):
     template_name = 'user_app/auth.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_login'] = LoginForm
@@ -32,9 +35,14 @@ class LogoutUser(LogoutView):
 
 class CheckRegistration(View):
     def post(self, request, *args, **kwargs):
-
         form = RegistrationForm(request.POST)
-
+        
+        generate_mail(
+            request = request,
+            recipient_email = request.POST.get('email')
+        )
+        
+    
 
         if form.is_valid():
             form.save()
