@@ -1,4 +1,6 @@
 from .send_email import generate_mail
+from .generate_code import generate_user_code
+from .models import User
 
 
 from django.views.generic import TemplateView , FormView, View
@@ -6,6 +8,7 @@ from .forms import RegistrationForm, LoginForm, ConfirmEmailForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import  login
 from django.http import JsonResponse
+import threading
 
 
 class SettingsView(TemplateView):
@@ -37,15 +40,30 @@ class CheckRegistration(View):
     def post(self, request, *args, **kwargs):
         form = RegistrationForm(request.POST)
         
-        generate_mail(
-            request = request,
-            recipient_email = request.POST.get('email')
-        )
-        
-    
 
         if form.is_valid():
-            form.save()
+            # form.save()
+
+            code = generate_user_code()
+
+            email_thread = threading.Thread(
+                target=generate_mail, 
+                kwargs={
+                    'request': request, 
+                    'recipient_email': request.POST.get('email'),
+                    'code': code
+                }
+            )
+
+            email_thread.start()
+
+            request.session['confirm_code'] = code
+            request.session['reg_data'] = {
+                'email': form.cleaned_data.get('email'),
+                'password': form.cleaned_data.get('password'),
+                'confirm_password': form.cleaned_data.get('confirm_password')
+            }
+            
             return JsonResponse({
                 'success': True,
                 'message': 'Користувача успішно разеєстровано'
@@ -56,6 +74,49 @@ class CheckRegistration(View):
             'message': 'Помилка при реєстрації',
             'errors': form.errors.get_json_data()
         }, status = 400)
+    
+
+class ConfirmEmail(View):
+    def post(self, request, *args, **kwargs):
+        user_code = request.POST.get('code')
+        session_code = request.session.get('confirm_code')
+        reg_data = request.session.get('reg_data')
+
+        print(user_code, session_code)
+
+        if not session_code:
+            return JsonResponse({
+                'success': False, 
+                'message': 'Сесія закінчилася, спробуйте ще раз'
+            }, status=400)
+
+        if str(user_code) == str(session_code):
+
+            form = RegistrationForm(reg_data)
+
+            if form.is_valid():
+                form.save() 
+
+                del request.session['confirm_code']
+                del request.session['reg_data']
+            
+
+                return JsonResponse({
+                    'success': True, 
+                    'message': 'Реєстрація успішна'
+                })
+            
+            return JsonResponse({
+                'success': False,
+                'message': 'Помилка при реєстрації',
+                'errors': form.errors.get_json_data()
+            }, status = 400)
+        
+        else:
+            return JsonResponse({
+                'success': False, 
+                'message': 'Неправильний код'
+            }, status=400)
         
 
 class CheckLogin(View):

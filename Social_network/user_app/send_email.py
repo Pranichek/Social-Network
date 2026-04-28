@@ -1,14 +1,11 @@
-from .generate_code import generate_user_code
-
-
 from django.core.mail import send_mail 
 from django.conf import settings
 from django.http import HttpRequest
 
 
-def generate_mail(request: HttpRequest, recipient_email: str):
+def generate_mail(request: HttpRequest, recipient_email: str, code: str):
     subject = 'Код підтвердження пошти'
-    message = f'Код підтвердження: {generate_user_code()}\nВведіть цей код у поля'
+    message = f'Код підтвердження: {code}\nВведіть цей код у поля'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [recipient_email]
     

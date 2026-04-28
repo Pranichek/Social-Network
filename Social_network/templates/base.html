@@ -97,34 +97,31 @@
 
         {% if request.user.is_authenticated and request.user.username == '' %}
     
-            <div id="shadow" class="shadow hidden" ></div>
+            <div id="shadow" class="shadow hidden"></div>
 
             <div id="message" class="welcome-message hidden">
-                <div class="modal-content">
-                    <h2>Додай деталі про себе</h2>
-                    
-                    <form method="post" action = '{% url "end_register" %}'>
-                        {% csrf_token %}
-                        {{ welcome_form.as_p }}
+                <p class="details-text">Додай деталі про себе</p>
                 
-                        <!-- <div class="input">
-                            <label>{{ form.author.label }}</label>
-                            {{ form.author }}
-                        </div>
+                <form method="post" action='{% url "end_register" %}' id="end-register" class="end-register">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        {{ welcome_form.pseudonym.label_tag }}
+                        
+                        {{ welcome_form.pseudonym }}
+                        
+                        {{ welcome_form.pseudonym.errors }}
+                    </div>
 
-                        <div class="input">
-                            <label>{{ form.username.label }}</label>
-                            <div class="input-with-icon">
-                                {{ form.username }}
-                            </div>
-                            <p class="text">
-                                Або обери: 
-                                <a href="#">Запропоновані варіанти відповідно до Ім’я та Прізвища</a>
-                            </p>
-                        </div> -->
+                    <div class="form-group">
+                        {{ welcome_form.username.label_tag }}
+                        {{ welcome_form.username }}
+                        <p>Або оберіть: <span>Запропоновані варіанти відповідно до Ім’я та Прізвища</span></p>
+                    </div>
+                </form>
 
-                        <button type="submit" class="submit-btn">Продовжити</button>
-                    </form>
+                <div class="bottom-button">
+                    <button type="submit" class="submit-btn" form="end-register">Продовжити</button>
                 </div>
             </div>
         {% endif %}

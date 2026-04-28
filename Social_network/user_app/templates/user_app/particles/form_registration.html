@@ -1,4 +1,3 @@
-
 {% load static %}
 <div class="section-register section"> 
     
@@ -14,7 +13,7 @@
 
     <p class="welcom-text">Приєднуйся до World IT</p>
 
-    <form action="{% url 'check_registration' %}" method="post" class="container-input" id="form-registration">
+    <form action="{% url 'check_registration' %}" method="post" class="container-input" id="form-registration" novalidate>
         <div class="form-group">
             <label >{{ form_register.email.label }}</label>
             {{ form_register.email }}
@@ -39,6 +38,6 @@
             {{ form_register.confirm_password.errors }}
         </div>
     </form>
-    <button type="submit" class="create-user" form="form-registration">Створити акаунт</button>
+    <button type="submit" id="create-account" class="create-user" form="form-registration">Створити акаунт</button>
 </div>
 
