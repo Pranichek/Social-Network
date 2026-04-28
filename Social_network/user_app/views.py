@@ -61,7 +61,7 @@ class CheckRegistration(View):
 class CheckLogin(View):
     def post(self, request, *args, **kwargs):
         form = LoginForm(request, request.POST)
-
+        
         if form.is_valid():
             user = form.get_user()
             login(request, user)

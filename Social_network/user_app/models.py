@@ -1,4 +1,3 @@
-
 from django.db import models
 
 # # Create your models here.
@@ -15,6 +14,12 @@ class User(AbstractUser):
     )
 
     email = models.EmailField(unique=True)
+
+    pseudonym = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255                        
+    )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

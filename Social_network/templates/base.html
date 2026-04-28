@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block meta %}
-        
+
         {% endblock meta %}
 
         <title>{% block title %}{% endblock %}</title>
@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <link rel="stylesheet" href="{% static 'css/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/content.css' %}">
+        <link rel="stylesheet" href="{% static 'css/welcome_message.css' %}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,12 +90,46 @@
 
                 {% endblock %}
             </div>
+            
         </main>
 
 
-        <div class="shadow"></div>
-        <div class="message"></div>
 
+        {% if request.user.is_authenticated and request.user.username == '' %}
+    
+            <div id="shadow" class="shadow hidden" ></div>
+
+            <div id="message" class="welcome-message hidden">
+                <div class="modal-content">
+                    <h2>Додай деталі про себе</h2>
+                    
+                    <form method="post" action = '{% url "end_register" %}'>
+                        {% csrf_token %}
+                        {{ welcome_form.as_p }}
+                
+                        <!-- <div class="input">
+                            <label>{{ form.author.label }}</label>
+                            {{ form.author }}
+                        </div>
+
+                        <div class="input">
+                            <label>{{ form.username.label }}</label>
+                            <div class="input-with-icon">
+                                {{ form.username }}
+                            </div>
+                            <p class="text">
+                                Або обери: 
+                                <a href="#">Запропоновані варіанти відповідно до Ім’я та Прізвища</a>
+                            </p>
+                        </div> -->
+
+                        <button type="submit" class="submit-btn">Продовжити</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+       
 
         <script src="{% static 'js/links_page.js' %}"></script>
         <script src = "{% static 'js/lightining_bg.js' %}"></script>
