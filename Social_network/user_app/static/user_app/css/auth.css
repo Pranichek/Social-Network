@@ -39,3 +39,8 @@
 .section{
     z-index: 3;
 }
+
+.fetch-error, .login-error{
+    font-weight: 500;
+    font-size: 1.67vh;
+}

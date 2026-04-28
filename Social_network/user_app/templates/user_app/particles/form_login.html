@@ -17,11 +17,7 @@
     <p class="welcom-text">Раді тебе знову бачити!</p>
 
     <form method="post" id="login-form" class="container-input" action="{% url 'check_login_view' %}">
-        {% if form_login.non_field_errors %}
-            <div class="error-messages">
-                {{ form_login.non_field_errors }}
-            </div>
-        {% endif %}
+        <p id="error-message" class="login-error hidden"></p>
         <div class="form-group">
             <label >{{ form_login.username.label_tag }}</label>
             

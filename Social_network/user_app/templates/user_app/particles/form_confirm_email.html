@@ -6,7 +6,7 @@
         Введіть його нижче, щоб підтвердити акаунт
     </p>
 
-    <form action="" method="post" class="confirm-form">
+    <form action="{% url 'confirm_email' %}" method="post" class="confirm-form" id="confirm-form">
         <p>Код підтвердження</p>
         <div class="code-inputs">
             <div class="part-numbers">
@@ -25,7 +25,7 @@
     </form>
 
     <div class="confirm-actions">
-        <button type="button" class="btn-confirm">Підтвердити</button>
+        <button type="submit" class="btn-confirm" form="confirm-form">Підтвердити</button>
         <p class="back-btn" id="back">Назад</p>
     </div>
 </div>

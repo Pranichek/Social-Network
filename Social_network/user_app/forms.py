@@ -140,6 +140,20 @@ class WelcomeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["pseudonym", "username"]
+        labels = {
+            'pseudonym':'Псевдонім автора',
+            'username': 'Ім’я користувача' 
+        }
+
+        widgets = {
+            'pseudonym': forms.TextInput(attrs={
+                'placeholder': 'Введіть Псевдонім автора '
+            }),
+            
+            'username': forms.TextInput(attrs={
+                'placeholder': '@'
+            }),
+        }
 
     def clean_username(self):
         username = self.cleaned_data.get('username')

@@ -70,9 +70,9 @@
     width: 100%;
     border-radius: 0.83vh;
     border: 0.08vw solid #ccc;
-    font-size: 1.7vh;
+    font-size: 1.67vh;
     color:#81818D;
-    padding: 1.04vh;
+    padding: 1.04vh 1.11vw;
     outline: none;
     box-shadow: none;
 }
