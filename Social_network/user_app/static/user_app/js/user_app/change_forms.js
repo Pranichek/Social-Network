@@ -9,11 +9,11 @@ const imageLaptop = document.querySelector('.laptop-image')
 let checkForm = 'register'
 
 
-createUser.addEventListener('click', () => {
-    sectionRegister.classList.toggle('hidden')
-    sectionConfirmEmail.classList.toggle('hidden')
-    imageLaptop.style.display = 'none'
-})
+// createUser.addEventListener('click', () => {
+//     sectionRegister.classList.toggle('hidden')
+//     sectionConfirmEmail.classList.toggle('hidden')
+//     imageLaptop.style.display = 'none'
+// })
 
 back.addEventListener('click', () => {
     sectionRegister.classList.toggle('hidden')

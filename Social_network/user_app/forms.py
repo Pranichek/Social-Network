@@ -6,12 +6,6 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegistrationForm(forms.ModelForm):
-    # email = forms.EmailField(
-    #     label='Електронна пошта', 
-    #     max_length = 255,
-    #     widget = forms.EmailInput(attrs={'placeholder': 'you@example.com'})
-    # )
-    
     password = forms.CharField(
         label = 'Пароль',
         widget = forms.PasswordInput(attrs={
@@ -126,20 +120,47 @@ class ConfirmEmailForm(forms.Form):
     )
     
 
+# class UserForm(forms.Form):
+#     author = forms.CharField(
+#         label= "Псевдонім автора",
+#         widget=forms.TextInput(attrs={
+#             'placeholder': 'Введіть Псевдонім автора',
+#             'class': 'form-input'
+#         })
+#     )
+#     username = forms.CharField(
+#         label= "Ім'я користувача",
+#         widget=forms.TextInput(attrs={
+#             'class': 'form-input',
+#             'placeholder': 'username'
+#         })
+#     )        
+
+class WelcomeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["pseudonym", "username"]
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+
+        user = User.objects.filter(username = username).exists() 
+
+        if user:
+            raise ValidationError('Користувач с таким нікнеймом вже існує')
+        
+        return username
     
 
-class UserForm(forms.Form):
-    author = forms.CharField(
-        label= "Псевдонім автора",
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Введіть Псевдонім автора',
-            'class': 'form-input'
-        })
-    )
-    username = forms.CharField(
-        label= "Ім'я користувача",
-        widget=forms.TextInput(attrs={
-            'class': 'form-input',
-            'placeholder': 'username'
-        })
-    )        
+    def save(self, commit = True):
+        user = self.request.user
+
+        user.username = ""
+        user.set_password(self.cleaned_data.get('password'))
+        
+        if commit:
+            user.save()
+
+        return user
+        
+        
