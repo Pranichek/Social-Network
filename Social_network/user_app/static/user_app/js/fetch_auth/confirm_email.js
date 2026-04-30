@@ -1,3 +1,5 @@
+import { clearFields } from '../user_app/clear_forms.js'
+
 const formConfirm = document.getElementById('confirm-form');
 
 function returnCode(){
@@ -39,8 +41,10 @@ if (formConfirm) {
             return data  
         })
         .then((data) => {
-            console.log("Користувач був успішно створений!");
-    
+            sectionConfirmEmail.classList.toggle('hidden')
+            sectionLogin.classList.toggle('hidden')
+            imageLaptop.style.display = 'block'
+            clearFields()
         })
         .catch((data) => {
             if (data.errors){

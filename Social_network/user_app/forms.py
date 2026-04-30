@@ -11,7 +11,8 @@ class RegistrationForm(forms.ModelForm):
         widget = forms.PasswordInput(attrs={
             'placeholder': 'Введи пароль', 
             'id': 'password-input'
-        })
+        }),
+        error_messages = {'required': 'Це поле є обов’язковим'}
     )
     
     confirm_password = forms.CharField(
@@ -19,7 +20,8 @@ class RegistrationForm(forms.ModelForm):
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Повтори пароль',
             'id': 'password-input'
-        })
+        }),
+        error_messages={'required': 'Будь ласка, підтвердіть пароль'}
     )
 
     class Meta():
@@ -32,6 +34,13 @@ class RegistrationForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={
                 'placeholder': 'you@example.com'
             })
+        }
+
+        error_messages = {
+            'email': {
+                'required': 'Електронна пошта обов’язкова для заповнення',
+                'invalid': 'Введіть коректну адресу'
+            }
         }
         
     
@@ -120,22 +129,6 @@ class ConfirmEmailForm(forms.Form):
     )
     
 
-# class UserForm(forms.Form):
-#     author = forms.CharField(
-#         label= "Псевдонім автора",
-#         widget=forms.TextInput(attrs={
-#             'placeholder': 'Введіть Псевдонім автора',
-#             'class': 'form-input'
-#         })
-#     )
-#     username = forms.CharField(
-#         label= "Ім'я користувача",
-#         widget=forms.TextInput(attrs={
-#             'class': 'form-input',
-#             'placeholder': 'username'
-#         })
-#     )        
-
 class WelcomeForm(forms.ModelForm):
     class Meta:
         model = User
@@ -166,15 +159,15 @@ class WelcomeForm(forms.ModelForm):
         return username
     
 
-    def save(self, commit = True):
-        user = self.request.user
+    # def save(self, commit = True):
+    #     user = self.request.user
 
-        user.username = ""
-        user.set_password(self.cleaned_data.get('password'))
+    #     user.username = ""
+    #     user.set_password(self.cleaned_data.get('password'))
         
-        if commit:
-            user.save()
+    #     if commit:
+    #         user.save()
 
-        return user
+    #     return user
         
         

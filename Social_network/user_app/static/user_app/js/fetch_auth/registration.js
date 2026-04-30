@@ -1,4 +1,7 @@
 const form = document.getElementById('form-registration');
+const sectionRegister = document.querySelector('.section-register');
+const sectionLogin = document.querySelector('.section-login');
+const sectionConfirmEmail = document.querySelector('.section-confirm');
 
 if (form) {
     form.addEventListener('submit', (event) => {

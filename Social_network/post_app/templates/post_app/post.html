@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
 {% block title %}
     Публікації
 {% endblock title %}
@@ -14,7 +18,7 @@
     <div class = 'profile-block'>
         <div class = 'top-data'>
             <div class = 'indicator'>
-                <img src="{%static 'images/home/avatar.svg'%}" alt="Аватар">
+                <img src="{% static 'post_app/images/avatar.svg' %}" alt="Аватар">
             </div>
 
             <div class = 'text-data'>
@@ -45,5 +49,23 @@
 
 
 {% block content %}
-    <h1>Тут будуть ваші публікації<h1>
+    <form action="{% url 'post_view' %}" method = "POST" id="create-post">
+        {{ form.as_p }}
+
+        <p>Links</p>
+
+        <div id="links-list">
+            <input type="url" name="links" placeholder= "Додайте посилання">
+        </div>
+
+        <button type="button" id="add-link">+</button>
+
+        <p>
+            <button type="submit">Публікація</button>
+        </p>
+    </form>
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'post_app/js/createPost.js' %}"></script>
+{% endblock scripts %}

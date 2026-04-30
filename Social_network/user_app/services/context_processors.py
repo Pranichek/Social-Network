@@ -1,4 +1,4 @@
-from .forms import WelcomeForm
+from ..forms import WelcomeForm
 
 def global_form(request):
     form = WelcomeForm(request.POST)
