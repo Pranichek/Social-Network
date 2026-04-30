@@ -1,4 +1,5 @@
-const createUser = document.querySelector('.create-user')
+import { clearFields } from './clear_forms.js'
+
 const sectionRegister = document.querySelector('.section-register')
 const sectionLogin = document.querySelector('.section-login')
 const sectionConfirmEmail = document.querySelector('.section-confirm')
@@ -9,16 +10,11 @@ const imageLaptop = document.querySelector('.laptop-image')
 let checkForm = 'register'
 
 
-// createUser.addEventListener('click', () => {
-//     sectionRegister.classList.toggle('hidden')
-//     sectionConfirmEmail.classList.toggle('hidden')
-//     imageLaptop.style.display = 'none'
-// })
-
 back.addEventListener('click', () => {
     sectionRegister.classList.toggle('hidden')
     sectionConfirmEmail.classList.toggle('hidden')
     imageLaptop.style.display = 'block'
+    clearFields()
 })
 
 ButtonRegister.forEach(button => {
@@ -27,6 +23,7 @@ ButtonRegister.forEach(button => {
             sectionLogin.classList.toggle('hidden')
             sectionRegister.classList.toggle('hidden')
             checkForm = 'register'
+            clearFields()
         }
     })
 })
@@ -37,6 +34,7 @@ ButtonLogin.forEach(button => {
             sectionLogin.classList.toggle('hidden')
             sectionRegister.classList.toggle('hidden')
             checkForm = 'login'
+            clearFields()
         }
     
     })

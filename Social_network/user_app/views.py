@@ -1,5 +1,5 @@
-from .send_email import generate_mail
-from .generate_code import generate_user_code
+from .services.send_email import generate_mail
+from .services.generate_code import generate_user_code
 from .models import User
 
 
@@ -27,9 +27,9 @@ class AuthUser(TemplateView):
         return context
         
 
-class LoginView(FormView):
-    template_name = 'user_app/login.html'
-    form_class = LoginForm
+# class LoginView(FormView):
+#     template_name = 'user_app/login.html'
+#     form_class = LoginForm
 
 class LogoutUser(LogoutView):
     def get(self, request, *args, **kwargs):
@@ -108,7 +108,7 @@ class ConfirmEmail(View):
             
             return JsonResponse({
                 'success': False,
-                'message': 'Помилка при реєстрації',
+                'message': 'Помилка при підтвердженні коду',
                 'errors': form.errors.get_json_data()
             }, status = 400)
         

@@ -61,7 +61,7 @@
                     </div>
 
                     
-                    <div class="button-leave" onclick="document.getElementById('logout-form').submit(); return false;">
+                    <div class="button-leave" onclick="document.getElementById('logout-form').submit();">
                         <img src="{% static 'images/header/leave.svg' %}" alt="">
                         <p>Вихід</p>
                     </div>
@@ -69,6 +69,7 @@
                     <form action="{% url 'logout_view' %}" id="logout-form" method="post" style="display: none;">
                         {% csrf_token %}
                     </form>
+
                 {% endif %}
 
                 
@@ -97,15 +98,15 @@
 
         {% if request.user.is_authenticated and request.user.username == '' %}
     
-            <div id="shadow" class="shadow hidden"></div>
+            <div id="shadow" class="shadow"></div>
 
-            <div id="message" class="welcome-message hidden">
+            <div id="message" class="welcome-message">
                 <p class="details-text">Додай деталі про себе</p>
                 
                 <form method="post" action='{% url "end_register" %}' id="end-register" class="end-register">
                     {% csrf_token %}
                     
-                    <div class="form-group">
+                    <div class="welcome-form">
                         {{ welcome_form.pseudonym.label_tag }}
                         
                         {{ welcome_form.pseudonym }}
@@ -113,7 +114,7 @@
                         {{ welcome_form.pseudonym.errors }}
                     </div>
 
-                    <div class="form-group">
+                    <div class="welcome-form">
                         {{ welcome_form.username.label_tag }}
                         {{ welcome_form.username }}
                         <p>Або оберіть: <span>Запропоновані варіанти відповідно до Ім’я та Прізвища</span></p>
@@ -130,6 +131,7 @@
 
         <script src="{% static 'js/links_page.js' %}"></script>
         <script src = "{% static 'js/lightining_bg.js' %}"></script>
+        <script src = "{% static 'js/fininsh_register.js' %}"></script>
         {% block scripts %}
             
         {% endblock scripts %}

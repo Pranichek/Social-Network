@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block links %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'css/window_data.css' %}">
+    <link rel="stylesheet" href="{% static 'home_app/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'home_app/css/window_data.css' %}">
 {% endblock links %}
 
 {% block title  %}
@@ -14,7 +14,7 @@
     <div class = 'profile-block'>
         <div class = 'top-data'>
             <div class = 'indicator'>
-                <img src="{%static 'images/home/avatar.svg'%}" alt="Аватар">
+                <img src="{% static 'home_app/images/home/avatar.svg' %}" alt="Аватар">
             </div>
 
             <div class = 'text-data'>
@@ -45,7 +45,7 @@
     <div class="request block">
         <div class="top-part">
             <div class="left-part">
-                <img src="{% static 'images/home/chat-icon.svg' %}" alt="chat">
+                <img src="{% static 'home_app/images/home/chat-icon.svg' %}" alt="chat">
                 <p>Запити</p>
             </div>
 
@@ -56,21 +56,21 @@
 
         <div class="followers">
             <div class="follow-card">
-                <img src="{% static 'images/modals_avatars/avatar_1.svg' %}" alt="avatar">
+                <img src="{% static 'home_app/images/modals_avatars/avatar_1.svg' %}" alt="avatar">
                 <div class="follower-info">
                     <p class="follower-username">Yehor Aung</p>
                     <p class="follower-count">4.3к підписників</p>
                 </div>
             </div>
             <div class="follow-card">
-                <img src="{% static 'images/modals_avatars/avatar_2.svg' %}" alt="avatar">
+                <img src="{% static 'home_app/images/modals_avatars/avatar_2.svg' %}" alt="avatar">
                 <div class="follower-info">
                     <p class="follower-username">Ann Ann</p>
                     <p class="follower-count">1.6к підписників</p>
                 </div>
             </div>
             <div class="follow-card">
-                <img src="{% static 'images/modals_avatars/avatar_3.svg' %}" alt="avatar">
+                <img src="{% static 'home_app/images/modals_avatars/avatar_3.svg' %}" alt="avatar">
                 <div class="follower-info">
                     <p class="follower-username">Yeugen Jenua</p>
                     <p class="follower-count">10.3к підписників</p>
@@ -82,7 +82,7 @@
     <div class="messages block">
         <div class="top-part messages-part">
             <div class="left-part">
-                <img src="{% static 'images/home/message-icon.svg' %}" alt="message">
+                <img src="{% static 'home_app/images/home/message-icon.svg' %}" alt="message">
                 <p>Повідомлення</p>
             </div>
 
@@ -95,7 +95,7 @@
 
             <div class="message-block active-block">
                 <div class="message-container">
-                    <img src="{% static 'images/modals_avatars/avatar_4.svg' %}" alt="avatar">
+                    <img src="{% static 'home_app/images/modals_avatars/avatar_4.svg' %}" alt="avatar">
                     <div class="messages-info">
                         <div class="top-info">
                             <p class="follower-username">Mona Lisa</p>
@@ -109,7 +109,7 @@
 
             <div class="message-block active-block">
                 <div class="message-container">
-                    <img src="{% static 'images/modals_avatars/avatar_5.svg' %}" alt="avatar">
+                    <img src="{% static 'home_app/images/modals_avatars/avatar_5.svg' %}" alt="avatar">
                     <div class="messages-info">
                         <div class="top-info">
                             <p class="follower-username">Ann Ti</p>
@@ -123,7 +123,7 @@
 
             <div class="message-block">
                 <div class="message-container">
-                    <img src="{% static 'images/modals_avatars/avatar_6.svg' %}" alt="avatar">
+                    <img src="{% static 'home_app/images/modals_avatars/avatar_6.svg' %}" alt="avatar">
                     <div class="messages-info">
                         <div class="top-info">
                             <p class="follower-username">Ness Ty</p>
