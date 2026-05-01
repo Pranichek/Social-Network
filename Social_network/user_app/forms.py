@@ -105,27 +105,27 @@ class LoginForm(AuthenticationForm):
 class ConfirmEmailForm(forms.Form):
     first_number = forms.CharField(
         max_length = 1, 
-        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number', 'inputmode': 'numeric'})
     )
     second_number = forms.CharField(
         max_length = 1, 
-        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number', 'inputmode': 'numeric'})
     )
     third_number = forms.CharField(
         max_length = 1, 
-        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number', 'inputmode': 'numeric'})
     )
     fourth_number = forms.CharField(
         max_length = 1, 
-        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number', 'inputmode': 'numeric'})
     )
     fifth_number = forms.CharField(
         max_length = 1, 
-        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number', 'inputmode': 'numeric'})
     )
     sixth_number = forms.CharField(
         max_length = 1, 
-        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number'})
+        widget = forms.NumberInput(attrs={'placeholder': '___', 'class': 'confirm-number', 'inputmode': 'numeric'})
     )
     
 

@@ -36,7 +36,6 @@ if (form) {
             return data;  
         })
         .then((data) => {
-            console.log("Користувач був успішно створений!");
             sectionRegister.classList.toggle('hidden')
             sectionConfirmEmail.classList.toggle('hidden')
             imageLaptop.style.display = 'none'

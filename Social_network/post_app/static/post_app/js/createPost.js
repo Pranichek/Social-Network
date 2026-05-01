@@ -1,3 +1,5 @@
+import { clearFields } from "./clear_form.js"
+
 const linksDiv = document.querySelector("#links-list")
 
 document.querySelector("#add-link").addEventListener('click', () => {
@@ -5,6 +7,7 @@ document.querySelector("#add-link").addEventListener('click', () => {
     input.type = 'url'
     input.name = 'links'
     input.placeholder = 'Додайте посилання'
+    input.id = 'input-link'
 
     linksDiv.append(input)
 })
@@ -12,6 +15,7 @@ document.querySelector("#add-link").addEventListener('click', () => {
 function getCSRFToken(){
     return document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 }
+
 
 document.getElementById('create-post').addEventListener('submit', function(event) {
     event.preventDefault()
@@ -35,6 +39,7 @@ document.getElementById('create-post').addEventListener('submit', function(event
         return data
     }).then((data) => {
         console.log('Пост успішно створено')
+        clearFields()
     }).catch((data) => {
         if (data.errors){
             console.log(data.errors)

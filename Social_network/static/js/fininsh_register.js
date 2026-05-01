@@ -1,5 +1,3 @@
-console.log(777)
-
 const endForm = document.getElementById('end-register');
 const welcomeMessage = document.getElementById('message');
 const shadow = document.getElementById('shadow');
