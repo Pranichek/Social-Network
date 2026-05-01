@@ -16,6 +16,8 @@ class Post(models.Model):
     topic = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     tags = models.ManyToManyField(Tag, related_name='tags')
+    image = models.ImageField(upload_to='post_app/images/posts_images', blank=True, null=True)
+    
 
     def __str__ (self):
         return self.name

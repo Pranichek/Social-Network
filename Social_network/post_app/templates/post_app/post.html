@@ -11,6 +11,7 @@
 
 {% block links %}
     <link rel="stylesheet" href="{% static 'post_app/css/posts.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_post.css' %}">
 {% endblock links %}
 
 
@@ -49,13 +50,20 @@
 
 
 {% block content %}
-    <form action="{% url 'post_view' %}" method = "POST" id="create-post">
+    <div class="chat-input">
+        <button id="show-form">Перейти до оформлення</button>
+    </div>
+
+    
+    <form action="{% url 'post_view' %}" method = "POST" id="create-post" class = 'hidden' enctype="multipart/form-data">
+        <button id="close-form">x</button>
+
         {{ form.as_p }}
 
         <p>Links</p>
 
         <div id="links-list">
-            <input type="url" name="links" placeholder= "Додайте посилання">
+            <input id = "input-link" type="url" name="links" placeholder= "Додайте посилання">
         </div>
 
         <button type="button" id="add-link">+</button>
@@ -63,9 +71,12 @@
         <p>
             <button type="submit">Публікація</button>
         </p>
+
     </form>
 {% endblock content %}
 
 {% block scripts %}
-    <script src="{% static 'post_app/js/createPost.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/createPost.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/clear_form.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/visible_form.js' %}"></script>
 {% endblock scripts %}

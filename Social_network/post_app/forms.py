@@ -13,13 +13,26 @@ class PostForm(forms.ModelForm):
     
     class Meta:
         model = Post
-        fields = ['title', 'topic', 'content']
+        fields = ['title', 'topic', 'content', 'image']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                "id": 'input-form'
+            }),
+            'topic': forms.TextInput(attrs={
+                "id": 'input-form'
+            }),
+            'content': forms.Textarea(attrs={
+                "id": 'input-form'
+            }),
+        }
+
         labels = {
             'title': 'Назви публікації',
             'topic': 'Тема публікації',
             'content': 'Текст публікації'
         }
 
+        
 
     def __init__(self, *args, links= None, **kwargs):
         super().__init__(*args, **kwargs)
@@ -42,7 +55,7 @@ class PostForm(forms.ModelForm):
             try:
                 urls_fields.clean(value=link)
             except forms.ValidationError:
-                self.add_error(field=None, error="Некоректен посилання")
+                self.add_error(field=None, error="Некоректне посилання")
 
         return clean_data
     

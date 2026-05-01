@@ -28,4 +28,5 @@ main {
     flex: 1;
     /* background-color: pink; */
     height: 100%;
+    padding: 1.67vh 0;
 }
