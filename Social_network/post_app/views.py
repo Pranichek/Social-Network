@@ -6,8 +6,8 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 # Create your views here.
-
-class PostView(LoginRequiredMixin, FormView):
+#LoginRequiredMixin
+class PostView( FormView):
     template_name = 'post_app/post.html'
     form_class = PostForm
     login_url = reverse_lazy('auth_view')

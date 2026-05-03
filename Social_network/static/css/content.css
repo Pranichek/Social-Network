@@ -3,6 +3,7 @@ main {
     display: flex;
     justify-content: center;
     width: 100vw;
+    gap: 0.5vw;
     /* max-width: 90rem; */
     margin: 0 auto;
     padding: 0 5.55vw; 
