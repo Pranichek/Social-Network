@@ -16,7 +16,6 @@ class Post(models.Model):
     topic = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
     tags = models.ManyToManyField(Tag, related_name='tags')
-    image = models.ImageField(upload_to='post_app/images/posts_images', blank=True, null=True)
     
 
     def __str__ (self):
@@ -28,3 +27,11 @@ class Link(models.Model):
 
     def __str__ (self):
         return self.url
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    original = models.ImageField(upload_to ='post_images/originals/')
+    compressed = models.ImageField(upload_to ='post_images/compressed/')
+
+    def __str__(self):
+        return self.original.name
