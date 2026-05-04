@@ -18,11 +18,12 @@ class PostView(LoginRequiredMixin, FormView):
 
         if self.request.method == 'POST':
             kwargs['links'] = self.request.POST.getlist('links')
+            kwargs['images'] = self.request.FILES.getlist('images')
             
         return kwargs
     # 
     def form_valid(self, form):
-        post = form.save(author = self.request.user)
+        post = form.save(author=self.request.user)
 
         return JsonResponse({
             'success': True,
