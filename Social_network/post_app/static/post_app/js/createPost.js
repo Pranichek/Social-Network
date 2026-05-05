@@ -1,6 +1,7 @@
 import { clearFields } from "./clear_form.js"
 
 const linksDiv = document.querySelector("#links-list")
+const customTagsDiv = document.getElementById('custom-tags')
 
 document.querySelector("#add-link").addEventListener('click', () => {
     const input = document.createElement('input')
@@ -10,6 +11,16 @@ document.querySelector("#add-link").addEventListener('click', () => {
     input.id = 'input-link'
 
     linksDiv.append(input)
+})
+
+document.querySelector('#add-custom-tag').addEventListener('click', () => {
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.name = 'custom_tags'
+    input.placeholder = 'Додайте тег'
+    input.className = 'input-custom-tag'
+    customTagsDiv.append(input)
+
 })
 
 function getCSRFToken(){
