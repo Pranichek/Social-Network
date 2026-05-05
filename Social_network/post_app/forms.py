@@ -101,12 +101,22 @@ class PostForm(forms.ModelForm):
         post.author = author
         if commit:
             post.save()
+
             post.tags.set(self.cleaned_data["tags"])
+
+            custom_tags = self.data.getlist("custom_tags")
+            
+            for tag in custom_tags:
+                clean_name = tag.strip()
+                if clean_name:
+                    #get_or_create шукає тег у базі даних, якщо його нема, то створює новий тег
+                    tag_object, created = Tag.objects.get_or_create(name = clean_name)
+                    post.tags.add(tag_object)
+
             for url in self.links_list:
                 Link.objects.create(post=post, url=url)
 
             uploaded_images = self.cleaned_data.get('images')
-            print(uploaded_images)
 
             for image in uploaded_images:
                 PostImage.objects.create(
