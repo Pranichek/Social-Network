@@ -23,7 +23,7 @@ class MultipleFilesField(forms.FileField):
 
 class PostForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
-        label = 'Теги',
+        label = None,
         required = False,
         queryset = Tag.objects.all(),
         widget = forms.CheckboxSelectMultiple()
@@ -41,13 +41,17 @@ class PostForm(forms.ModelForm):
         fields = ['title', 'topic', 'content']
         widgets = {
             'title': forms.TextInput(attrs={
-                "id": 'input-form'
+                "id": 'input-form',
+                'placeholder': 'Напишіть назву публікації'
             }),
             'topic': forms.TextInput(attrs={
-                "id": 'input-form'
+                "id": 'input-form',
+                'placeholder': 'Напишіть тему публікації'
             }),
             'content': forms.Textarea(attrs={
-                "id": 'input-form'
+                "id": 'input-form',
+                'placeholder': 'Напишіть контент публікації',
+                'class': 'content-area'
             }),
         }
 
@@ -150,9 +154,9 @@ class PostForm(forms.ModelForm):
                 if width <= 50 or height <= 50:
                     break
 
-            width = int(width * 0.9)
-            height = int(height * 0.9)
-            image = image.resize((width, height), Image.Resampling.LANCZOS)
+                width = int(width * 0.9)
+                height = int(height * 0.9)
+                image = image.resize((width, height), Image.Resampling.LANCZOS)
 
         original_image.seek(0)
         compressed_name = f'compressed_{original_image.name.rsplit('.',1)[0]}.jpg'

@@ -1,0 +1,25 @@
+{% load static %}
+<div class="hidden  create-tag">
+
+    <div id="close-form" class="close-form close-form-btn">
+        <img src="{% static 'post_app/images/posts_images/cross.svg' %}">
+    </div>
+
+    <p class="main-text">Додати хештег</p>
+
+    <div class="form-group">
+        <label>Назва</label>
+    
+        <input type="text" id="new-tag-input" placeholder="#">
+    </div>
+
+    <div class="bottom-buttons" class="bottom-buttons">
+        <button id="cancel-button" class="cancel-button">
+            <span>Скасувати</span>
+        </button>
+
+        <button id="save-button" class="save-button">
+            Зберегти
+        </button>
+    </div>
+</div>

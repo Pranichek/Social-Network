@@ -1,28 +1,36 @@
-const allFields = document.querySelectorAll('#input-form')
+import { clearImagePreviews } from "./show_images.js"
 
-export function clearFields(){
-    const links = document.querySelectorAll('#input-link')
-    const fileField = document.querySelector("#id_images")
-    const divCheckBoxes = document.querySelector('#id_tags')
-    const allCheckBoxes = divCheckBoxes.querySelectorAll('input')
-
-    
+export function clearFields() {
+    const allFields = document.querySelectorAll('#input-form');
 
     allFields.forEach(inputField => {
-        inputField.value = ''
-    })
+        inputField.value = '';
+    });
 
-    fileField.value = ''
+    clearImagePreviews();
 
-    links[0].value = ''
-    if (links.length > 1){
-        for (let index = links.length - 1; index >= 1; index--){
-            links[index].remove()
-            links.pop()
+    const fileField = document.querySelector("#id_images");
+
+    if (fileField) {
+        fileField.value = '';
+    }
+
+    const linkBlocks = document.querySelectorAll('.input-block');
+    if (linkBlocks.length > 0) {
+        const firstLink = linkBlocks[0].querySelector('.input-link');
+        if (firstLink) firstLink.value = '';
+
+        for (let index = linkBlocks.length - 1; index >= 1; index--) {
+            linkBlocks[index].remove();
         }
     }
 
-    allCheckBoxes.forEach(checkbox => {
-        checkbox.checked = false
-    })
+    const divCheckBoxes = document.querySelector('.tags-container');
+    if (divCheckBoxes) {
+        const allCheckBoxes = divCheckBoxes.querySelectorAll('input[type="checkbox"]');
+        allCheckBoxes.forEach(checkbox => {
+            checkbox.checked = false; 
+        });
+    }
+    const customTagsDiv = document.getElementById('custom-tags');
 }

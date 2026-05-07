@@ -1,0 +1,87 @@
+.create-tag{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    z-index: 11;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    border-radius: 2.08vh;
+    padding: 4.58vh;
+    gap: 2.5vh;
+    min-width: 29.93vw;
+    min-height: 31.35vh;
+}
+
+.hidden{
+    display: none;
+}
+
+.main-text{
+    font-size: 3.54vh;
+    font-weight: 500;
+}
+
+.create-tag .form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.625vh;
+}
+
+.create-tag .form-group label{
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.create-tag .form-group input{
+    height: 4.375vh;
+    width: 100%;
+    padding: 1.04vh 1.11vw;
+    border-radius: 0.694vw; 
+    border: 0.08vw #81818D solid;
+    font-size: 1.67vh;
+    font-weight: 400;
+}
+
+.create-tag .form-group input:focus{
+    outline: none;
+}
+
+
+.bottom-buttons{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.cancel-button, .save-button{
+    background-color: #FFFFFF;
+    padding: 1.04vh 1.11vw;
+    border-radius: 128.54vh; 
+    border: none;
+    color: #543C52;
+    font-size: 1.45vh;
+    border: 0.08vw #543C52 solid;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+
+.save-button{
+    background-color: #543C52;
+    color: #FFFFFF;
+}
+
+.cancel-button:hover{
+    cursor: pointer;
+    background-color: #543C52;
+    color: #FFFFFF;
+}
+
+.save-button:hover {
+    color: #543C52;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
