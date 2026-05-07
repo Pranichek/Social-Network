@@ -1,31 +1,63 @@
 import { clearFields } from "./clear_form.js"
 
 const linksDiv = document.querySelector("#links-list")
-const customTagsDiv = document.getElementById('custom-tags')
 
-document.querySelector("#add-link").addEventListener('click', () => {
-    const input = document.createElement('input')
-    input.type = 'url'
-    input.name = 'links'
-    input.placeholder = 'Додайте посилання'
-    input.id = 'input-link'
 
-    linksDiv.append(input)
-})
-
-document.querySelector('#add-custom-tag').addEventListener('click', () => {
-    const input = document.createElement('input')
-    input.type = 'text'
-    input.name = 'custom_tags'
-    input.placeholder = 'Додайте тег'
-    input.className = 'input-custom-tag'
-    customTagsDiv.append(input)
-
-})
-
-function getCSRFToken(){
-    return document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+function updateButtons() {
+    const blocks = linksDiv.querySelectorAll('.input-block')
+    
+    blocks.forEach((block, index) => {
+        const plusDiv = block.querySelector('.plus-div')
+        
+        if (index == blocks.length - 1) {
+            if (!plusDiv) {
+                const html = `
+                    <div class="plus-div">
+                        <img class="plus-icon add-new-link" src="/static/post_app/images/posts_images/plus-icon.svg" alt="+">
+                    </div>
+                `
+                
+                const crossDiv = block.querySelector('.cross-div')
+                if (crossDiv) {
+                    crossDiv.insertAdjacentHTML('beforebegin', html)
+                } else {
+                    block.insertAdjacentHTML('beforeend', html)
+                }
+            }
+        } 
+        else {
+            if (plusDiv) {
+                plusDiv.remove()
+            }
+        }
+    })
 }
+
+linksDiv.addEventListener('click', (event) => {    
+    if (event.target.closest('.add-new-link')) {
+        const htmlBlock = `
+            <div class="input-block">
+                <input class="input-link" type="url" name="links" placeholder="Додайте посилання">
+                <div class="plus-div">
+                    <img class="plus-icon add-new-link" src="/static/post_app/images/posts_images/plus-icon.svg" alt="+">
+                </div>
+                <div class="cross-div">
+                    <img class="cross-icon remove-link" src="/static/post_app/images/posts_images/plus-icon.svg" alt="x">
+                </div>
+            </div>
+        `
+        linksDiv.insertAdjacentHTML('beforeend', htmlBlock)
+        updateButtons() 
+    }
+
+    if (event.target.closest('.remove-link')) {
+        event.target.closest('.input-block').remove()
+        updateButtons()
+    }
+})
+
+
+
 
 
 document.getElementById('create-post').addEventListener('submit', function(event) {
@@ -33,11 +65,14 @@ document.getElementById('create-post').addEventListener('submit', function(event
 
     const form = event.target
     const formData = new FormData(form)
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
+    console.log(csrfToken, 'lol')
 
     fetch(form.action, {
         method: "POST",
         headers: {
-            'X-CSRFToken': getCSRFToken()
+            'X-CSRFToken': csrfToken
         },
         body: formData,
     }).then(async (responce) => {
@@ -49,8 +84,8 @@ document.getElementById('create-post').addEventListener('submit', function(event
 
         return data
     }).then((data) => {
-        console.log('Пост успішно створено')
         clearFields()
+        createPostForm.classList.add('hidden')
     }).catch((data) => {
         if (data.errors){
             console.log(data.errors)

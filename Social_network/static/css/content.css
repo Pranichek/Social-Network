@@ -3,10 +3,10 @@ main {
     display: flex;
     justify-content: center;
     width: 100vw;
-    /* max-width: 90rem; */
     margin: 0 auto;
     padding: 0 5.55vw; 
-    /* background-color: green; */
+    flex-direction: row;
+    gap: 0.4vw;
     position: relative;
 }
 
@@ -18,15 +18,11 @@ main {
     justify-content: start;
     align-items: center;
     padding: 1.67vh 0;
-    /* max-width: 21.93rem; */
-    /* background-color: blue; */
-    /* min-width: 350.80px; */
     gap: 0.84vh;
 }
 
 .content {
     flex: 1;
-    /* background-color: pink; */
     height: 100%;
     padding: 1.67vh 0;
 }
