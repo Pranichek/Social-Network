@@ -11,7 +11,7 @@ class Tag(models.Model):
         return self.name
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name = 'user_posts')
     title = models.CharField(max_length=255)
     topic = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField()
