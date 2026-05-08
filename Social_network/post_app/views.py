@@ -1,6 +1,6 @@
 from .forms import PostForm
+from .models import Post
 
-from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView
 from django.urls import reverse_lazy
@@ -12,6 +12,13 @@ class PostView(LoginRequiredMixin, FormView):
     form_class = PostForm
     login_url = reverse_lazy('auth_view')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = self.request.user.user_posts.all().order_by('-id')
+
+        return context
+    
+
     # 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -19,6 +26,7 @@ class PostView(LoginRequiredMixin, FormView):
         if self.request.method == 'POST':
             kwargs['links'] = self.request.POST.getlist('links')
             kwargs['images'] = self.request.FILES.getlist('images')
+            
             
         return kwargs
     # 

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'post_app/css/create_post.css' %}">
     <link rel="stylesheet" href="{% static 'post_app/css/modal_form.css' %}">
     <link rel="stylesheet" href="{% static 'post_app/css/create_tag.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/post_style.css' %}">
 {% endblock links %}
 
 
@@ -38,6 +39,63 @@
 
     {% include 'post_app/particles/create_post_form.html' %}
 
+    {% for post in posts %}
+        <div class="cont-post">
+            
+            <div class="data-user">
+                <div class="outline-data">
+
+                    <div class= 'post-avatar' >
+                        <img src="{% static 'post_app/images/view_posts/avatar_user.svg' %}" alt="">
+                        <p>{{user.username}}</p>
+                    </div>
+
+                    <div class= 'settings-post'>
+                        <img src="{% static 'post_app/images/view_posts/settings_btn.svg' %}" alt="settings">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="post-data">
+                
+                <p class = 'title-post'>{{ post.title }}</p>
+                {% if post.content %}
+                <p class = 'content-post'>{{ post.content }}</p>
+                {% endif %}
+                {% if post.links.all %}
+                    <div class = 'links-post'>
+                        {% for link in post.links.all %}
+                            <a href="{{ link.url }}"><span class="link-text">{{ link.url }}</span></a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                {% if post.postimage_set.all %}
+                    <div class="images-post">
+                        {% for image in post.postimage_set.all %}
+                            <img src="{{ image.compressed.url }}" alt="Зображення поста">
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="info-post">
+                    <div class="block-info">
+                        <img src="{% static 'post_app/images/view_posts/heart.svg' %}" alt="">
+                        <p>120 Вподобань</p>
+                    </div>
+                    <div class="block-info">
+                        <img src="{% static 'post_app/images/view_posts/like.svg' %}" alt="">
+                        <p>120 Вподобань</p>
+                    </div>
+                    <div class="block-info">
+                        <img src="{% static 'post_app/images/view_posts/eye.svg' %}" alt="">
+                        <p>890 Переглядів</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    
 {% endblock content %}
 
 {% block scripts %}

@@ -6,8 +6,9 @@ main {
     margin: 0 auto;
     padding: 0 5.55vw; 
     flex-direction: row;
-    gap: 0.4vw;
+    gap: 0.55vw;
     position: relative;
+    
 }
 
 .side-menu {
@@ -23,6 +24,16 @@ main {
 
 .content {
     flex: 1;
-    height: 100%;
+    height: calc(100vh - 9.17vh);
     padding: 1.67vh 0;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+} 
+    
