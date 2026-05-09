@@ -1,5 +1,9 @@
 .content {
-    gap: 0.55vw;    
+    gap: 0.55vw;   
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;  
 }
 
 .cont-post{
@@ -117,6 +121,7 @@
 .block-info{
     height: 100%;
     display: flex;
+    align-items: center;
     gap: 0.55vw;
 }
 

@@ -11,6 +11,8 @@
     padding: 4.58vh;
     min-height: 69.6875vh;
     width: 53.68vw;
+    max-height: 95vh;
+    overflow-y: scroll;
 }
 
 
