@@ -3,4 +3,4 @@ from django.views.generic import TemplateView
 
 # Create your views here.
 class FriendView(TemplateView):
-    template_name = 'friends_app/friends.html'
+    template_name = 'profile_app/profile.html'
