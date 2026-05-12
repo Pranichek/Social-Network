@@ -67,7 +67,6 @@ document.getElementById('create-post').addEventListener('submit', function(event
     const formData = new FormData(form)
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
-    console.log(csrfToken, 'lol')
 
     fetch(form.action, {
         method: "POST",

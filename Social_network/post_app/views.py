@@ -2,10 +2,13 @@ from .forms import PostForm
 from .models import Post
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import FormView
+from django.views.generic import FormView, View
 from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+import json
 # Create your views here.
+
 
 class PostView(LoginRequiredMixin, FormView):
     template_name = 'post_app/post.html'
@@ -17,7 +20,6 @@ class PostView(LoginRequiredMixin, FormView):
         context['posts'] = self.request.user.user_posts.all().order_by('-id')
 
         return context
-    
 
     # 
     def get_form_kwargs(self):
@@ -47,5 +49,11 @@ class PostView(LoginRequiredMixin, FormView):
         })
        
 
-
-
+class DeleteView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body.decode('utf-8'))
+            
+        post_id = data.get('post_id')
+        post_object : Post = get_object_or_404(Post, id=post_id)
+        post_object.delete()
+        return JsonResponse({'message': request.POST})

@@ -19,6 +19,7 @@
     border-bottom: 0.08vw #CDCED2 solid;
     display: flex;
     padding: 2.8vh 1.38vw;
+    position: relative;
 }
 
 .outline-data{

@@ -10,10 +10,27 @@
                     <p>{{user.username}}</p>
                 </div>
 
-                <div class= 'settings-post'>
+                <div class= 'settings-post' id="settings-post">
                     <img src="{% static 'post_app/images/view_posts/settings_btn.svg' %}" alt="settings">
                 </div>
 
+
+                <div class = 'modal-settings' id="modal-settings">
+                    <div class = 'button-close section-modal'>
+                        <img src="{% static 'post_app/images/view_posts/settings_btn.svg' %}" alt="settings">
+                    </div>
+                    <div class = 'change-post section-modal'>
+                        <img src="{% static 'post_app/images/view_posts/can.svg' %}" alt="settings">
+                        <p>Редагувати допис</p>
+                    </div>
+                    <div class = 'line'></div>
+
+                    <div class = 'delete-post section-modal' id="{{ post.id }}">
+                        <img src="{% static 'post_app/images/view_posts/pencil.svg' %}" alt="settings">
+                        <p>Видалити публікацію</p> 
+                    </div>
+                </div>
+                
             </div>
         </div>
 
