@@ -1,9 +1,8 @@
 from .services.send_email import generate_mail
 from .services.generate_code import generate_user_code
-from .models import User
 
 
-from django.views.generic import TemplateView , FormView, View
+from django.views.generic import TemplateView , View
 from .forms import RegistrationForm, LoginForm, ConfirmEmailForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import  login

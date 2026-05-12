@@ -1,8 +1,12 @@
+from profile_app.models import ProfileApp 
+
+
 from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
+
 
 
 class RegistrationForm(forms.ModelForm):
@@ -130,19 +134,23 @@ class ConfirmEmailForm(forms.Form):
     
 
 class WelcomeForm(forms.ModelForm):
+    pseudonym = forms.CharField(
+        max_length=50,
+        label='Псевдонім автора',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Введіть Псевдонім автора'
+        }),
+        error_messages={'required': 'Введіть, будь ласка, псевдонім'}
+    )
+
     class Meta:
         model = User
-        fields = ["pseudonym", "username"]
+        fields = ["username"]
         labels = {
-            'pseudonym':'Псевдонім автора',
             'username': 'Ім’я користувача' 
         }
 
-        widgets = {
-            'pseudonym': forms.TextInput(attrs={
-                'placeholder': 'Введіть Псевдонім автора '
-            }),
-            
+        widgets = {            
             'username': forms.TextInput(attrs={
                 'placeholder': '@'
             }),
@@ -150,14 +158,17 @@ class WelcomeForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
+        pseudonym = self.cleaned_data.get('pseudonym')
 
         user = User.objects.filter(username = username).exists() 
 
         if user:
             raise ValidationError('Користувач с таким нікнеймом вже існує')
         
+        
         return username
     
+
 
     # def save(self, commit = True):
     #     user = self.request.user
