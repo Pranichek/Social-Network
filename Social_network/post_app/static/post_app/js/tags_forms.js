@@ -42,8 +42,8 @@ addCustomTagBtn.addEventListener('click', () => {
     newTagInput.value = ''
 })
 
-cancelTagBtn.addEventListener('click', (e) => {
-    e.preventDefault()
+cancelTagBtn.addEventListener('click', (event) => {
+    event.preventDefault()
     createTagModal.classList.add('hidden') 
     createPostForm.classList.remove('hidden') 
 })
@@ -67,16 +67,52 @@ saveTagBtn.addEventListener('click', (e) => {
     createPostForm.classList.remove('hidden')
 })
 
-tags.forEach(tag =>{
-    tag.addEventListener('click', () => {
-        const checkInput = tag.querySelector("input[type='checkbox']")
-        if (tag.classList.length <= 1){
-            tag.classList.add('active-tag')
-            checkInput.checked = true
-            // tag.className = "active-tag"
-        }else{
-            tag.classList.remove('active-tag')
-            checkInput.checked = false
+const tagsContainer = document.querySelector('.tags-container')
+
+tagsContainer.addEventListener('click', (element) => {
+    const tagElement = element.target.closest('.custom-tag-label')
+    // если нажали клик бл не по тегу
+    if (!tagElement) return
+
+    const checkInput = tagElement.querySelector("input[type='checkbox']")
+
+    const tagsList = document.querySelector(".show-tags")
+    const tagText = tagElement.textContent.trim()
+
+    if (tagElement.classList.contains('active-tag')) {
+        tagElement.classList.remove('active-tag') 
+        if (checkInput) {
+            checkInput.checked = false 
         }
-    })
+        
+        const paragraphs = tagsList.querySelectorAll('p')
+        paragraphs.forEach(p => {
+            if (p.textContent == tagText) {
+                p.remove()
+            }
+        })
+
+    } else {        
+        tagElement.classList.add('active-tag') 
+        if (checkInput) {
+            checkInput.checked = true 
+        }
+        
+        const paragraph = document.createElement('p')
+        paragraph.textContent = tagText
+        tagsList.append(paragraph)
+    }
 })
+// tags.forEach(tag =>{
+//     tag.addEventListener('click', () => {
+//         const checkInput = tag.querySelector("input[type='checkbox']")
+//         if (tag.classList.length <= 1){
+//             tag.classList.add('active-tag')
+//             checkInput.checked = true
+//             // tag.className = "active-tag"
+//         }else{
+//             tag.classList.remove('active-tag')
+//             checkInput.checked = false
+//         }
+//     })
+// })

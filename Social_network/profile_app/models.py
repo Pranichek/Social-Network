@@ -10,3 +10,4 @@ class ProfileApp(models.Model):
     pseudonym = models.CharField(max_length=50)
     is_image_signature = models.BooleanField(default=False)
     is_text_signature = models.BooleanField(default=False)
+

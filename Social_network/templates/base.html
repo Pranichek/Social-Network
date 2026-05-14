@@ -23,6 +23,9 @@
     </head>
 
     <body>
+        {% block modal-windows %}
+            
+        {% endblock modal-windows %}
         <header>
             <nav class="container">
 
@@ -44,9 +47,9 @@
                                 <a href="{% url 'post_view' %}">Мої публікації</a>
                             </div>
                             
-                            <div class="link-page profile-link">
+                            <div class="link-page friends-link">
                                 <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
-                                <a href="{% url 'profile_view' %}">Друзі</a>
+                                <a href="{% url 'friends_view' %}">Друзі</a>
                             </div>
                             
                             <div class="link-page chats-link">

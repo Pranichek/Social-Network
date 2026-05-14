@@ -1,5 +1,6 @@
 from .services.send_email import generate_mail
 from .services.generate_code import generate_user_code
+from user_app.services.friends_queries import *
 
 
 from django.views.generic import TemplateView , View
@@ -8,6 +9,8 @@ from django.contrib.auth.views import LogoutView
 from django.contrib.auth import  login
 from django.http import JsonResponse
 import threading
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 
 class SettingsView(TemplateView):
@@ -138,3 +141,35 @@ class CheckLogin(View):
             },
             status=400
             )
+    
+
+class FriendsView(LoginRequiredMixin, TemplateView):
+    template_name = "user_app/friends.html"
+    login_url = reverse_lazy('auth_view')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['sections'] = {
+            'requests': {
+                "title": 'Запити', 
+                'users': friendships_requests(self.request.user)[:6]
+            },
+            'recommendations': {
+                "title": 'Рекомендації', 
+                'users': friendships_recommendations(self.request.user)[:6]
+            },
+            'friends': {
+                "title": 'Всі друзі',
+                'users':get_friends(self.request.user)[:6]
+            }
+            
+        }
+
+        print(context, "lol")
+        
+        return context
+
+
+    
+    

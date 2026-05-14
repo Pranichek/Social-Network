@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block links %}
-    <link rel="stylesheet" href="{% static 'home_app/css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'home_app/css/window_data.css' %}">
-{% endblock links %}
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
 
 {% block title  %}
     Головна Сторінка
 {% endblock  %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'home_app/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'home_app/css/window_data.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/modal_form.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_post.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/show_images.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_post.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/modal_form.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_tag.css' %}">
+{% endblock links %}
+
+{% block modal-windows %}
+    <div id="shadow" class="shadow hidden"></div>
+
+    {% include 'post_app/particles/create_post_form.html' %}
+
+    {% include 'post_app/particles/post/create_tag_cont.html' %}
+{% endblock modal-windows %}
 
 {% block side-menu %}
     <div class = 'profile-block'>
@@ -140,5 +158,20 @@
 {% endblock  %}
 
 {% block content %}
-    <h1>Головна Сторінка</h1>
+    <div class="chat-input">
+        <input type="text" class="input-content" placeholder="Текст публікації" id="input-content">
+
+        <div class="bottom-data">
+            <div id="show-form" class="open-form"><span>Перейти до оформлення</span></div>
+        </div>
+    </div>
 {% endblock content %}
+
+{% block scripts %}
+    <script type="module" src="{% static 'post_app/js/tags_forms.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/createPost.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/clear_form.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/visible_form.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/show_images.js' %}"></script>
+    <script src="{% static 'post_app/js/auto_input_text.js' %}"></script>
+{% endblock scripts %}

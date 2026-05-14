@@ -1,0 +1,13 @@
+<main id="friendsMain" class="friends-main">
+    {% for key, section in sections.items  %}
+        <div class="section">
+            <div style="display: flex; justify-content: space-around;">
+                <h2>{{ section.title }}</h2>
+                <button type="button">Дивитись усі</button>
+            </div>
+            <div class="sections_cards">
+                {% include 'user_app/particles/friends_page/friends_cards.html' with users=section.users section=key %}
+            </div>
+        </div>
+    {% endfor %}
+</main>

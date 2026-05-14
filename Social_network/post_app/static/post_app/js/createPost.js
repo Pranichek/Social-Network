@@ -1,6 +1,8 @@
 import { clearFields } from "./clear_form.js"
 
 const linksDiv = document.querySelector("#links-list")
+const createPostForm = document.getElementById('create-post')
+const shadow = document.getElementById('shadow') 
 
 
 function updateButtons() {
@@ -85,6 +87,14 @@ document.getElementById('create-post').addEventListener('submit', function(event
     }).then((data) => {
         clearFields()
         createPostForm.classList.add('hidden')
+        if (shadow) shadow.classList.add('hidden') 
+
+        if (data.html) {
+            const postsContainer = document.getElementById('posts-container')
+            if (postsContainer) {
+                postsContainer.insertAdjacentHTML('afterbegin', data.html)
+            }
+        }
     }).catch((data) => {
         if (data.errors){
             console.log(data.errors)

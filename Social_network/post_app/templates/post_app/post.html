@@ -20,6 +20,14 @@
 
 {% endblock links %}
 
+{% block modal-windows %}
+    <div id="shadow" class="shadow hidden"></div>
+
+    {% include 'post_app/particles/create_post_form.html' %}
+
+    {% include 'post_app/particles/post/create_tag_cont.html' %}
+{% endblock modal-windows %}
+
 
 {% block side-menu %}
     {% include 'post_app/particles/side_data.html' %}
@@ -34,17 +42,15 @@
             <div id="show-form" class="open-form"><span>Перейти до оформлення</span></div>
         </div>
     </div>
-
-    <div id="shadow" class="shadow hidden"></div>
     
-    {% include 'post_app/particles/create_tag_cont.html' %}
-
-    {% include 'post_app/particles/create_post_form.html' %}
     
-    {% include 'post_app/particles/posts_cicle.html' %}
+    {% include 'post_app/particles/post/posts_cicle.html' %}
+
+    {% include 'post_app/particles/post/sentinel.html' %}
 {% endblock content %}
 
 {% block scripts %}
+    <script src="{% static 'post_app/js/post_load.js' %}"></script>
     <script type="module" src="{% static 'post_app/js/tags_forms.js' %}"></script>
     <script type="module" src="{% static 'post_app/js/createPost.js' %}"></script>
     <script type="module" src="{% static 'post_app/js/clear_form.js' %}"></script>
@@ -52,4 +58,5 @@
     <script type="module" src="{% static 'post_app/js/show_images.js' %}"></script>
     <script src="{% static 'post_app/js/auto_input_text.js' %}"></script>
     <script src="{% static 'post_app/js/modals_posts.js' %}"></script>
+    <script src="{% static 'post_app/js/greed_images.js' %}"></script>
 {% endblock scripts %}
