@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% load static %}
 <div class="section-login section hidden"> 
     <!-- <nav>
@@ -36,6 +37,17 @@
             
             {{ form_login.password.errors }}
         </div>
+=======
+<div class="section-login section"> 
+    <nav>
+        <p id="ButtonRegister">Реєстрація</p>
+        <p id="ButtonLogin">Авторизація</p>
+    </nav>
+    <p>Раді тебе знову бачити!</p>
+    <form method="post">
+        {{ form_login.as_p }}
+        <button type="button">Увійти</button>
+>>>>>>> 54f74fc78f3f2f99b6af6d853d7af2bacd805007
     </form>
 
     <button type="submit" class="login-user" form="login-form">Увійти</button>

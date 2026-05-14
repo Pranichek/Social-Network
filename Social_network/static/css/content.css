@@ -3,6 +3,11 @@ main {
     display: flex;
     justify-content: center;
     width: 100vw;
+<<<<<<< HEAD
+=======
+    gap: 0.5vw;
+    /* max-width: 90rem; */
+>>>>>>> 594d5fe97d9d08b11747f5d7364dcc41c69dbaee
     margin: 0 auto;
     padding: 0 5.55vw; 
     flex-direction: row;
