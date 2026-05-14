@@ -6,10 +6,16 @@ let selectedFiles = [];
 fileInput.addEventListener('change', (event) => {
     const files = Array.from(event.target.files);    
     selectedFiles = selectedFiles.concat(files);
-    
     updateFileInput();
     renderPreviews();
 });
+
+// function changeGreed(){
+//     const allIMages = document.querySelectorAll(".preview-item")
+//     const countElements = allIMages.length
+//     const thirdGreed = countElements % 3;
+//     console.log(thirdGreed)
+// }
 
 function renderPreviews() {
     previewContainer.innerHTML = '';
@@ -39,6 +45,9 @@ function renderPreviews() {
             renderPreviews();
         });
     });
+
+
+    changeGreed()
 }
 
 function updateFileInput() {

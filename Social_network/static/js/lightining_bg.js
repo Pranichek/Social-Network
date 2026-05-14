@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if(currentUrl === ''){
         currentUrl = 'home';    
     }
+
+    console.log(cur)
     Links.forEach(link=> {
         if (link.className.includes( currentUrl + '-link')){ {
             link.classList.add('active');

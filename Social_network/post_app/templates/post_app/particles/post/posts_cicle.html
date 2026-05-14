@@ -1,0 +1,6 @@
+{% load static %}
+<div class="posts-container" id="posts-container">
+    {% for post in posts %}
+        {% include 'post_app/particles/post/post_item.html' %} 
+    {% endfor %}
+</div>

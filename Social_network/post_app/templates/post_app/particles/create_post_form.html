@@ -1,5 +1,5 @@
 {% load static %}
-<form action="{% url 'post_view' %}" method = "POST" id="create-post" class = 'hidden form-new-post' enctype="multipart/form-data">
+<form action="{% url 'form_view' %}" method = "POST" id="create-post" class = 'hidden form-new-post' enctype="multipart/form-data">
     <div id="close-form" class="close-form close-form-btn">
         <img src="{% static 'post_app/images/posts_images/cross.svg' %}">
     </div>
@@ -34,8 +34,10 @@
             </div>
         </div>
 
-        
-        {{ form.content }}
+        <div class="content-block">
+            {{ form.content }}
+            <div class="show-tags"></div>
+        </div>
 
         <div class="form-group">
             <label>Посилання</label>
