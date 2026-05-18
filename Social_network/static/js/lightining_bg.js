@@ -1,24 +1,19 @@
-document.addEventListener('DOMContentLoaded', function() {
+const currentPath = window.location.pathname
+const linkContainers = document.querySelectorAll('.link-page')
 
-    const Links = document.querySelectorAll('.link-page');
-    // let currentUrl = '/post/posts';
+linkContainers.forEach(container => {
+    const link = container.querySelector('a')
+    
+    if (link) {
+        const linkPath = link.getAttribute('href')
 
-    let currentUrl = window.location.pathname.split('/')[1];
-    console.log(currentUrl);
 
-    // currentUrl = currentUrl.split('/')
-
-    // window.onload = function() {
-    if(currentUrl === ''){
-        currentUrl = 'home';    
-    }
-
-    console.log(cur)
-    Links.forEach(link=> {
-        if (link.className.includes( currentUrl + '-link')){ {
-            link.classList.add('active');
-        }}else{
-            link.classList.remove('active');
+        if (linkPath === '/' && currentPath === '/') {
+            container.classList.add('active')
+        } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+            container.classList.add('active')
+        } else {
+            container.classList.remove('active')
         }
-    })
+    }
 })

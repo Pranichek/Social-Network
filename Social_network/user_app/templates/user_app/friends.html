@@ -16,24 +16,15 @@
 
 
 {% block side-menu %}
-    <div class = 'side-links'>
-        <div class = 'main-link bottom-line'>
-            <p class = 'main-link-text'>Головна</p>
-        </div>
-
-        <div class = 'request-link'>
-            <p class = 'request-text'>Запити</p>
-        </div>
-        <div class = 'recomendation-link'>
-            <p class = 'recomendation-text'>Рекомендації</p>
-        </div><div class = 'all-friends'>
-            <p class = 'all-friends-text'>Всі друзі</p>
-        </div>
-    </div>
+    {% include 'user_app/particles/friends_page/friends_nav.html' %}
 {% endblock side-menu %}
 
 {% block content %}
-    <h1>Сторінка друзів</h1>
-    {% include 'user_app/particles/friends_page/friends_nav.html' %}
     {% include 'user_app/particles/friends_page/friends_main.html' %}
+    {% include 'user_app/particles/friends_page/friends_section.html' %}
 {% endblock %}
+
+{% block scripts %}
+    <script src = "{% static 'user_app/js/user_app/friends_page/friends_section.js' %}"></script>
+{% endblock %}
+

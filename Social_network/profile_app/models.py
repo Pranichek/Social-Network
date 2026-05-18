@@ -2,8 +2,8 @@ from django.db import models
 
 # Create your models here.
 
-class ProfileApp(models.Model):
-    user = models.OneToOneField('user_app.User', on_delete=models.CASCADE)
+class Profile(models.Model):
+    user = models.OneToOneField('user_app.User', on_delete=models.CASCADE, related_name="userprofile")
     birth_date = models.DateField(null=True, blank=True)
     signature = models.CharField(max_length=255, blank=True)
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)

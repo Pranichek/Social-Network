@@ -1,4 +1,4 @@
-from profile_app.models import ProfileApp 
+from profile_app.models import Profile
 
 
 from django import forms
