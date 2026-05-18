@@ -2,6 +2,7 @@
 .content, .friends-main{
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
     gap: 0.83vh;
 }
 
@@ -136,3 +137,30 @@
     background-color: #FFFFFF;
 }
 
+=======
+}
+.main-link-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+.request-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+.recomendation-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+.all-friends-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+>>>>>>> c3c9cc5c4848e83ef5afb0dce58b4cb671cfeacc
