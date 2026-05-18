@@ -11,7 +11,8 @@ from django.http import JsonResponse
 import threading
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
 
 class SettingsView(TemplateView):
     template_name = 'user_app/settings.html'
@@ -84,7 +85,6 @@ class ConfirmEmail(View):
         session_code = request.session.get('confirm_code')
         reg_data = request.session.get('reg_data')
 
-        print(user_code, session_code)
 
         if not session_code:
             return JsonResponse({
@@ -149,11 +149,12 @@ class FriendsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(self.request.user.userprofile.pseudonym, "lol")
 
         context['sections'] = {
             'requests': {
                 "title": 'Запити', 
-                'users': friendships_requests(self.request.user)[:6]
+                'users': friendships_requests(self.request.user)[:3]
             },
             'recommendations': {
                 "title": 'Рекомендації', 
@@ -166,10 +167,30 @@ class FriendsView(LoginRequiredMixin, TemplateView):
             
         }
 
-        print(context, "lol")
         
         return context
 
 
     
-    
+class SectionsView(LoginRequiredMixin, View):
+    def get(self, request, section, *args, **kwargs):
+        if section == 'requests':
+            users = friendships_requests(request.user)
+        elif section == 'recommendations':
+            users = friendships_recommendations(request.user)
+        elif section == 'friends':
+            users = get_friends(request.user)
+
+        page_object = Paginator(users, 6).get_page(request.GET.get('page', 1))
+
+        html = render_to_string(
+            'user_app/particles/friends_page/friends_cards.html', 
+            context={
+                'users': page_object.object_list,
+                'section': section
+            }, request=request)
+        
+        return JsonResponse({
+            'has_next_page': page_object.has_next(),
+            'html': html 
+        })

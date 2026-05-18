@@ -8,5 +8,6 @@ urlpatterns = [
     path('check_login/', CheckLogin.as_view(), name='check_login_view'),
     path('confirm_email/', ConfirmEmail.as_view(), name='confirm_email'),
     path('auth/', AuthUser.as_view(), name='auth_view'),
-    path('friends/', FriendsView.as_view(), name='friends_view')
+    path('friends/', FriendsView.as_view(), name='friends_view'),
+    path('friends/<str:section>/', SectionsView.as_view(), name = 'friends_section')
 ]

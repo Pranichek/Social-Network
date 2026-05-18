@@ -25,7 +25,7 @@ main {
 .content {
     flex: 1;
     height: calc(100vh - 9.17vh);
-    padding: 1.67vh 0;
+    padding: 1.67vh 0 1.67vh 0;
     overflow-y: scroll;
     /* display: flex;
     flex-direction: column;
@@ -34,6 +34,6 @@ main {
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    display: none;
 } 
     

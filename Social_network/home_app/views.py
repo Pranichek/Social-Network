@@ -1,5 +1,6 @@
 from user_app.forms import WelcomeForm
 from post_app.forms import PostForm
+from profile_app.models import Profile
 
 from django.views.generic import FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -55,7 +56,16 @@ class EndRegistrationView(View):
         if form.is_valid():
             user = request.user
             user.username = f"@{form.cleaned_data.get('username')}"
-            user.pseudonym = form.cleaned_data.get('pseudonym')
+
+            user_profile = Profile(
+                user = request.user,
+                pseudonym = form.cleaned_data.get('pseudonym')
+            )
+
+            user_profile.save()
+
+            # user.pseudonym = form.cleaned_data.get('pseudonym')
+
             user.save()
 
             return JsonResponse({

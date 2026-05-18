@@ -47,7 +47,7 @@ function renderPreviews() {
     });
 
 
-    changeGreed()
+    // changeGreed()
 }
 
 function updateFileInput() {
