@@ -16,7 +16,14 @@
         </div>
 
         <div class="bottom-data">
-            <button class="first-button">Підтвердити</button>
+            {% if section == 'requests' %}
+                <button class="first-button">Підтвердити</button>
+            {%elif section == 'recommendations' %}
+                <button class="first-button">Додати</button>
+            {%elif section == 'friends' %}
+                <button class="first-button">Повідомлення</button>
+            {% endif %}
+            
             <button class="second-button">Видалити</button>
         </div>
     
