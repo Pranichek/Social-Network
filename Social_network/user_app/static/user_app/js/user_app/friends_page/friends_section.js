@@ -1,3 +1,4 @@
+
 const mainBlock = document.getElementById('friends-main')
 const sectionBlock = document.getElementById('section')
 const sectionTitle = document.getElementById('section-title')
@@ -38,7 +39,7 @@ async function openSection(section) {
     sectionTitle.textContent = sectionTitles[section]
     sectionList.innerHTML = ''
     mainBlock.style.display = 'none'
-    sectionBlock.style.display = 'block'
+    sectionBlock.style.display = 'flex'
     await loadSectionPage(section, currentPage)
 }
 
@@ -48,7 +49,7 @@ function OpenMain() {
     sectionList.innerHTML = ''
     currentSection = ''
     hasNextPage = false
-    mainBlock.style.display = 'block'
+    mainBlock.style.display = 'flex'
 
 }
 const observer = new IntersectionObserver(
@@ -70,6 +71,31 @@ backMain.addEventListener('click', OpenMain)
 
 sectionButtons.forEach(button => {
     button.addEventListener('click',async () => {
-        await openSection(button.dataset.sectionLink)
+
+        if (button.classList.contains('main-link')){
+            OpenMain()
+        }
+        else {
+            await openSection(button.dataset.sectionLink)
+        }
+        
+
+        sectionButtons.forEach(btn => {
+            if (btn.classList.contains('bottom-line')){
+                btn.classList.remove('bottom-line')
+            }
+            
+            // Якщо датасет тегу з бокового меню  такий же самий, як у кнопки на яку натиснули
+            // то в такому випадку, ми можемо додати саме до тегу з бокового меню клас bottom-line
+            if (btn.dataset.sectionLink == button.dataset.sectionLink){
+                // робимо перевірку, щоб не додати клас до кнопку на секції
+                if (!btn.classList.contains('section-button')){
+                    btn.classList.add('bottom-line')
+                }
+            }
+
+        })
+
+        // button.classList.add('bottom-line')
     })
 })
