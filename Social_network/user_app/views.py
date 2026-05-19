@@ -1,6 +1,7 @@
 from .services.send_email import generate_mail
 from .services.generate_code import generate_user_code
 from user_app.services.friends_queries import *
+from .models import Friendship, User
 
 
 from django.views.generic import TemplateView , View
@@ -13,6 +14,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
+
+
 
 class SettingsView(TemplateView):
     template_name = 'user_app/settings.html'
@@ -149,7 +152,6 @@ class FriendsView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(self.request.user.userprofile.pseudonym, "lol")
 
         context['sections'] = {
             'requests': {
@@ -194,3 +196,21 @@ class SectionsView(LoginRequiredMixin, View):
             'has_next_page': page_object.has_next(),
             'html': html 
         })
+
+class ChangeStatusView(LoginRequiredMixin, View):
+    def get(self, request, status, *args, **kwargs):
+        id_user = request.GET.get('id', 1)
+        user_object = User.objects.get(id = int(id_user))
+        friendship_obj = None
+
+        if status == 'add':
+            Friendship.objects.create(
+                from_user=request.user,
+                to_user=user_object,
+                status='pending'
+            )
+        
+
+        return JsonResponse({'message': 'ok'})
+       
+            
