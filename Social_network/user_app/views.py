@@ -17,6 +17,7 @@ from django.template.loader import render_to_string
 
 
 
+
 class SettingsView(TemplateView):
     template_name = 'user_app/settings.html'
 
@@ -204,12 +205,15 @@ class ChangeStatusView(LoginRequiredMixin, View):
         friendship_obj = None
 
         if status == 'add':
-            Friendship.objects.create(
+            Friendship.objects.get_or_create(
                 from_user=request.user,
                 to_user=user_object,
                 status='pending'
             )
-        
+            # html = render_to_string('user_app/particles/friends_page/friends_cards.html', {
+            #     'users': [user_object],
+            #     'section': 'requests'
+            # }, request=request)
 
         return JsonResponse({'message': 'ok'})
        
