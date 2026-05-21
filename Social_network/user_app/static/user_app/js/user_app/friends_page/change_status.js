@@ -1,4 +1,4 @@
-const buttons = document.querySelectorAll('#button-card');
+const buttons = document.querySelectorAll('#button-card')
 
 async function friendShipStatus(id, status){
     const response = await fetch(`/settings/friends/change_status/${status}/?id=${id}`, {
@@ -6,14 +6,18 @@ async function friendShipStatus(id, status){
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    const data = await response.json()
+    
+    if (response.ok) {
+        return await response.json()
+    }
+    return { success: false }
 }
 
 
 buttons.forEach(button => {
     button.addEventListener('click',async () => {
         const idPerson = button.value
-        let status;
+        let status
         
         if (button.classList.contains('accepted-btn')){
             status = 'accepted'
@@ -22,7 +26,19 @@ buttons.forEach(button => {
             status = 'add'
         }
         
-        await friendShipStatus(idPerson, status)
+        const data = await friendShipStatus(idPerson, status)
+        
+        if (data && data.success) {
+            button.closest('.person-card').remove()
+            
+            if (status == 'accepted' && data.html) {                
+                const friendsContainer = document.getElementById('cards-friends')
+                
+                if (friendsContainer) {
+                    friendsContainer.insertAdjacentHTML('afterbegin', data.html)
+                }
+            }
+        }
     })
 })
 

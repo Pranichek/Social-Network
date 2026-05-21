@@ -1,6 +1,6 @@
 const endForm = document.getElementById('end-register');
 const welcomeMessage = document.getElementById('message');
-const shadow = document.getElementById('shadow');
+const shadow = document.getElementById('welcome-shadow');
 
 if (endForm) {
     endForm.addEventListener('submit', (event) => {
