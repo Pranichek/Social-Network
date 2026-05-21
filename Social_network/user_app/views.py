@@ -14,6 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
 
 
 
@@ -183,7 +184,7 @@ class SectionsView(LoginRequiredMixin, View):
         elif section == 'friends':
             users = get_friends(request.user)
 
-        page_object = Paginator(users, 6).get_page(request.GET.get('page', 1))
+        page_object = Paginator(users, 12).get_page(request.GET.get('page', 1))
 
         html = render_to_string(
             'user_app/particles/friends_page/friends_cards.html', 
@@ -200,8 +201,8 @@ class SectionsView(LoginRequiredMixin, View):
 class ChangeStatusView(LoginRequiredMixin, View):
     def get(self, request, status, *args, **kwargs):
         id_user = request.GET.get('id', 1)
-        user_object = User.objects.get(id = int(id_user))
-        friendship_obj = None
+        user_object = get_object_or_404(User, id=id_user)
+        html = ""
 
         if status == 'add':
             Friendship.objects.create(
@@ -209,8 +210,26 @@ class ChangeStatusView(LoginRequiredMixin, View):
                 to_user=user_object,
                 status='pending'
             )
-        
+        elif status == 'accepted':
+            friendship = Friendship.objects.filter(
+                from_user=user_object,
+                to_user=request.user,
+                status='pending'
+            ).first()
 
-        return JsonResponse({'message': 'ok'})
-       
+            if friendship:
+                friendship.status = 'accepted'
+                friendship.save()
+                
+                html = render_to_string(
+                    'user_app/particles/friends_page/friends_cards.html', 
+                    context={'users': [user_object], 'section': 'friends'}, 
+                    request=request
+                )
+
+        return JsonResponse({'success': True, 'html': html})
+        
+    
+
+           
             

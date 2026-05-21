@@ -15,7 +15,7 @@ const sectionTitles = {
 
 let currentSection = ''
 let currentPage = 1
-let hasNextPage = false
+let hasNextPage = true
 let isLoading = false
 
 
@@ -59,7 +59,7 @@ const observer = new IntersectionObserver(
             await loadSectionPage(currentSection, currentPage)
         }
     }, {
-        rootMargin: '200px'
+        rootMargin: '200px',
     }
 )
 

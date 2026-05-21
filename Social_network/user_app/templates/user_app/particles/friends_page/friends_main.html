@@ -6,7 +6,7 @@
                 <button type="button" class="section-button" data-section-link = "{{ key }}">Дивитись всі</button>
             </div>
             
-            <div class="section-cards">
+            <div class="section-cards" id="cards-{{ key }}">
                 {% include 'user_app/particles/friends_page/friends_cards.html' with users=section.users section=key %}
             </div>
             

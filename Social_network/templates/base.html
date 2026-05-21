@@ -54,7 +54,7 @@
                             
                             <div class="link-page chats-link">
                                 <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
-                                <a href="/chat">Чати</a>
+                                <a href="{% url 'chat_view' %}">Чати</a>
                             </div>
                             
                             <div class="link-page settings-link">
@@ -100,7 +100,7 @@
 
         {% if request.user.is_authenticated and request.user.username == '' %}
         
-            <div id="shadow" class="shadow"></div>
+            <div id="welcome-shadow" class="shadow"></div>
 
             <div id="message" class="welcome-message">
                 <p class="details-text">Додай деталі про себе</p>
