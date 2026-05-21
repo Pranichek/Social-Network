@@ -10,9 +10,14 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 import json
 # Create your views here.
+<<<<<<< HEAD
 
 
 class FormView(LoginRequiredMixin, FormView):
+=======
+#LoginRequiredMixin
+class PostView( FormView):
+>>>>>>> 594d5fe97d9d08b11747f5d7364dcc41c69dbaee
     template_name = 'post_app/post.html'
     form_class = PostForm
     login_url = reverse_lazy('auth_view')

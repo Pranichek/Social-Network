@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% load static %}
 <div class="section-register  section"> 
     
@@ -37,6 +38,17 @@
             </div>
             {{ form_register.confirm_password.errors }}
         </div>
+=======
+<div class="section-register section hidden"> 
+    <nav>
+        <p id="ButtonRegister">Реєстрація</p>
+        <p id="ButtonLogin">Авторизація</p>
+    </nav>
+    <p>Приєднуйся до World IT</p>
+    <form method="post">
+        {{ form_register.as_p }}
+        <button type="button" class="create-user">Створити акаунт</button>
+>>>>>>> 54f74fc78f3f2f99b6af6d853d7af2bacd805007
     </form>
     <button type="submit" id="create-account" class="create-user" form="form-registration">Створити акаунт</button>
 </div>
