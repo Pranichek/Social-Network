@@ -39,6 +39,10 @@
     padding: 0 1.11vw;   
 }
 
+.block-header.active{
+    background-color: #E9E5EE;
+}
+
 .left-part{
     display: flex;
     align-items: center;
@@ -74,6 +78,10 @@
     display: flex;
     gap: 1.11vw;
     padding: 0.83vh 1.11vw;
+}
+
+.block-card.active{
+    background-color: #E9E5EE;
 }
 
 .block-card img{
@@ -116,4 +124,20 @@
     font-weight: 400;
     font-size: 1.45vh;
     color: #070A1C;
+}
+
+.alert-cont {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.side-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-cont {
+    flex-grow: 1;
 }
