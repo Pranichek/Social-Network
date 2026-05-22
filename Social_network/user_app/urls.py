@@ -9,7 +9,7 @@ urlpatterns = [
     path('confirm_email/', ConfirmEmail.as_view(), name='confirm_email'),
     path('auth/', AuthUser.as_view(), name='auth_view'),
     path('friends/', FriendsView.as_view(), name='friends_view'),
-    # path('friends/<str:section>/', SectionsView.as_view(), name = 'friends_section'),
+    path("friends/user_data/", UserData.as_view()),
+    path('friends/<str:section>/', SectionsView.as_view(), name = 'friends_section'),
     path('friends/change_status/<str:status>/', ChangeStatusView.as_view(), name = 'change_status'),
-    path("friends/user_data/", UserData.as_view())
 ]
