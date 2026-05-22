@@ -1,4 +1,3 @@
-
 .content, .friends-main{
     display: flex;
     flex-direction: column;
@@ -124,6 +123,11 @@
     color: #070A1C;
 }
 
+.username-card{
+    font-weight: 700;
+    font-size: 2.5vh;
+}
+
 .bottom-data {
     height: 4.17vh;
     display: flex;
@@ -166,4 +170,9 @@
 #loader-line {
     width: 100%;
     height: 40px;
+}
+
+
+.hidden{
+    display: none;
 }
