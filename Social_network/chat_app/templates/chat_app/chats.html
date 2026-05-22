@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
+{% block title %}
+    Чати
+{% endblock title %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'chat_app/css/side_settings.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/alert_container.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/main_block.css' %}">
+{% endblock links %}
+
+{% block side-menu %}
+    {% include 'chat_app/particles/side_settings.html' %}
+{% endblock side-menu %}
+
+{% block content %}
+    {% include 'chat_app/particles/main_block.html' %}
+    {% include 'chat_app/particles/alert_container.html' %}
+{% endblock content %}

@@ -5,7 +5,7 @@
 
             <div class= 'post-avatar' >
                 <img src="{% static 'post_app/images/view_posts/avatar_user.svg' %}" alt="">
-                <p>{{user.username}}</p>
+                <p>{{ post.author.username }}</p>
             </div>
 
             <div class= 'settings-post' id="settings-post">
