@@ -38,14 +38,17 @@ async function openSection(section) {
     hasNextPage = false
     sectionTitle.textContent = sectionTitles[section]
     sectionList.innerHTML = ''
-    mainBlock.style.display = 'none'
+    // mainBlock.style.display = 'none'
+    mainBlock.classList.add("hidden")
     sectionBlock.style.display = 'flex'
     await loadSectionPage(section, currentPage)
 }
 
 
 function OpenMain() {
-    sectionBlock.style.display = 'none'
+    // sectionBlock.style.display = 'none'
+    sectionBlock.classList.toggle("hidden")
+    console.log(sectionBlock.classList)
     sectionList.innerHTML = ''
     currentSection = ''
     hasNextPage = false

@@ -11,12 +11,16 @@
 
 {% block links %}
     <link rel = 'stylesheet' href = "{% static 'user_app/css/friends_page/side_block.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/posts.css' %}">
+    <link rel = 'stylesheet' href = "{% static 'user_app/css/friends_page/user_data_buttons.css' %}">
     <link rel = 'stylesheet' href = "{% static 'user_app/css/friends_page/content_friends.css' %}">
 {% endblock %}
 
 
 {% block side-menu %}
     {% include 'user_app/particles/friends_page/friends_nav.html' %}
+
+    {% include 'user_app/particles/friends_page/user_data.html' %}
 {% endblock side-menu %}
 
 {% block content %}
@@ -26,6 +30,7 @@
 
 {% block scripts %}
     <script src = "{% static 'user_app/js/user_app/friends_page/friends_section.js' %}"></script>
-    <script src="{% static 'user_app/js/user_app/friends_page/change_status.js' %}" ></script>
+    <script src = "{% static 'user_app/js/user_app/friends_page/listener_buttons.js' %}"></script>
+    <!-- <script src="{% static 'user_app/js/user_app/friends_page/change_status.js' %}" ></script> -->
 {% endblock %}
 

@@ -235,6 +235,26 @@ class ChangeStatusView(LoginRequiredMixin, View):
                 )
 
         return JsonResponse({'success': True, 'html': html})
+    
+class UserData(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        id_user = request.GET.get('user_id', 1)
+        user_object : User = get_object_or_404(User, id=id_user)
+
+        if user_object:
+            count_from_user = len(Friendship.objects.filter(from_user = user_object, status = "accepted").all())
+            count_to_user = len(Friendship.objects.filter(to_user = user_object, status = "accepted").all())
+
+            user_data = {
+                'username': user_object.username,
+                'pseudonym': user_object.userprofile.pseudonym,
+                "count_posts": len(user_object.user_posts.all()),
+                "count_friends": count_from_user + count_to_user
+            }
+
+
+            return JsonResponse({"user_data": user_data})
+
         
     
 
