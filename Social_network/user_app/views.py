@@ -201,6 +201,9 @@ class SectionsView(LoginRequiredMixin, View):
 
 class ChangeStatusView(LoginRequiredMixin, View):
     def get(self, request, status, *args, **kwargs):
+
+        print(status)
+
         id_user = request.GET.get('id', 1)
         user_object = get_object_or_404(User, id=id_user)
         html = ""
@@ -209,7 +212,8 @@ class ChangeStatusView(LoginRequiredMixin, View):
             Friendship.objects.get_or_create(
                 from_user=request.user,
                 to_user=user_object,
-                status='pending'
+
+                defaults={'status': 'pending'}
             )
 
             # html = render_to_string('user_app/particles/friends_page/friends_cards.html', {
@@ -234,6 +238,19 @@ class ChangeStatusView(LoginRequiredMixin, View):
                     request=request
                 )
 
+        elif status == 'desmissed':
+            Friendship.objects.filter(
+                from_user=request.user,
+                to_user=user_object,
+                status='pending'
+            ).delete()
+
+            Friendship.objects.filter(
+                from_user=user_object,  
+                to_user=request.user,
+                status='pending'
+            ).delete()
+
         return JsonResponse({'success': True, 'html': html})
     
 class UserData(LoginRequiredMixin, View):
@@ -245,6 +262,7 @@ class UserData(LoginRequiredMixin, View):
             count_from_user = len(Friendship.objects.filter(from_user = user_object, status = "accepted").all())
             count_to_user = len(Friendship.objects.filter(to_user = user_object, status = "accepted").all())
 
+        
             user_data = {
                 'username': user_object.username,
                 'pseudonym': user_object.userprofile.pseudonym,

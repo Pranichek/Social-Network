@@ -17,14 +17,14 @@
 
         <div class="bottom-data">
             {% if section == 'requests' %}
-                <button class="first-button accepted-btn" value="{{ person.id }}" id="button-card">Підтвердити</button>
-            {%elif section == 'recommendations' %}
-                <button class="first-button add-btn" value="{{ person.id }}" id="button-card">Додати</button>
-            {%elif section == 'friends' %}
-                <button class="first-button">Повідомлення</button>
+                <button class="first-button accepted-btn button-card" data-action="accepted" value="{{ person.id }}">Підтвердити</button>
+            {% elif section == 'recommendations' %}
+                <button class="first-button add-btn button-card" data-action="add" value="{{ person.id }}">Додати</button>
+            {% elif section == 'friends' %}
+                <button class="first-button button-card" data-action="message" value="{{ person.id }}">Повідомлення</button>
             {% endif %}
             
-            <button class="second-button">Видалити</button>
+            <button class="second-button" data-action="delete" value="{{ person.id }}">Видалити</button>
         </div>
     
     </div>
