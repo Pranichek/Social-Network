@@ -1,0 +1,85 @@
+.accept-action{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    background-color: #FFFFFF;
+    border-radius: 2.08vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3.75vh;
+    padding: 4.58vh 3.05vw;
+    min-height: 26.8vh;
+    min-width: 33.9vw;
+}
+
+.pre-text{
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.title-accept{
+    font-weight: 500;
+    font-size: 3.54vh;
+    color: #070A1C;
+}
+
+.accept-modal-buttons {
+    height: 4.17vh;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 1.1vw;
+}
+
+.accept-modal-buttons button {
+    height: 100%;
+    border-radius: 128.54vh;
+    padding: 1.04vh 1.1vw;
+    border: 0.08vw #543C52 solid;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.45vh;
+}
+
+.decline-btn {
+    color: #543C52;
+    background-color: #FFFFFF;
+}
+
+.decline-btn:hover{
+    cursor: pointer;
+    background-color: #E9E5EE;
+}
+
+.accept-btn {
+    color: #FFFFFF;
+    background-color: #543C52;
+}
+
+.accept-btn:hover{
+    background-color: #3E2D3C;
+    cursor: pointer;
+}
+
+.user_posts{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    overflow-y: scroll;
+    gap: 0.83vh;
+}
+
+.hidden{
+    display: none;
+}
