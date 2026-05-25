@@ -16,75 +16,13 @@
     <input class="search-contact" type="text" placeholder="Пошук">
 
     <div class="all-contacts">
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
+        {% for friend in users_list %}
+            <div class="card-contact">
+                <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
+                <p>{{ friend.username }}</p>
+            </div>
+        {% endfor %}
 
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-
+        
     </div>
 </div>

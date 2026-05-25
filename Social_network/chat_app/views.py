@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
+from user_app.services.friends_queries import get_friends
 
 
 # Create your views here.
@@ -12,5 +13,5 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['add_member_form'] = AddChatMemberForm()
         context['create_group_form'] = CreateGroupChatForm()
         context['group_chat_update_form'] = GroupChatUpdateForm()
-
+        context['users_list'] = get_friends(self.request.user)
         return context
