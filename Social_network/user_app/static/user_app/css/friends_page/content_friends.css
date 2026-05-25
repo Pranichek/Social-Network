@@ -131,6 +131,8 @@
 .bottom-data {
     height: 4.17vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 1.1vw;
 }
 .bottom-data button {
