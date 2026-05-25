@@ -12,5 +12,6 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['add_member_form'] = AddChatMemberForm()
         context['create_group_form'] = CreateGroupChatForm()
         context['group_chat_update_form'] = GroupChatUpdateForm()
+        
 
         return context
