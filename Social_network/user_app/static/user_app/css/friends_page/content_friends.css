@@ -1,6 +1,7 @@
 .content, .friends-main{
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
     gap: 0.83vh;
 }
 
@@ -163,6 +164,7 @@
     background-color: #FFFFFF;
 }
 
+<<<<<<< HEAD
 .second-button:hover{
     cursor: pointer;
     background-color: #E9E5EE;
@@ -173,8 +175,40 @@
     width: 100%;
     height: 40px;
 }
+<<<<<<< HEAD
 
 
 .hidden{
     display: none;
 }
+=======
+=======
+=======
+}
+.main-link-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+.request-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+.recomendation-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+.all-friends-text{
+    font-size: 1.67vh;
+    font-weight: 400;
+    color: black;
+    text-decoration: none;
+}
+>>>>>>> c3c9cc5c4848e83ef5afb0dce58b4cb671cfeacc
+>>>>>>> a8e3fd5a4b77858f883915395b33177d53b70d06
+>>>>>>> b321fa7619b6980e3e16bfd8232c304022975e53
