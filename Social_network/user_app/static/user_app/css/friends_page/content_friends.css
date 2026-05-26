@@ -158,7 +158,7 @@
     background-color: #543C52;
 }
 
-.first-button:hover{
+.first-button:hover, .accept-button:hover{
     background-color: #3E2D3C;
     cursor: pointer;
 }
