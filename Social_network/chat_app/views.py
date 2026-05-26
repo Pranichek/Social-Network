@@ -9,7 +9,8 @@ class ChatView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['add_member_form'] = AddChatMemberForm()
+        context['header'] = 'Додати участника'
+        # context['avatar'] = 
         context['create_group_form'] = CreateGroupChatForm()
         context['group_chat_update_form'] = GroupChatUpdateForm()
 

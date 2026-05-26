@@ -1,3 +1,124 @@
-<form method = 'post' action="">
-    <p>{{ add_member_form.as_p }}</p>
-</form>
+{% load static %}
+
+<div class="modal-shadow">
+    <div class="modal-container">
+        
+        <div class="modal-close-wrapper">
+            <img src="{% static 'chat_app/images/modal_add_member/x.png' %}" alt="Закрыть" class="modal-close-icon">
+        </div>
+
+        <h2 class="modal-header">{{ header }}</h2>
+
+        <div class="inputs-container">
+            <div class="search">
+                <img src="{% static 'chat_app/images/modal_add_member/search.png' %}" alt="Пошук" class="search-icon">
+                <input type="text" name="search" placeholder="Пошук">
+            </div>
+        </div>
+
+        <p class="selected-count">Вибрано: 3</p>
+
+        <div class="main-content">
+            <div class="users-list">
+                
+                <p class="group-letter">А</p>
+                
+                <label class="user-data">
+                    <div class="avatar-wrapper">
+                        <img class="avatar-img" src="{% static 'chat_app/images/modal_add_member/avatar.png' %}" alt="">
+                        
+                        <span class="status-indicator"></span>
+                    </div>
+                    
+                    <p class="username">{{ user.username }}</p>
+                    
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="real-checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                </label>
+
+                <label class="user-data">
+                    <div class="avatar-wrapper">
+                        <img class="avatar-img" src="{% static 'chat_app/images/modal_add_member/avatar.png' %}" alt="">
+                        <span class="status-indicator"></span>
+                    </div>
+                    <p class="username">{{ user.username }}</p>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="real-checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                </label>
+                
+                <p class="group-letter">Б</p>
+
+                <label class="user-data">
+                    <div class="avatar-wrapper">
+                        <img class="avatar-img" src="{% static 'chat_app/images/modal_add_member/avatar.png' %}" alt="">
+                        <span class="status-indicator"></span>
+                    </div>
+                    <p class="username">{{ user.username }}</p>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="real-checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                </label>
+
+                 <label class="user-data">
+                    <div class="avatar-wrapper">
+                        <img class="avatar-img" src="{% static 'chat_app/images/modal_add_member/avatar.png' %}" alt="">
+                        <span class="status-indicator"></span>
+                    </div>
+                    <p class="username">{{ user.username }}</p>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="real-checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                </label>
+
+                 <label class="user-data">
+                    <div class="avatar-wrapper">
+                        <img class="avatar-img" src="{% static 'chat_app/images/modal_add_member/avatar.png' %}" alt="">
+                        <span class="status-indicator"></span>
+                    </div>
+                    <p class="username">{{ user.username }}</p>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="real-checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                </label>
+
+                 <label class="user-data">
+                    <div class="avatar-wrapper">
+                        <img class="avatar-img" src="{% static 'chat_app/images/modal_add_member/avatar.png' %}" alt="">
+                        <span class="status-indicator"></span>
+                    </div>
+                    <p class="username">{{ user.username }}</p>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="real-checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                </label>
+
+                 <label class="user-data">
+                    <div class="avatar-wrapper">
+                        <img class="avatar-img" src="{% static 'chat_app/images/modal_add_member/avatar.png' %}" alt="">
+                        <span class="status-indicator"></span>
+                    </div>
+                    <p class="username">{{ user.username }}</p>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" class="real-checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                </label>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-cancel">Скасувати</button>
+            <button class="btn btn-save">Зберегти</button>
+        </div>
+
+    </div>
+</div>
