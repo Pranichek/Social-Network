@@ -59,14 +59,24 @@ allButtons.forEach(button => {
         
         if (responseData.ok) {
             const dataInfo = await responseData.json()
-            document.querySelector(".username-card").textContent = dataInfo.user_data.pseudonym
-            document.querySelector(".nickname").textContent = dataInfo.user_data.username
-            document.querySelector(".number-posts").textContent = dataInfo.user_data.count_posts
-            document.querySelector(".number-friends").textContent = dataInfo.user_data.count_friends
+            // ... твой код обновления текста ...
 
-            const delBtn = document.getElementById("delete-btn")
-            if (delBtn) {
-                delBtn.value = idPerson
+            if (delBtn) delBtn.value = idPerson
+
+            if (acceptProfileBtn) {
+                acceptProfileBtn.value = idPerson 
+                
+                // НОВАЯ ЛОГИКА: Смотрим, какую кнопку в карточке нажали, и задаем действие
+                if (button.classList.contains('add-btn')) {
+                    acceptProfileBtn.setAttribute('data-action', 'add')
+                    acceptProfileBtn.textContent = 'Додати' // Меняем текст на кнопке профиля
+                } else if (button.classList.contains('accepted-btn')) {
+                    acceptProfileBtn.setAttribute('data-action', 'accepted')
+                    acceptProfileBtn.textContent = 'Підтвердити' // Меняем текст на кнопке профиля
+                } else {
+                    // На случай, если это уже друг
+                    acceptProfileBtn.setAttribute('data-action', '')
+                }
             }
         }
 

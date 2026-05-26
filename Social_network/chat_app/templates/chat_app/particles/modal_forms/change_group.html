@@ -1,3 +1,95 @@
-<form method = 'post' enctype="multipart/form-data">
-    <p>{{group_chat_update_form.as_p}}</p>
+{% load static %}
+
+<form class="change-group-form" method = 'post' enctype="multipart/form-data">
+
+    <div class="cross-part">
+        <img src="{% static 'chat_app/images/modals_chat/cross-icon.svg' %}" alt="">
+    </div>
+    
+    <p class="main-text">Редагування групи</p>
+
+    <div class="input-data">
+        <label for="input">Назва</label>
+        <input type="text" placeholder="Назва групи">
+    </div>
+
+    <div class="group-member">
+        
+        <div class="circle-icon">
+            <p>NG</p>
+        </div>
+
+        <div class="group-details">
+
+            <div>
+                <img src="{% static 'chat_app/images/modals_chat/plus-icon.svg' %}" alt="">
+                <button>Додайте фото</button>
+            </div>
+
+            <div>
+                <img src="{% static 'chat_app/images/modals_chat/img-icon.svg' %}" alt="">
+                <button>Оберіть фото</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="members">
+
+        <div class="member-header">
+            <p>Учасники</p>
+
+            <div>
+                <img src="{% static 'chat_app/images/modals_chat/plus-icon.svg' %}" alt="">
+                <button>Додайте учасника</button>
+            </div>
+        </div>
+
+        <div class="member-list">
+
+            <div class="member-card">
+                <div class="circle-icon card-circle">
+                    <p>NG</p>
+                </div>
+                
+                <div class="member-info">
+                    <p>Аeslie Alexander</p>
+
+                    <img src="{% static 'chat_app/images/modals_chat/trash-icon.svg' %}" alt="">
+                </div>
+            </div>
+            
+            <div class="member-card">
+                <div class="circle-icon">
+                    <p>NG</p>
+                </div>
+                
+                <div class="member-info">
+                    <p>Аeslie Alexander</p>
+
+                    <img src="{% static 'chat_app/images/modals_chat/trash-icon.svg' %}" alt="">
+                </div>
+            </div>
+
+            <div class="member-card">
+                <div class="circle-icon">
+                    <p>NG</p>
+                </div>
+                
+                <div class="member-info">
+                    <p>Аeslie Alexander</p>
+
+                    <img src="{% static 'chat_app/images/modals_chat/trash-icon.svg' %}" alt="">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="action-buttons">
+        <button class="first-button">Назад</button>
+        <button class="second-button">Зберегти зміни</button>
+    </div>
+
 </form>

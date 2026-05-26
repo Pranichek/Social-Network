@@ -208,9 +208,11 @@ class ChangeStatusView(LoginRequiredMixin, View):
         html = ""
 
         if status == 'add':
+            print(11)
             query = add_friend_request(current_user = self.request.user, other_user = user_object)
 
         elif status == 'accepted':
+            print(223)
             query = accept_friend_request(current_user = self.request.user, other_user = user_object)
 
             html = render_to_string(
@@ -218,6 +220,8 @@ class ChangeStatusView(LoginRequiredMixin, View):
                 context={'users': [query.get('friend')], 'section': 'friends'}, 
                 request=request
             )
+
+
         elif status == "delete":
             any_delete(current_user=self.request.user, to_user=user_object)
             
