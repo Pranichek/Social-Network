@@ -1,4 +1,5 @@
-const buttons = document.querySelectorAll('.button-card')
+const buttons = document.querySelectorAll('#button-card')
+console.log(buttons)
 
 async function friendShipStatus(id, status) {
     try {
@@ -12,30 +13,30 @@ async function friendShipStatus(id, status) {
         
         return { success: false }
     } catch (error) {
-        console.error('Ошибка:', error)
+        console.error(error)
         return { success: false }
     }
 }
 
 window.friendShipStatus = friendShipStatus
 
-buttons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        e.stopPropagation() 
-
-        const idPerson = button.value
-        let status
+// buttons.forEach(button => {
+//     console.log(67)
+//     button.addEventListener('click', (e) => {
+//         let status
         
-        if (button.classList.contains('accepted-btn')) {
-            status = 'accepted'
-        } else if (button.classList.contains('add-btn')) {
-            status = 'add'
-        } else if (button.classList.contains('decline-btn')) {
-            status = 'delete'
-        } else {
-            return
-        }
+//         if (button.classList.contains('accepted-btn')) {
+//             status = 'accepted'
+//         } else if (button.classList.contains('add-btn')) {
+//             console.log(83)
+//             status = 'add'
+//         } else if (button.classList.contains('decline-btn')) {
+//             console.log(23)
+//             status = 'delete'
+//         } else {
+//             console.log(99) 
+//             return
+//         }        
         
-        openModal(status, idPerson)
-    })
-})
+//     })
+// })

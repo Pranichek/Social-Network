@@ -8,7 +8,7 @@
 .texting-box{
     flex: 1;
     border-radius: 0.694vw; 
-    border: 0.08vw #CDCED2 solid;
+    border: 0.07vw #CDCED2 solid;
     display: flex;
     flex-direction: column;
     justify-content: center;

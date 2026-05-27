@@ -51,12 +51,12 @@
     color: #070A1C;
 }
 
-.input-data input {
+.input-data input, .search-input{
     width: 100%;
     height: 4.375vh;
     padding: 1.04vh 1.11vw;
     gap: 1.04vh;
-    border: 0.08vw #81818D solid;
+    border: 0.07vw #CDCED2 solid;
     border-radius: 1.04vh;
     font-weight: 400;
     font-size: 1.67vh;
@@ -83,6 +83,12 @@
     background-color: #543C52;
     /* співвідношення сторін */
     aspect-ratio: 1 / 1;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.circle-icon img{
+    height: 100%;
 }
 
 .group-details{
@@ -120,7 +126,7 @@
     border-radius: 0.625vh;
     padding: 1.67vh 1.11vw;
     gap: 1.67vh;
-    border: 0.08vw solid #CDCED2;
+    border: 0.07vw solid #CDCED2;
 }
 .member-header{
     width: 100%;
@@ -199,7 +205,7 @@
     height: 100%;
     border-radius: 128.54vh;
     padding: 1.04vh 1.1vw;
-    border: 0.08vw #543C52 solid;
+    border: 0.07vw #543C52 solid;
     text-align: center;
     display: flex;
     justify-content: center;

@@ -42,10 +42,8 @@ if (delBtn) {
 
 if (acceptProfileBtn) {
     acceptProfileBtn.addEventListener('click', () => {
-        // Берем действие, которое мы сохранили при открытии профиля
         const action = acceptProfileBtn.getAttribute('data-action')
         
-        // Открываем модалку только если действие есть
         if (action) {
             openModal(action, acceptProfileBtn.value)
         }
@@ -66,44 +64,51 @@ if (acceptBtn) {
         const data = await window.friendShipStatus(pendingUserId, pendingAction)
 
         if (data && data.success) {
+            const targetUserId = pendingUserId;
+            const targetAction = pendingAction
+
             closeModal()
 
-            if (typeof profileBlock !== 'undefined' && profileBlock) {
-                profileBlock.classList.add("hidden")
-            }
+            profileBlock.classList.add("hidden")
+            
 
-            if (typeof elementsForFriends !== 'undefined') {
-                elementsForFriends.forEach(element => {
-                    if (element && element.classList.contains('hidden') && element.id !== 'section') {
-                        element.classList.remove("hidden")
-                    }
-                })
-            }
+            elementsForFriends.forEach(element => {
+                if (element && element.classList.contains('hidden') && element.id != 'section') {
+                    element.classList.remove("hidden")
+                }
+            })
+            
 
-            if (typeof friendPostList !== 'undefined' && friendPostList) {
+            if (friendPostList) {
                 friendPostList.innerHTML = ""
             }
             
-            if (typeof friendSentinel !== 'undefined' && friendSentinel && typeof friendObserver !== 'undefined') {
+            if (typeof friendSentinel != 'undefined' && friendSentinel && typeof friendObserver != 'undefined') {
                 friendObserver.unobserve(friendSentinel)
-            }
+            }   
 
-            const deletedUserCard = document.querySelector(`.person-card button[value="${pendingUserId}"]`)
+
+            const deletedUserCard = document.querySelector(`.person-card .bottom-data button[value="${targetUserId}"]`);        
+            
             
             if (deletedUserCard) {
                 const cardElement = deletedUserCard.closest('.person-card')
-                if (cardElement) cardElement.remove()
+                cardElement.remove()
+
+                // щоб поверталося до головної секції якщо при видаленні або додавні користувача він був не на гловній вкладці
+                document.querySelector(".main-link").click()
             }
 
-            if (pendingAction === 'accepted' && data.html) {                
+            if (targetAction == 'accepted' && data.html) {                
                 const friendsContainer = document.getElementById('cards-friends')
                 if (friendsContainer) friendsContainer.insertAdjacentHTML('afterbegin', data.html)
             }
             
-            if (pendingAction === 'delete' && data.html) {
+            if (targetAction == 'delete' && data.html) {
                 const recommendationsContainer = document.getElementById('cards-recommendations')
                 if (recommendationsContainer) recommendationsContainer.insertAdjacentHTML('afterbegin', data.html)
             }
+
         }
 
         acceptBtn.disabled = false

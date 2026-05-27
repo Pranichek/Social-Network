@@ -64,6 +64,8 @@ function OpenMain() {
     hasNextPage = false
 }
 
+window.OpenMain = OpenMain
+
 const observer = new IntersectionObserver(
     async (entries) => {
         if (entries[0].isIntersecting && hasNextPage && !isLoading) {
@@ -82,9 +84,22 @@ if (backMain) backMain.addEventListener('click', OpenMain)
 sectionButtons.forEach(button => {
     button.addEventListener('click', async () => {
 
-        if (button.classList.contains('main-link')) OpenMain()
-        else await openSection(button.dataset.sectionLink)
+        if (button.classList.contains('main-link')) {
+            OpenMain()
 
+            document.querySelectorAll(".section-button").forEach(selectBtn => {
+                selectBtn.style.display = 'flex'
+            })
+        }
+        else {
+            await openSection(button.dataset.sectionLink)
+
+            document.querySelectorAll(".section-button").forEach(selectBtn => {
+                selectBtn.style.display = 'none'
+            })
+        }
+
+        
         sectionButtons.forEach(btn => {
             if (btn.classList.contains('bottom-line')) btn.classList.remove('bottom-line')
             

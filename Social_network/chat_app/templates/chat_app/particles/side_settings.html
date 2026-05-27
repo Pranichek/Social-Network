@@ -13,7 +13,11 @@
         <p>Контакти</p>
     </div>
 
-    <input class="search-contact" type="text" placeholder="Пошук">
+    <div class="search-container">
+        <img src="{% static 'chat_app/images/modals_chat/search-icon.svg' %}" class="search-icon" alt="search">
+        <input type="text" class="search-input search-contact" placeholder="Пошук">
+    </div>
+
 
     <div class="all-contacts">
         {% for friend in friends %}
