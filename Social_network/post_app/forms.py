@@ -141,7 +141,7 @@ class PostForm(forms.ModelForm):
 
         quality = 85
         width, height = image.size
-        MAX_COMPRESSED_IMAGE_SIZE = 5 * 1024 * 1024
+        MAX_COMPRESSED_IMAGE_SIZE = 2 * 1024 * 1024
         
         while True:
             buffer = BytesIO()

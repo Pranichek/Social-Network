@@ -53,6 +53,10 @@ def any_delete(current_user, to_user):
     if friendship:
         if friendship.status == 'accepted' or friendship.status == "pending":
             friendship.delete()
+
+        return {
+            'remove': True
+        }
         # else:
         #     friendship.status = 'status'
         #     friendship.save()
@@ -62,10 +66,12 @@ def any_delete(current_user, to_user):
             to_user = to_user,
             defaults = {'status': 'dismissed'}
         )
-        
-    return {
-        'remove': True
-    }
+
+        return {
+            'remove': False
+        }
+
+    
 
 
 # def delete_friendship(current_user, to_user):

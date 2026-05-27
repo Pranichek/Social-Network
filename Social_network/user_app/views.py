@@ -3,7 +3,7 @@ from .services.generate_code import generate_user_code
 from user_app.services.friends_queries import *
 from .models import Friendship, User
 from post_app.models import Post
-from .services.friend_actions import add_friend_request, accept_friend_request, any_delete
+from .services.friend_actions import add_friend_request, accept_friend_request, any_delete,dismiss_recommendation   
 
 
 from django.views.generic import TemplateView , View, ListView
@@ -208,11 +208,9 @@ class ChangeStatusView(LoginRequiredMixin, View):
         html = ""
 
         if status == 'add':
-            print(11)
             query = add_friend_request(current_user = self.request.user, other_user = user_object)
 
         elif status == 'accepted':
-            print(223)
             query = accept_friend_request(current_user = self.request.user, other_user = user_object)
 
             html = render_to_string(
@@ -223,27 +221,18 @@ class ChangeStatusView(LoginRequiredMixin, View):
 
 
         elif status == "delete":
-            any_delete(current_user=self.request.user, to_user=user_object)
+            check = any_delete(current_user=self.request.user, to_user=user_object)
             
-            html = render_to_string(
-                'user_app/particles/friends_page/friends_cards.html', 
-                context={'users': [user_object], 'section': 'recommendations'}, 
-                request=request
-            )
-            # friendship = Friendship.objects.filter(
-            #     from_user=user_object,
-            #     to_user=request.user,
-            #     status='pending'
-            # ).first()
+            if check.get("remove"):
+                html = render_to_string(
+                    'user_app/particles/friends_page/friends_cards.html', 
+                    context={'users': [user_object], 'section': 'recommendations'}, 
+                    request=request
+                )
 
-            
-
-            # if friendship:
-            #     friendship.status = 'accepted'
-            #     friendship.save()
-                
-
-        
+        elif status == "dismiss":
+            dismiss_recommendation(current_user=self.request.user, other_user=user_object)
+            html = ""
 
         return JsonResponse({'success': True, 'html': html})
     
