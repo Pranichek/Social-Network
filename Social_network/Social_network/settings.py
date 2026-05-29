@@ -46,6 +46,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,6 +59,14 @@ INSTALLED_APPS = [
     'profile_app',
     'chat_app'
 ]
+
+ASGI_APPLICATION = 'Social_network.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,6 +97,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Social_network.wsgi.application'
+
 
 AUTH_USER_MODEL = 'user_app.User'
 
