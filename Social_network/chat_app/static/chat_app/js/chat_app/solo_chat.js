@@ -7,8 +7,7 @@ const chatButtons = document.querySelectorAll('.card-contact')
 
 
 async function openChatWithUser(userId, username) {
-    console.log(userId)
-    console.log(username)
+
     const response = await fetch(`/chat/chat_with/${userId}/`, {
         method: 'POST',
         headers: {'X-CSRFToken': CSRFToken},
@@ -19,6 +18,8 @@ async function openChatWithUser(userId, username) {
     if (data.success){
         chatTitle.textContent = `Чат з ${username}`
         connectWebSocket(data.chat_id)
+
+        
     }
 }
 
