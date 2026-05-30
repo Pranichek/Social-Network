@@ -2,20 +2,22 @@ from .services.send_email import generate_mail
 from .services.generate_code import generate_user_code
 from user_app.services.friends_queries import *
 from .models import Friendship, User
+from post_app.models import Post
+from .services.friend_actions import add_friend_request, accept_friend_request, any_delete,dismiss_recommendation   
 
 
-from django.views.generic import TemplateView , View
+from django.views.generic import TemplateView , View, ListView
 from .forms import RegistrationForm, LoginForm, ConfirmEmailForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import  login
 from django.http import JsonResponse
 import threading
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Page
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
-
 
 
 
@@ -201,55 +203,36 @@ class SectionsView(LoginRequiredMixin, View):
 
 class ChangeStatusView(LoginRequiredMixin, View):
     def get(self, request, status, *args, **kwargs):
-
-        print(status)
-
         id_user = request.GET.get('id', 1)
         user_object = get_object_or_404(User, id=id_user)
         html = ""
 
         if status == 'add':
-            Friendship.objects.get_or_create(
-                from_user=request.user,
-                to_user=user_object,
-
-                defaults={'status': 'pending'}
-            )
-
-            # html = render_to_string('user_app/particles/friends_page/friends_cards.html', {
-            #     'users': [user_object],
-            #     'section': 'requests'
-            # }, request=request)
+            query = add_friend_request(current_user = self.request.user, other_user = user_object)
 
         elif status == 'accepted':
-            friendship = Friendship.objects.filter(
-                from_user=user_object,
-                to_user=request.user,
-                status='pending'
-            ).first()
+            query = accept_friend_request(current_user = self.request.user, other_user = user_object)
 
-            if friendship:
-                friendship.status = 'accepted'
-                friendship.save()
-                
+            html = render_to_string(
+                'user_app/particles/friends_page/friends_cards.html', 
+                context={'users': [query.get('friend')], 'section': 'friends'}, 
+                request=request
+            )
+
+
+        elif status == "delete":
+            check = any_delete(current_user=self.request.user, to_user=user_object)
+            
+            if check.get("remove"):
                 html = render_to_string(
                     'user_app/particles/friends_page/friends_cards.html', 
-                    context={'users': [user_object], 'section': 'friends'}, 
+                    context={'users': [user_object], 'section': 'recommendations'}, 
                     request=request
                 )
 
-        elif status == 'desmissed':
-            Friendship.objects.filter(
-                from_user=request.user,
-                to_user=user_object,
-                status='pending'
-            ).delete()
-
-            Friendship.objects.filter(
-                from_user=user_object,  
-                to_user=request.user,
-                status='pending'
-            ).delete()
+        elif status == "dismiss":
+            dismiss_recommendation(current_user=self.request.user, other_user=user_object)
+            html = ""
 
         return JsonResponse({'success': True, 'html': html})
     
@@ -262,7 +245,6 @@ class UserData(LoginRequiredMixin, View):
             count_from_user = len(Friendship.objects.filter(from_user = user_object, status = "accepted").all())
             count_to_user = len(Friendship.objects.filter(to_user = user_object, status = "accepted").all())
 
-        
             user_data = {
                 'username': user_object.username,
                 'pseudonym': user_object.userprofile.pseudonym,
@@ -274,7 +256,37 @@ class UserData(LoginRequiredMixin, View):
             return JsonResponse({"user_data": user_data})
 
         
-    
+class FriendPostsView(LoginRequiredMixin, ListView):
+    model = Post
+    paginate_by = 3
+    context_object_name = 'posts'
 
-           
-            
+    def get_queryset(self):
+        user_id = self.request.GET.get('user_id')
+        friend = get_object_or_404(User, id=user_id)
+        
+        return (
+            Post.objects.filter(author=friend)
+            .select_related('author')
+            .prefetch_related('tags', 'links', 'images')
+            .order_by('-id')
+        )
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.headers.get("x-requested-with") == "XMLHttpRequest":
+            page_obj: Page = context["page_obj"]
+
+            html = ""
+            for post in context["posts"]:
+                html += render_to_string(
+                    "post_app/particles/post/post_item.html",
+                    {"post": post, "user": self.request.user}, 
+                    request=self.request
+                )
+
+            return JsonResponse({
+                "html": html,
+                "has_next": page_obj.has_next()
+            })
+        
+        return JsonResponse({"error": "Помилка"}, status=400)

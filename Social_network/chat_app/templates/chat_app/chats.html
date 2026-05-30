@@ -14,7 +14,17 @@
     <link rel="stylesheet" href="{% static 'chat_app/css/alert_container.css' %}">
     <link rel="stylesheet" href="{% static 'chat_app/css/main_block.css' %}">
     <link rel="stylesheet" href="{% static 'chat_app/css/add_member.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/change_group.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/create_group.css' %}">
 {% endblock links %}
+
+{% block modal-windows %}
+    <div id="welcome-shadow" class="shadow hidden"></div>
+
+    {% include 'chat_app/particles/modal_forms/create_group.html' %}
+    {% include 'chat_app/particles/modal_forms/create_group_finish.html' %}
+    {% include 'chat_app/particles/modal_forms/change_group.html' %} 
+{% endblock modal-windows %}
 
 {% block side-menu %}
     {% include 'chat_app/particles/side_settings.html' %}
@@ -27,3 +37,10 @@
     {% include 'chat_app/particles/modal_forms/change_group.html' %} 
     {% include 'chat_app/particles/modal_forms/create_group.html' %} 
 {% endblock content %}
+    {% include 'chat_app/particles/alert_container.html' %}  
+{% endblock content %}
+
+{% block scripts %}
+    <script src = "{% static 'chat_app/js/chat_app/change_modals.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/solo_chat.js' %}"></script>
+{% endblock scripts %}

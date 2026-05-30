@@ -1,0 +1,235 @@
+.change-group-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5vh 3.05vw;
+    border-radius: 2.08vh;
+    gap: 2.5vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    background-color: #FFFFFF;
+    min-width: 34vw;
+    min-height: 69.68vh;
+}
+
+
+.cross-part {
+    width: 100%;
+    height: 2.08vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.cross-part img {
+    height: 100%;
+    
+}
+
+.main-text {
+    font-weight: 500;
+    font-size: 3.54vh;
+    color: #070A1C;
+}
+
+.input-data {
+    width: 100%;
+    height: 6.875vh;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.input-data label {
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.input-data input, .search-input{
+    width: 100%;
+    height: 4.375vh;
+    padding: 1.04vh 1.11vw;
+    gap: 1.04vh;
+    border: 0.07vw #CDCED2 solid;
+    border-radius: 1.04vh;
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.group-member{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5vh;
+}
+
+.circle-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #FFFFFF;
+    height: 4.8vh;
+    border-radius: 50%;
+    background-color: #543C52;
+    /* співвідношення сторін */
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.circle-icon img{
+    height: 100%;
+}
+
+.group-details{
+    display: flex;
+    flex-direction: row;
+    gap: 1.67vw;
+    height: 2.08vh;
+}
+
+.group-details div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.55vw;
+    height: 100%;
+}
+
+.group-details img{
+    height: 100%;
+}
+
+.group-details button{
+    border: none;
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #543C52;
+}
+
+.members{
+    width: 100%;
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    border-radius: 0.625vh;
+    padding: 1.67vh 1.11vw;
+    gap: 1.67vh;
+    border: 0.07vw solid #CDCED2;
+}
+.member-header{
+    width: 100%;
+    height: 2.08vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.member-header p{
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+.member-header div{
+    height: 100%;
+    gap: 0.55vw;
+    display: flex;
+    align-items: center;
+}
+.member-header div img{
+    height: 100%;
+}
+
+.member-header div button {
+    font-weight: 500;
+    font-size: 1.67vh;
+    
+    border: none;
+    background-color: transparent;
+}
+
+.member-list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.04vh;
+}
+.member-card {
+    width: 100%;
+    height: 4.8vh;
+    display: flex;
+    align-items: center;
+    gap: 0.83vw;
+
+}
+.member-info {
+    width: 100%;
+    height: 2.08vh;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.3vw;
+}
+.member-info p {
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+.member-info img {
+    height: 100%;
+}
+.card-circle{
+    height: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.action-buttons {
+    width: 100%;
+    height: 4.17vh;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    gap: 1.1vw;
+}
+.action-buttons button {
+    height: 100%;
+    border-radius: 128.54vh;
+    padding: 1.04vh 1.1vw;
+    border: 0.07vw #543C52 solid;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.45vh;
+}
+
+.first-button {
+    color: #543C52;
+    background-color: #FFFFFF;
+}
+
+.first-button:hover{
+    cursor: pointer;
+    background-color: #E9E5EE;
+}
+
+.second-button{
+    color: #FFFFFF;
+    background-color: #543C52;
+}
+
+.second-button:hover{
+    background-color: #3E2D3C;
+    cursor: pointer;
+}

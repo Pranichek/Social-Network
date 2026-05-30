@@ -34,7 +34,7 @@
     flex-grow: 1;
     background-color: #FFFFFF;
     border-radius: 0.694vw; 
-    border: 0.08vw #CDCED2 solid;
+    border: 0.07vw #CDCED2 solid;
     padding: 1.67vh;
     gap: 2.5vh;
     display: flex;
@@ -66,11 +66,14 @@
     height: 4.375vh;
     width: 100%;
     border-radius: 0.694vw; 
-    border: 0.08vw #CDCED2 solid;
+    border: 0.07vw #CDCED2 solid;
     color: #81818D;
     padding: 1.04vh 1.11vw;
     gap: 0.69vw;
     outline: none;
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
 }
 
 .all-contacts{

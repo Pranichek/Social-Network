@@ -1,12 +1,10 @@
 {% load static %}
-
-<form class="change-group-form hidden" method = 'post' enctype="multipart/form-data">
-
+<form method="post" enctype="multipart/form-data" class="modal-form-create hidden" id = "finish-create">
     <div class="cross-part">
         <img id="close-modals" class="close-modals" src="{% static 'chat_app/images/modals_chat/cross-icon.svg' %}" alt="">
     </div>
-    
-    <p class="main-text">Редагування групи</p>
+
+    <p class="main-text">Нова група</p>
 
     <div class="input-data">
         <label for="input">Назва</label>
@@ -35,15 +33,10 @@
 
     </div>
 
-    <div class="members">
+    <div class="members memebers-finish">
 
         <div class="member-header">
             <p>Учасники</p>
-
-            <div>
-                <img src="{% static 'chat_app/images/modals_chat/plus-icon.svg' %}" alt="">
-                <button>Додайте учасника</button>
-            </div>
         </div>
 
         <div class="member-list">
@@ -74,7 +67,7 @@
 
             <div class="member-card">
                 <div class="circle-icon">
-                    <p>NG</p>
+                    <img src="{% static 'chat_app/images/modals_chat/avatar.svg' %}" alt="avatar-icon">
                 </div>
                 
                 <div class="member-info">
@@ -88,8 +81,7 @@
     </div>
 
     <div class="action-buttons">
-        <button class="first-button">Назад</button>
-        <button class="second-button">Зберегти зміни</button>
+        <button type="button" class="first-button change-modal">Назад</button>
+        <button type="button" class="second-button" id="close-modals">Створити групу</button>
     </div>
-
 </form>

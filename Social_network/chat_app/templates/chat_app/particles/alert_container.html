@@ -20,13 +20,13 @@
             {% for item in private_messages|slice:":5" %}
                 <div class="block-card {% if forloop.first %}active{% endif %}">
                     <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon">
-
                     <div class="text-data">
                         <div class="top-data">
                             <p class="nickname-card">Mona Lisa</p>
                             <p class="card-time">09:41</p>
                         </div>
-
+            <div class="block-card active">
+                <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon">
                         <div class="bottom-data">
                             <p>Привіт! Як справи ?</p>
                         </div>
@@ -52,6 +52,9 @@
             {% for item in group_messages %}
                 <div class="block-card {% if forloop.first %}active{% endif %}">
                     <img src="{% static 'chat_app/images/alert_conteiner/group-avatar.svg' %}" alt="avatar-icon">
+            
+            <div class="block-card active">
+                <img src="{% static 'chat_app/images/alert_conteiner/group-avatar.svg' %}" alt="avatar-icon">
 
                     <div class="text-data">
                         <div class="top-data">

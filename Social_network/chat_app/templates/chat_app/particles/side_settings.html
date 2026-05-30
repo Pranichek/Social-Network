@@ -13,78 +13,18 @@
         <p>Контакти</p>
     </div>
 
-    <input class="search-contact" type="text" placeholder="Пошук">
+    <div class="search-container">
+        <img src="{% static 'chat_app/images/modals_chat/search-icon.svg' %}" class="search-icon" alt="search">
+        <input type="text" class="search-input search-contact" placeholder="Пошук">
+    </div>
+
 
     <div class="all-contacts">
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-        <div class="card-contact">
-            <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
-            <p>Jane Cooper</p>
-        </div>
-
+        {% for friend in friends %}
+            <div class="card-contact" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.email }}">
+                <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
+                <p>{{ friend.username }}</p>
+            </div>
+        {% endfor %}
     </div>
 </div>

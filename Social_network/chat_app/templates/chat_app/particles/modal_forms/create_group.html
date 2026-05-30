@@ -1,13 +1,174 @@
-<form method="post" enctype="multipart/form-data" class="modal-form-create">
-    <!-- <div class="close-form">
-        <img src="" alt="">
+{% load static %}
+
+<form method="post" enctype="multipart/form-data" class="modal-form-create hidden">
+    <div class="cross-part">
+        <img id="close-modals" class="close-modals" src="{% static 'chat_app/images/modals_chat/cross-icon.svg' %}" alt="">
     </div>
 
-    <div>
-        <p></p>
+    <p class="main-text">Нова група</p>
+
+
+    <div class="search-container">
+        <img src="{% static 'chat_app/images/modals_chat/search-icon.svg' %}" class="search-icon" alt="search">
+        <input type="text" class="search-input" placeholder="Пошук">
     </div>
 
-    <div></div> -->
-    <p>{{create_group_form.as_p}}</p>
+    <div class="chocie-cont">
+        <p class="text-choice">Вибрано: 3</p>
+    </div>
     
+    <div class="choicen-list">
+
+        <div class="group-alpha">
+            <p class="title-section">А</p>
+
+            <div class="people-list">
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <p>NP</p>
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <p>NP</p>
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <img src="{% static 'chat_app/images/modals_chat/avatar.svg' %}" alt="avatar-icon">
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="group-alpha">
+            <p class="title-section">Б</p>
+
+            <div class="people-list">
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <p>NP</p>
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <img src="{% static 'chat_app/images/modals_chat/avatar.svg' %}" alt="avatar-icon">
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <img src="{% static 'chat_app/images/modals_chat/avatar.svg' %}" alt="avatar-icon">
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="group-alpha">
+            <p class="title-section">В</p>
+
+            <div class="people-list">
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <p>NP</p>
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <img src="{% static 'chat_app/images/modals_chat/avatar.svg' %}" alt="avatar-icon">
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+                <div class="participant-item">
+
+                    <div class="avatar-wrap">
+                        <img src="{% static 'chat_app/images/modals_chat/avatar.svg' %}" alt="avatar-icon">
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">Aeslie Alexander</span>
+
+                        <input type="checkbox" class="custom-checkbox">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="action-buttons">
+        <button type="button" id="close-modals" class="first-button">Скасувати</button>
+        <button type="button" class="second-button change-modal">Далі</button>
+    </div>
+>>>>>>> 117216799cc3c7ebfa5045b0608bc77ed926f318
 </form>
