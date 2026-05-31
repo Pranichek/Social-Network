@@ -38,7 +38,6 @@ window.friendShipStatus = friendShipStatus
 //             return
 //         }        
         
-<<<<<<< HEAD
         const data = await friendShipStatus(idPerson, status)
         
         if (data && data.success) {
@@ -52,9 +51,6 @@ window.friendShipStatus = friendShipStatus
                 }
             }
         }
-    })
-})
-=======
+    
 //     })
 // })
->>>>>>> 117216799cc3c7ebfa5045b0608bc77ed926f318

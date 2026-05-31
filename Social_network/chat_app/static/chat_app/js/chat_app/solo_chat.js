@@ -4,7 +4,9 @@ const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
 const chatTitle = document.getElementById('chat-title')
 const chatStatus = document.getElementById('chat-status')
 const chatButtons = document.querySelectorAll('.card-contact')
-
+const soloChat = document.getElementById('texting-box')
+const chat = document.getElementById('default')
+const backButton = document.getElementById('back')
 
 async function openChatWithUser(userId, username) {
     console.log(userId)
@@ -36,10 +38,17 @@ function connectWebSocket(chatId){
 }
 
 chatButtons.forEach(button => {
-    button.addEventListener('click',async () => {
+    button.addEventListener('click', async () => {
         await openChatWithUser(
             button.dataset.chatUser,
             button.dataset.chatUsername
         )
+        soloChat.classList.remove('hidden')
+        chat.classList.add('hidden') 
+    })
+    backButton.addEventListener('click', () => {
+        soloChat.classList.add('hidden')
+        chat.classList.remove('hidden')
     })
 });
+

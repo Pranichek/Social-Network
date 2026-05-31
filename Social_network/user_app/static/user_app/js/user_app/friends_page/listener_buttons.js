@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 const allButtons = document.querySelectorAll(".button-card")
-=======
 let currentFriendPage = 1
 let isFriendPostsLoading = false
 let currentFriendId = null
@@ -35,8 +33,6 @@ const friendObserver = new IntersectionObserver(async (entries) => {
     }
 }, { rootMargin: "200px" })
 
-const allButtons = document.querySelectorAll("#button-card")
->>>>>>> 117216799cc3c7ebfa5045b0608bc77ed926f318
 const sideMenu = document.getElementById('friends-nav')
 const friendsMain = document.getElementById('friends-main')
 const aloneSection = document.getElementById("section")
@@ -57,7 +53,6 @@ function closeProfile() {
     currentId = null
 }
 
-<<<<<<< HEAD
 allButtons.forEach(button => {
     button.addEventListener('click', async () => {
 
@@ -96,7 +91,9 @@ allButtons.forEach(button => {
 
         } catch (error) {
             console.error('Error fetching user data:', error)
-=======
+        }
+    })
+})
 // allButtons.forEach(button => {
 //     button.addEventListener('click', async () => {
 //         elementsForFriends.forEach(element => {
@@ -179,14 +176,13 @@ allButtons.forEach(button => {
 // ВИкористовуємо делегірованіе подій, щоб натискання відслідковувалося навіть на кнопки, які були добавленні через пагінацію
 document.addEventListener('click', async (event) => {
     console.log("lol")
-    const button = event.target.closest('#button-card')
+    const button = event.target.closest('.button-card')
     if (!button) return
 
 
     elementsForFriends.forEach(element => {
         if (element && !element.classList.contains('hidden')) {
             element.classList.add("hidden") 
->>>>>>> 117216799cc3c7ebfa5045b0608bc77ed926f318
         }
     })
     
@@ -194,68 +190,6 @@ document.addEventListener('click', async (event) => {
         profileBlock.classList.remove("hidden")
     }
 
-<<<<<<< HEAD
-if (profileAcceptButton) {
-    profileAcceptButton.addEventListener('click', async () => {
-
-        if (!currentUserId || !currentAction) return;
-
-        try {
-            const response = await fetch(`/settings/friends/change_status/${currentAction}/?id=${currentUserId}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-
-            const data = await response.json()
-
-            if (data.success) {
-                closeProfile()
-
-                const card = document.querySelector(`.button-card[value="${currentUserId}"]`).closest('.profile-block');
-
-                if (card) {
-                    const card = cardButton.closest('.card') || cardButton.closest('div'); 
-                    card.remove();
-                }
-            }
-
-        } catch (error) {
-            console.error(error)
-        }
-    })
-}
-
-if (profileDeleteButton) {
-    profileDeleteButton.addEventListener('click', async () => {
-
-        if (!currentUserId) return;
-
-        try {
-            const response = await fetch(`/settings/friends/change_status/desmissed/?id=${currentUserId}`, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-
-            const data = await response.json()
-
-            if (data.success) {
-                closeProfile()
-
-                const card = document.querySelector(`.button-card[value="${currentUserId}"]`).closest('.profile-block');
-
-                if (card) {
-                    card.remove();
-                }
-            }
-
-        } catch (error) {
-            console.error(error)
-        }
-    })
-}
-=======
     const idPerson = button.value
     
     const responseData = await fetch(`user_data/?user_id=${idPerson}`, {
@@ -320,5 +254,4 @@ if (profileDeleteButton) {
             }
         }
     }
-})
->>>>>>> 117216799cc3c7ebfa5045b0608bc77ed926f318
+    })

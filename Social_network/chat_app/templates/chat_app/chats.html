@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{% static 'chat_app/css/side_settings.css' %}">
     <link rel="stylesheet" href="{% static 'chat_app/css/alert_container.css' %}">
     <link rel="stylesheet" href="{% static 'chat_app/css/main_block.css' %}">
-    <link rel="stylesheet" href="{% static 'chat_app/css/add_member.css' %}">
     <link rel='stylesheet' href="{% static 'chat_app/css/change_group.css' %}">
     <link rel='stylesheet' href="{% static 'chat_app/css/create_group.css' %}">
 {% endblock links %}
@@ -32,11 +31,6 @@
 
 {% block content %}
     {% include 'chat_app/particles/main_block.html' %}
-    {% include 'chat_app/particles/alert_container.html' %}
-    {% include 'chat_app/particles/modal_forms/add_member.html' %}
-    {% include 'chat_app/particles/modal_forms/change_group.html' %} 
-    {% include 'chat_app/particles/modal_forms/create_group.html' %} 
-{% endblock content %}
     {% include 'chat_app/particles/alert_container.html' %}  
 {% endblock content %}
 
