@@ -1,11 +1,15 @@
 {% load static %}
 
 <div class="texting-box">
-    <div></div>
-
     <p class="start-talk" id="chat-title">Почніть нове спілкування</p>
     <p class="select-chat" id="chat-status">Оберіть контакт зі списку ліворуч <br> або створіть групу, щоб почати спілкування</p>
 
+    <div id="chat-window">
+        <div class="messeages" id="messeages"></div>
+        <form id="messeage-form" class="messeage-form">
+            <input type="text" id="messeage-input" placeholder="Повідомлення">
+            <button>Надіслати</button>
+        </form>
+    </div>
 
-    <div></div>
 </div>
