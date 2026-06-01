@@ -4,6 +4,10 @@ const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
 const chatTitle = document.getElementById('chat-title')
 const chatStatus = document.getElementById('chat-status')
 const chatButtons = document.querySelectorAll('.card-contact')
+const chatWindow = document.querySelector("#chat-window")
+const messages = document.querySelector("#messeages")
+const messageForm = document.querySelector("#messeage-form")
+const messageInput = document.getElementById("messeage-input")
 
 
 async function openChatWithUser(userId, username) {
@@ -17,9 +21,10 @@ async function openChatWithUser(userId, username) {
     
     if (data.success){
         chatTitle.textContent = `Чат з ${username}`
+        chatStatus.classList.add("hidden")
+        messages.innerHTML = ""
+        chatWindow.classList.add("is-open")
         connectWebSocket(data.chat_id)
-
-        
     }
 }
 
@@ -32,7 +37,13 @@ function connectWebSocket(chatId){
 
     chatSocket.onmessage = function (event) {
         let data = JSON.parse(event.data)
-        console.log(data)
+        
+        if (data.action == "chat_message"){
+            const messageElement = document.createElement("div")
+            messageElement.classList.add("message")
+            messageElement.textContent = `${data.sender}: ${data.message_text}`
+            messages.appendChild(messageElement)
+        }
     }
 }
 
@@ -44,3 +55,13 @@ chatButtons.forEach(button => {
         )
     })
 });
+
+
+messageForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const messageText = messageInput.value.trim()
+    if (messageText){
+        chatSocket.send(JSON.stringify({messageText: messageText}))
+        messageInput.value = ""
+    }
+})
