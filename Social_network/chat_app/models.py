@@ -29,6 +29,7 @@ class Message(models.Model):
         blank = True, null = True, 
         related_name = 'sent_messages'
     )
+    
     readers = models.ManyToManyField(
         'user_app.User', 
         blank = True, 
