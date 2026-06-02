@@ -23,7 +23,28 @@ async function openChatWithUser(userId, username) {
         chatTitle.textContent = `Чат з ${username}`
         chatStatus.classList.add("hidden")
         messages.innerHTML = ""
+
+        console.log(data.messages)
+        if (data.messages && data.messages.length > 0){
+            let num = 1
+            data.messages.forEach(message => {
+                const messageElement = document.createElement("div")
+
+                messageElement.classList.add("message")
+
+                if (message.other_user == message.user_id){
+                    messageElement.classList.add("other_user")
+                }
+
+                messageElement.textContent = `${num}) ${message.sender}: ${message.message_text}`
+                messages.appendChild(messageElement)
+                num++
+            })
+
+        }
+
         chatWindow.classList.add("is-open")
+        chatWindow.classList.remove('hidden')
         connectWebSocket(data.chat_id)
     }
 }
