@@ -1,15 +1,47 @@
 {% load static %}
 
 <div class="texting-box">
-    <p class="start-talk" id="chat-title">Почніть нове спілкування</p>
-    <p class="select-chat" id="chat-status">Оберіть контакт зі списку ліворуч <br> або створіть групу, щоб почати спілкування</p>
 
-    <div id="chat-window" class="hidden chat-window">
-        <div class="messeages" id="messeages"></div>
+    <div class="header-chat hidden">
+        <div class="chat-data">
+            <div class="arrow-cont">
+                <img src="{% static 'chat_app/images/chat_images/arrow_icon.svg' %}" alt="arrow" class="arrow-icon">
+            </div>
+
+
+            <div class="text-data">
+                <div class="circle-icon">
+                    <p>NG</p>
+                </div>
+                <div class="check-status">
+                    <p class="title-chat" id="title-chat">New Group</p>
+                    <p class="status-chat">в мережі</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="icon-settings">
+            <img src="{% static 'chat_app/images/chat_images/settings_icon.svg' %}" alt="settings">
+        </div>
+    </div>
+
+    <div class="main-text" id="main-text">
+        <p class="start-talk" id="chat-title">Почніть нове спілкування</p>
+        <p class="select-chat" id="chat-status">Оберіть контакт зі списку ліворуч <br> або створіть групу, щоб почати спілкування</p>
+    </div>
+    
+
+    <div id="chat-window" class="chat-window hidden">
+        <div class="messages" id="messeages">
+        </div>
+        
         <form id="messeage-form" class="messeage-form">
-            <input type="text" id="messeage-input" placeholder="Повідомлення">
-            <button>Надіслати</button>
+            <input type="text" id="messeage-input" class="message-input" placeholder="Повідомлення">
+            <button class="select-icon"><img src="{% static 'chat_app/images/chat_images/gallery-icon.svg' %}" alt="gallery-icon"></button>
+            <button class="send-btn"><img src="{% static 'chat_app/images/chat_images/send_icon.svg' %}" alt="send-text"></button>
         </form>
     </div>
 
 </div>
+
