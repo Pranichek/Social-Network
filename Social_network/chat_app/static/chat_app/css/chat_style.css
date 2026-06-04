@@ -1,0 +1,106 @@
+.chat-window {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
+    min-height: 0; 
+    gap: 2.5vh;
+}
+
+
+.messeage-form{
+    width: 100%;
+    height: 4.374vh;
+    display: flex;
+    gap: 1.67vw;
+}
+
+.message-input{
+    height: 100%;
+    flex: 1;
+    padding: 1.04vh 1.11vw;
+    gap: 1.04vh;
+    border: 0.07vw #CDCED2 solid;
+    border-radius: 1.04vh;
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.send-btn{
+    border-radius: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border: none;
+    background-color: #543C52;
+    position: relative;
+}
+
+.send-btn:hover{
+    background-color: #3E2D3C;
+    cursor: pointer;
+}
+
+.send-btn img{
+    height: 50%;
+}
+
+.select-icon{
+    border-radius: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border: 0.07vw #543C52 solid;
+    background-color: transparent;
+    position: relative;
+}
+
+.select-icon:hover{
+    background-color: #E9E5EE;
+    cursor: pointer;
+}
+
+.select-icon img{
+    height: 50%;
+}
+
+.message-outline{
+    background-color: #CDCED2;
+    border-radius: 0.625vh;
+    padding: 1.04vh 0.69vw;
+    gap: 0.69vw;
+
+    display: flex;
+    align-items: end;
+}
+
+.other-message-outline{
+    background-color: transparent;
+    border-radius: 0.625vh;
+    padding: 1.04vh 0.69vw;
+    gap: 0.69vw;
+    border: 0.07vw #E9E5EE solid;
+
+    display: flex;
+    align-items: end;
+}
+
+.main-text{
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vh;
+}
+
+.msg-text{
+    height: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.46vh;
+    color: #070A1C;
+    font-weight: 400;
+}
+
+.hidden {
+    display: none !important;
+}

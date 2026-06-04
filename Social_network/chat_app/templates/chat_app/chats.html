@@ -15,7 +15,9 @@
     <link rel="stylesheet" href="{% static 'chat_app/css/main_block.css' %}">
     <link rel='stylesheet' href="{% static 'chat_app/css/change_group.css' %}">
     <link rel='stylesheet' href="{% static 'chat_app/css/create_group.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/chat_header.css' %}">
     <link rel='stylesheet' href="{% static 'chat_app/css/message_block.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/chat_style.css' %}">
 {% endblock links %}
 
 {% block modal-windows %}
@@ -38,4 +40,5 @@
 {% block scripts %}
     <script src = "{% static 'chat_app/js/chat_app/change_modals.js' %}"></script>
     <script src="{% static 'chat_app/js/chat_app/solo_chat.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/load_messages.js' %}"></script>
 {% endblock scripts %}

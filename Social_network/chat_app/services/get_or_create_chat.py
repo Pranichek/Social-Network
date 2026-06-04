@@ -1,6 +1,7 @@
 from user_app.models import User
 from ..models import Chat
 from user_app.services.friends_queries import get_friends
+from django.template.loader import render_to_string
 
 
 from django.http import JsonResponse, HttpRequest
@@ -25,22 +26,18 @@ def get_or_create_chat(request: HttpRequest, user_id: int):
 
     # [:20] - робимо зріз масиву, щоб передавали максимум 20 повідомлень
     last_messages = chat.messages.select_related('sender').order_by('-created_at')[:20]
-    message_data = []
-    
-    for message in reversed(last_messages):
-        if message.sender:
-            sender_name = message.sender.username
-        else:
-            sender_name = 'Невідомий'
 
-        message_data.append({
-            'sender': sender_name,
-            'message_text': message.text,
-            "other_user": message.sender.id,
-            "user_id": user_id
-        })
+
+    render_messages_html = render_to_string(
+        "chat_app/particles/messages_list.html",
+        {
+            "messages": reversed(last_messages),
+            "current_user_id": current_user.id
+        }
+    )
+    
     return JsonResponse({
         "success": True, 
         "chat_id": chat.id,
-        "messages": message_data
+        "html": render_messages_html,
     })

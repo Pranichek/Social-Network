@@ -1,7 +1,7 @@
 let chatSocket = null
 
 const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
-const chatTitle = document.getElementById('chat-title')
+const chatTitle = document.getElementById('title-chat')
 const chatStatus = document.getElementById('chat-status')
 const chatButtons = document.querySelectorAll('.card-contact')
 const chatWindow = document.querySelector("#chat-window")
@@ -9,6 +9,10 @@ const messages = document.querySelector("#messeages")
 const messageForm = document.querySelector("#messeage-form")
 const messageInput = document.getElementById("messeage-input")
 
+function scrollToBottom() {
+    const messagesContainer = document.getElementById("messeages")
+    messagesContainer.scrollTop = messagesContainer.scrollHeight
+}
 
 async function openChatWithUser(userId, username) {
 
@@ -19,32 +23,30 @@ async function openChatWithUser(userId, username) {
 
     const data = await response.json()
     
+    document.querySelector("#main-text").classList.add("hidden")
+    
     if (data.success){
-        chatTitle.textContent = `Чат з ${username}`
-        chatStatus.classList.add("hidden")
-        messages.innerHTML = ""
-
-        console.log(data.messages)
-        if (data.messages && data.messages.length > 0){
-            let num = 1
-            data.messages.forEach(message => {
-                const messageElement = document.createElement("div")
-
-                messageElement.classList.add("message")
-
-                if (message.other_user == message.user_id){
-                    messageElement.classList.add("other_user")
-                }
-
-                messageElement.textContent = `${num}) ${message.sender}: ${message.message_text}`
-                messages.appendChild(messageElement)
-                num++
-            })
-
-        }
+        chatTitle.textContent = username
+        activeChatId = data.chat_id          
+        currentChatPage = 1                 
+        isChatLoading = false                
+        
+        chatObserver.disconnect()        
+        messages.innerHTML = '<div id="chat-load-sentinel" style="height: 1px;"></div>'
+        messages.innerHTML += data.html
 
         chatWindow.classList.add("is-open")
+        document.querySelector(".header-chat").classList.remove("hidden")
         chatWindow.classList.remove('hidden')
+        document.querySelector(".texting-box").classList.add("show-chat")
+
+        scrollToBottom()
+
+        chatSentinel = document.getElementById("chat-load-sentinel")
+        if (chatSentinel) {
+            chatObserver.observe(chatSentinel)
+        }
+        
         connectWebSocket(data.chat_id)
     }
 }
@@ -61,9 +63,28 @@ function connectWebSocket(chatId){
         
         if (data.action == "chat_message"){
             const messageElement = document.createElement("div")
-            messageElement.classList.add("message")
-            messageElement.textContent = `${data.sender}: ${data.message_text}`
+            // messageElement.classList.add("message")
+            // messageElement.textContent = `${data.sender}: ${data.message_text}`
+
+            const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg'
+
+            messageElement.innerHTML += `
+                <div class="message">
+                    <div class="message-outline">
+                        <div class="msg-text">
+                            <p>${data.message_text}</p>
+                        </div>
+                        
+                        <div class="data-message">
+                            <p>10:01</p>
+                            <img src= "${checkReadIconPath}" alt="check_read">
+                        </div>
+                    </div>
+                </div>
+            `
+
             messages.appendChild(messageElement)
+            scrollToBottom()
         }
     }
 }
@@ -75,8 +96,7 @@ chatButtons.forEach(button => {
             button.dataset.chatUsername
         )
     })
-});
-
+})
 
 messageForm.addEventListener('submit', (event) => {
     event.preventDefault()
