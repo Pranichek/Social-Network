@@ -2,6 +2,7 @@ from .services.get_or_create_chat import get_or_create_chat
 from .services.pagination import message_paginator
 from user_app.services.friends_queries import get_friends
 from .models import Chat
+from user_app.models import User
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,7 +21,11 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['create_group_form'] = CreateGroupChatForm()
         context['group_chat_update_form'] = GroupChatUpdateForm()
         context["friends"] = get_friends(self.request.user)
-        context['active_chats'] = Chat.objects.filter(users=self.request.user)
+
+        context['active_chats'] = User.objects.filter(
+            chats__users = self.request.user,
+            chats__is_group = False
+        ).exclude(id = self.request.user.id).distinct()
 
 
         return context

@@ -1,3 +1,4 @@
+
 let chatSocket = null
 
 const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
@@ -46,9 +47,26 @@ async function openChatWithUser(userId, username) {
         if (chatSentinel) {
             chatObserver.observe(chatSentinel)
         }
+
+        InsertChatCard(userId, data.chat_card_html)
         
         connectWebSocket(data.chat_id)
     }
+}
+
+function InsertChatCard(userId, cardUser){
+    const messageListContainer = document.querySelector('.message-cont .message-list')
+    const existCard = messageListContainer.querySelector(`.block-card[data-chat-user="${userId}"]`)
+
+    if (!existCard){
+        const emptyText = messageListContainer.querySelector('p')
+        if (emptyText){
+            emptyText.remove()
+        }
+        
+        messageListContainer.insertAdjacentHTML('beforeend', cardUser)
+    }
+
 }
 
 function connectWebSocket(chatId){
@@ -89,14 +107,20 @@ function connectWebSocket(chatId){
     }
 }
 
-chatButtons.forEach(button => {
-    button.addEventListener('click',async () => {
-        await openChatWithUser(
-            button.dataset.chatUser,
-            button.dataset.chatUsername
-        )
-    })
+document.addEventListener('click', async (event) => {
+    const chatElement = event.target.closest(".card-contact, .block-card")
+    
+    if (chatElement){
+        const userId = chatElement.dataset.chatUser
+        const userUsername = chatElement.dataset.chatUsername
+
+        if (userId && userUsername){
+            await openChatWithUser(userId, userUsername)
+        }
+    }
 })
+
+
 
 messageForm.addEventListener('submit', (event) => {
     event.preventDefault()
