@@ -1,13 +1,15 @@
+from .services.get_or_create_chat import get_or_create_chat
+from .services.pagination import message_paginator
 from user_app.services.friends_queries import get_friends
-from user_app.models import User
 from .models import Chat
+from user_app.models import User
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+
 
 # Create your views here.
 class ChatView(LoginRequiredMixin, TemplateView):
@@ -20,6 +22,11 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['group_chat_update_form'] = GroupChatUpdateForm()
         context["friends"] = get_friends(self.request.user)
 
+        context['active_chats'] = User.objects.filter(
+            chats__users = self.request.user,
+            chats__is_group = False
+        ).exclude(id = self.request.user.id).distinct()
+
 
         return context
     
@@ -27,20 +34,10 @@ class SoloChatView(View):
     login_url = reverse_lazy('auth_view')
 
     def post(self, request, user_id, *args, **kwargs):
-        current_user = request.user
-        other_user = User.objects.get(id = user_id)
-        friends = get_friends(current_user=current_user)
+        return get_or_create_chat(request = request, user_id = user_id)
 
-        if other_user not in friends:
-            return JsonResponse({
-                'success': False,
-            }, status = 403)
-        
-        user_chat_ids = Chat.objects.filter(users = current_user, is_group = False).values_list("id", flat = True)
-        chat = Chat.objects.filter(id__in = user_chat_ids, users = other_user, is_group = False).first()
-
-        if chat is None:
-            chat = Chat.objects.create(is_group = False)
-            chat.users.add(current_user, other_user)
-
-        return JsonResponse({"success": True, "chat_id": chat.id})
+class ChatMessagesPaginationView(LoginRequiredMixin, View):
+    def get(self, request, chat_id, *args, **kwargs):
+        return message_paginator(request= request, chat_id= chat_id)
+    
+    

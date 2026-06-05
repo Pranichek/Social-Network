@@ -1,5 +1,8 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+from .models import Message
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -11,6 +14,36 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
         await self.send(
             # dumps - Приобразовывает из словаря в строку 
-            text_data=json.dumps({"message" : "Підключено успішно"})
+            text_data=json.dumps({
+                "action": 'connection_information',
+                "message" : "Підключено успішно",
+            })
         )
         print("Підключення було встановлено")
+    
+    async def receive(self, text_data = None):
+        data = json.loads(text_data)
+        message_text = data.get("messageText", "").strip()
+
+        if message_text:
+            await self.save_message(message_text)
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    "type": "send_chat_message",
+                    "message_text": message_text,
+                    "sender": self.scope["user"].username
+                }
+            )
+
+    async def send_chat_message(self, event):
+        await self.send(text_data = json.dumps({
+            'action': 'chat_message',
+            'message_text': event['message_text'],
+            'sender': event['sender']
+        }))
+
+    @database_sync_to_async
+    def save_message(self, text):
+        user = self.scope["user"]
+        Message.objects.create(chat_id=self.chat_id, sender=user, text=text)

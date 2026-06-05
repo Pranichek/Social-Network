@@ -17,57 +17,130 @@
         </div>
 
         <div class="message-list">
-            {% for item in private_messages|slice:":5" %}
-                <div class="block-card {% if forloop.first %}active{% endif %}">
+
+            {% for friend in active_chats %}
+                <div class="block-card" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.username }}" >
                     <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon">
+
                     <div class="text-data">
                         <div class="top-data">
-                            <p class="nickname-card">Mona Lisa</p>
+                            <p class="nickname-card">{{ friend.username }}</p>
+
                             <p class="card-time">09:41</p>
                         </div>
-            <div class="block-card active">
-                <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon">
+
                         <div class="bottom-data">
                             <p>Привіт! Як справи ?</p>
                         </div>
                     </div>
+
                 </div>
+            {% empty %}
+                <p>У вас поки немає контактів</p>
             {% endfor %}
+
+            <!-- <div class="block-card active">
+                <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon">
+
+                <div class="text-data">
+                    <div class="top-data">
+                        <p class="nickname-card">Mona Lisa</p>
+
+                        <p class="card-time">09:41</p>
+                    </div>
+
+                    <div class="bottom-data">
+                        <p>Привіт! Як справи ?</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="block-card">
+                <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon">
+
+                <div class="text-data">
+                    <div class="top-data">
+                        <p class="nickname-card">Mona Lisa</p>
+
+                        <p class="card-time">09:41</p>
+                    </div>
+
+                    <div class="bottom-data">
+                        <p>Привіт! Як справи ?</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="block-card">
+                <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon">
+
+                <div class="text-data">
+                    <div class="top-data">
+                        <p class="nickname-card">Mona Lisa</p>
+
+                        <p class="card-time">09:41</p>
+                    </div>
+
+                    <div class="bottom-data">
+                        <p>Привіт! Як справи ?</p>
+                    </div>
+                </div>
+
+            </div> -->
+
         </div>
     </div>
 
-
     <div class="side-block group-cont">
-            <div class="block-header">
-                <div class="left-part">
-                    <img src="{% static 'chat_app/images/alert_conteiner/message-icon.svg' %}" alt="message-icon">
-                    <p>Групові чати</p>
-                </div>
 
-                <div class="right-part">
-                    <p>Дивитись всі</p>
-                </div>
+        <div class="block-header">
+            <div class="left-part">
+                <img src="{% static 'chat_app/images/alert_conteiner/message-icon.svg' %}" alt="message-icon">
+                <p>Групові чати</p>
             </div>
+
+            <div class="right-part">
+                <p>Дивитись всі</p>
+            </div>
+        </div>
+
         <div class="message-list">
-            {% for item in group_messages %}
-                <div class="block-card {% if forloop.first %}active{% endif %}">
-                    <img src="{% static 'chat_app/images/alert_conteiner/group-avatar.svg' %}" alt="avatar-icon">
-            
+<!--             
             <div class="block-card active">
                 <img src="{% static 'chat_app/images/alert_conteiner/group-avatar.svg' %}" alt="avatar-icon">
 
-                    <div class="text-data">
-                        <div class="top-data">
-                            <p class="nickname-card">New group</p>
-                            <p class="card-time">09:41</p>
-                        </div>
+                <div class="text-data">
+                    <div class="top-data">
+                        <p class="nickname-card">New group</p>
 
-                        <div class="bottom-data">
-                            <p>Привіт</p>
-                        </div>
+                        <p class="card-time">09:41</p>
+                    </div>
+
+                    <div class="bottom-data">
+                        <p>Привіт</p>
                     </div>
                 </div>
-            {% endfor %}
+
+            </div>
+
+            <div class="block-card">
+                <img src="{% static 'chat_app/images/alert_conteiner/group-avatar.svg' %}" alt="avatar-icon">
+
+                <div class="text-data">
+                    <div class="top-data">
+                        <p class="nickname-card">New group</p>
+
+                        <p class="card-time">09:41</p>
+                    </div>
+
+                    <div class="bottom-data">
+                        <p>Чудово!</p>
+                    </div>
+                </div>
+
+            </div> -->
+
         </div>
     </div>
 </div>

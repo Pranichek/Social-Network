@@ -1,60 +1,46 @@
-{% load static %} 
+{% load static %}
 
-<div class="texting-box hidden" id="texting-box">
-    <div class="header">
-        <div>
-            <div class="arrow" id="back">
-                <img src="{% static 'chat_app/images/modals_chat/arrow.svg' %}" alt="">
+<div class="texting-box">
+
+    <div class="header-chat hidden">
+        <div class="chat-data">
+            <div class="arrow-cont">
+                <img src="{% static 'chat_app/images/chat_images/arrow_icon.svg' %}" alt="arrow" class="arrow-icon">
             </div>
-            <div class="info">
-                <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="" class="avatar">
-                <div class="text">
-                    {% for friend in friends %}
-                        <p>{{ friend.username }}</p>
-                    {% endfor %}
-                    <p class="indicator">в мережі</p>
+
+
+            <div class="text-data">
+                <div class="circle-icon">
+                    <p>NG</p>
+                </div>
+                <div class="check-status">
+                    <p class="title-chat" id="title-chat">New Group</p>
+                    <p class="status-chat">в мережі</p>
                 </div>
             </div>
-        </div>
-        <img src="{% static 'chat_app/images/modals_chat/points.svg' %}" alt="" class="points">
-    </div>
 
-    <div class="footer">
-        <div class="chat">
-            <div class="date">
-                <p>25 квітня 2025</p>
-            </div>
-            <div class="message">
-                <p>Привіт!</p>
-                <div class="indicator1">
-                    <p class="time">10:01</p>
-                    <img src="{% static 'chat_app/images/modals_chat/indicator.svg' %}" alt="">
-                </div>
-            </div>
         </div>
-        <div class="keyboard">
-            <input type="text" placeholder="Повідомлення">
-            <div class="particles">
-                <button class="emoji">
-                    <img src="{% static 'chat_app/images/modals_chat/emoji.svg' %}" alt="">
-                </button>
-                <input type="file" id="file" hidden>
-                <label for="file" class="upload-button">
-                    <img src="{% static 'chat_app/images/modals_chat/upload.svg' %}" alt="">
-                </label>
-                <button class="send" id="send-button">
-                    <img src="{% static 'chat_app/images/modals_chat/send.svg' %}" alt="">
-                </button>
-            </div>
+
+        <div class="icon-settings">
+            <img src="{% static 'chat_app/images/chat_images/settings_icon.svg' %}" alt="settings">
         </div>
     </div>
+
+    <div class="main-text" id="main-text">
+        <p class="start-talk" id="chat-title">Почніть нове спілкування</p>
+        <p class="select-chat" id="chat-status">Оберіть контакт зі списку ліворуч <br> або створіть групу, щоб почати спілкування</p>
+    </div>
+    
+
+    <div id="chat-window" class="chat-window hidden">
+        <div class="messages" id="messeages">
+        </div>
+        
+        <form id="messeage-form" class="messeage-form">
+            <input type="text" id="messeage-input" class="message-input" placeholder="Повідомлення">
+            <button class="select-icon"><img src="{% static 'chat_app/images/chat_images/gallery-icon.svg' %}" alt="gallery-icon"></button>
+            <button class="send-btn"><img src="{% static 'chat_app/images/chat_images/send_icon.svg' %}" alt="send-text"></button>
+        </form>
+    </div>
+
 </div>
-
-
-
-<div class="default block" id="default"> 
-    <p class="start-talk" id="chat-title">Почніть нове спілкування</p>
-    <p class="select-chat" id="chat-status">Оберіть контакт зі списку ліворуч <br> або створіть групу, щоб почати спілкування</p>
-
-</div>
-   
