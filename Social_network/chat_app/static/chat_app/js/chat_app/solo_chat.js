@@ -10,10 +10,13 @@ const messages = document.querySelector("#messeages")
 const messageForm = document.querySelector("#messeage-form")
 const messageInput = document.getElementById("messeage-input")
 
+
 function scrollToBottom() {
     const messagesContainer = document.getElementById("messeages")
     messagesContainer.scrollTop = messagesContainer.scrollHeight
 }
+
+
 
 async function openChatWithUser(userId, username) {
 
