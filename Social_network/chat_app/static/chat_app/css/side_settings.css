@@ -42,7 +42,20 @@
     align-items: center;
     overflow-y: scroll;
 }
-
+.search-box{
+    display: flex;
+    align-items: center;   
+    gap: 6px;             
+    border: 1px solid #CDCED2; 
+    border-radius: 10px;  
+    align-items: center;      
+    padding: 10px 16px;         
+    width: 100%;                 
+}
+.search-icon{
+    height: 3.5vh;
+    
+}
 .contact-header{
     width: 100%;
     height: 2.4vh;
@@ -65,9 +78,14 @@
 .search-contact{
     height: 4.375vh;
     width: 100%;
+<<<<<<< HEAD
     border-radius: 0.694vw; 
     border: 0.07vw #CDCED2 solid;
+=======
+    border: none;
+>>>>>>> 327763feee5ff2d1497068b77b46fb689f75891b
     color: #81818D;
+    font-size: 1.7vh;
     padding: 1.04vh 1.11vw;
     gap: 0.69vw;
     outline: none;
@@ -75,6 +93,7 @@
     font-size: 1.67vh;
     color: #070A1C;
 }
+
 
 .all-contacts{
     display: flex;

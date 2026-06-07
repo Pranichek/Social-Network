@@ -8,7 +8,11 @@ from user_app.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
+<<<<<<< HEAD
 from django.urls import reverse_lazy
+=======
+from user_app.services.friends_queries import get_friends
+>>>>>>> 327763feee5ff2d1497068b77b46fb689f75891b
 
 
 # Create your views here.
@@ -20,6 +24,7 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['add_member_form'] = AddChatMemberForm()
         context['create_group_form'] = CreateGroupChatForm()
         context['group_chat_update_form'] = GroupChatUpdateForm()
+<<<<<<< HEAD
         context["friends"] = get_friends(self.request.user)
 
         context['active_chats'] = User.objects.filter(
@@ -28,6 +33,9 @@ class ChatView(LoginRequiredMixin, TemplateView):
         ).exclude(id = self.request.user.id).distinct()
 
 
+=======
+        context['users_list'] = get_friends(self.request.user)
+>>>>>>> 327763feee5ff2d1497068b77b46fb689f75891b
         return context
     
 class SoloChatView(View):
