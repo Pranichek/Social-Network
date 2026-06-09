@@ -25,7 +25,7 @@ def get_or_create_chat(request: HttpRequest, user_id: int):
         chat.users.add(current_user, other_user)
 
     # [:20] - робимо зріз масиву, щоб передавали максимум 20 повідомлень
-    last_messages = chat.messages.select_related('sender').order_by('-created_at')[:20]
+    last_messages = chat.messages.select_related('sender').order_by('-created_at')[:10]
 
     render_messages_html = render_to_string(
         "chat_app/particles/messages_list.html",

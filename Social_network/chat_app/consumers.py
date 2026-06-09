@@ -2,6 +2,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from .models import Message
+from django.utils import timezone
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -21,29 +22,35 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
         print("Підключення було встановлено")
     
-    async def receive(self, text_data = None):
+    async def receive(self, text_data=None):
         data = json.loads(text_data)
         message_text = data.get("messageText", "").strip()
 
         if message_text:
-            await self.save_message(message_text)
+            message_data = await self.save_message(message_text)
+            
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
                     "type": "send_chat_message",
                     "message_text": message_text,
-                    "sender": self.scope["user"].username
+                    "sender": self.scope["user"].username,
+                    "created_at": message_data["created_at"] 
                 }
             )
 
     async def send_chat_message(self, event):
-        await self.send(text_data = json.dumps({
+        await self.send(text_data=json.dumps({
             'action': 'chat_message',
             'message_text': event['message_text'],
-            'sender': event['sender']
+            'sender': event['sender'],
+            'created_at': event['created_at']
         }))
 
     @database_sync_to_async
     def save_message(self, text):
         user = self.scope["user"]
-        Message.objects.create(chat_id=self.chat_id, sender=user, text=text)
+        message = Message.objects.create(chat_id=self.chat_id, sender=user, text=text)
+        return {
+            "created_at": timezone.localtime(message.created_at).isoformat()
+        }
