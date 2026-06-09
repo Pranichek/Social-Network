@@ -44,15 +44,26 @@ groupUserCheckboxes.forEach(cb => {
         if (selectedCount) selectedCount.textContent = count
     })
 })
-
+console.log('1')
 if (nextGroupStepBtn) {
     nextGroupStepBtn.addEventListener('click', () => {
+        console.log('2')
         if (selectedUsersList) selectedUsersList.innerHTML = ""
         document.querySelectorAll(".group-user-checkbox:checked").forEach(cb => {
             const userName = cb.dataset.userName || cb.dataset.username
             const userDiv = document.createElement("div")
+            const avatarPath = "/static/chat_app/images/alert_conteiner/example-message.svg"
+            const binPath = "/static/chat_app/images/alert_conteiner/bin.svg"
             userDiv.className = "selected-member-item"
-            userDiv.innerHTML = `<p>${userName}</p>`
+            userDiv.innerHTML = `
+            <div class="member">
+                <div class="user-info">
+                    <img src="${avatarPath}" class="avatar" alt="avatar-icon">
+                    <p class="name">${userName}</p>
+                </div>
+                <img src="${binPath}" alt="" class="bin">
+           </div>`
+           console.log('3')
             if (selectedUsersList) selectedUsersList.appendChild(userDiv)
         })
 
