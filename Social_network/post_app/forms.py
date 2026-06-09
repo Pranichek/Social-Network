@@ -127,8 +127,8 @@ class PostForm(forms.ModelForm):
             for image in uploaded_images:
                 PostImage.objects.create(
                     post=post,
-                    original = image,
-                    compressed = self.compress_image(image)
+                    original_image = image,
+                    compressed_image = self.compress_image(image)
                 )
 
                 

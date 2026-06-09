@@ -98,7 +98,7 @@
         </main>
 
 
-        {% if request.user.is_authenticated and request.user.username == '' %}
+        {% if request.user.is_authenticated and not request.user.username %}
         
             <div id="welcome-shadow" class="shadow"></div>
 

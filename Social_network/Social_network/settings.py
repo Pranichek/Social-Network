@@ -15,6 +15,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+from sshtunnel import SSHTunnelForwarder
+
 #Завантажуємо змінні з .env
 load_dotenv()
 
@@ -112,14 +114,34 @@ DATABASES = {
     }
 }
 
+# tunnel = SSHTunnelForwarder(
+#     ('ssh.pythonanywhere.com', 22),
+#     ssh_username=os.getenv("SSH_LOGIN"),
+#     ssh_password=os.getenv("SSH_PASSWORD"),
+#     remote_bind_address=(os.getenv("REMOTE_DB_HOST"), int(os.getenv("REMOTE_DB_PORT"))), # type: ignore
+# )
+
+# tunnel.start()
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv("REMOTE_DB_ENGINE"),
+#         'NAME': os.getenv("REMOTE_DB_NAME"),
+#         'USER': os.getenv("REMOTE_DB_USER"), 
+#         'PASSWORD': os.getenv("REMOTE_DB_PASSWORD"),
+#         'HOST': os.getenv("REMOTE_DB_HOST"),
+#         'PORT': os.getenv("REMOTE_DB_PORT"),
+#     }
+# }
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'WorldITSocialNetwork',
-#         'USER': 'data', 
-#         'PASSWORD': 'kC9gN3bqA',
-#         'HOST': 'WorldITSocialNetwork-5274.postgres.pythonanywhere-services.com',
-#         'PORT': '15274',
+#         'NAME': os.getenv("REMOTE_DB_NAME"),
+#         'USER': os.getenv("REMOTE_DB_USER"),
+#         'PASSWORD': os.getenv("REMOTE_DB_PASSWORD"),
+#         'HOST': '127.0.0.1',
+#         'PORT': tunnel.local_bind_port,
 #     }
 # }
 
@@ -172,3 +194,5 @@ MEDIA_ROOT =  BASE_DIR / 'media/'
 LOGOUT_REDIRECT_URL = 'auth_view'
 
 LOGIN_URL = 'auth_view' 
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
