@@ -38,5 +38,19 @@ window.friendShipStatus = friendShipStatus
 //             return
 //         }        
         
+        const data = await friendShipStatus(idPerson, status)
+        
+        if (data && data.success) {
+            button.closest('.person-card').remove()
+            
+            if (status == 'accepted' && data.html) {                
+                const friendsContainer = document.getElementById('cards-friends')
+                
+                if (friendsContainer) {
+                    friendsContainer.insertAdjacentHTML('afterbegin', data.html)
+                }
+            }
+        }
+    
 //     })
 // })

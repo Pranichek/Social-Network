@@ -30,3 +30,7 @@
     background: none;
     border: 0.08vw #543C52 solid;
 }
+
+.buttons button:hover{
+    cursor: pointer;
+}
