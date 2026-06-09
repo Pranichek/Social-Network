@@ -40,11 +40,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
 
     async def send_chat_message(self, event):
+        # await self.send(text_data=json.dumps({
+        #     'action': 'chat_message',
+        #     'message_text': event['message_text'],
+        #     'sender': event['sender'],
+        #     'created_at': event['created_at']
+        # }))
+        is_me = self.scope["user"].username == event['sender']
+
         await self.send(text_data=json.dumps({
             'action': 'chat_message',
             'message_text': event['message_text'],
             'sender': event['sender'],
-            'created_at': event['created_at']
+            'created_at': event['created_at'],
+            'is_current_user': is_me
         }))
 
     @database_sync_to_async

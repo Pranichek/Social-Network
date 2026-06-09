@@ -15,15 +15,44 @@ function formatMessageTime(createdAt){
   return `${padDateNumber(date.getHours())}:${padDateNumber(date.getMinutes())}`;
 }
 
+const months = [
+  "Січень",
+  "Лютий",
+  "Березень",
+  "Квітень",
+  "Травень",
+  "Червень",
+  "Липень",
+  "Серпень",
+  "Вересень",
+  "Жовтень",
+  "Листопад",
+  "Грудень"
+];
+
 function formatMessageDate(createdAt){
   const date = new Date(createdAt);
-  return `${padDateNumber(date.getDate())}.${padDateNumber(date.getMonth()+1)}.${padDateNumber(date.getFullYear())}`;
+  const monthIndex = date.getMonth();
+  const nameMonth = months[monthIndex];
+
+  
+  return `${padDateNumber(date.getDate())} ${nameMonth} ${padDateNumber(date.getFullYear())}`;
 }
 
 function renderDateSeparator(dateText){
   const separator = document.createElement('div');
+
+  const outlineText = document.createElement('div');
+  outlineText.className = 'outline-text';
+
+  const textSeparator = document.createElement("p");
+  textSeparator.textContent = dateText
+
+  outlineText.appendChild(textSeparator);
+  
+  separator.appendChild(outlineText);
   separator.classList.add('message-separator');
-  separator.textContent = dateText;
+
   return separator;
 }
 

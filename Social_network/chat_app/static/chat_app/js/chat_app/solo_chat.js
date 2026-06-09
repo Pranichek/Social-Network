@@ -16,9 +16,6 @@ function connectWebSocket(chatId) {
   chatSocket.onmessage = function (event) {
     let data = JSON.parse(event.data);
     if (data.action == "chat_message") {
-      if (data.is_current_user === undefined) {
-          data.is_current_user = true; 
-      }
       const messageElement = renderMessage(data);
       document.querySelector("#messeages").appendChild(messageElement);
       const messagesContainer = document.querySelector("#messeages");

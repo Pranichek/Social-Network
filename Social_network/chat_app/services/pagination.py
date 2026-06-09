@@ -23,7 +23,7 @@ def message_paginator(request: HttpRequest, chat_id: int):
                     "id": message.id,
                     "message_text": message.text,
                     "sender": message.sender.username if message.sender else "Невідомий",
-                    "is_current_user": message.sender == request.user,
+                    "is_current_user": message.sender.id == request.user.id,
                     "created_at": timezone.localtime(message.created_at).isoformat(),
                 }
                 for message in messages
