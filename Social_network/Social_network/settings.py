@@ -112,6 +112,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'WorldITSocialNetwork',
+#         'USER': 'data', 
+#         'PASSWORD': 'kC9gN3bqA',
+#         'HOST': 'WorldITSocialNetwork-5274.postgres.pythonanywhere-services.com',
+#         'PORT': '15274',
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

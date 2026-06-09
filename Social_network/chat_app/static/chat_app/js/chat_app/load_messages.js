@@ -1,91 +1,138 @@
-let currentChatPage = 1
-let isChatLoading = false
-let activeChatId = null
+let activeChatId = null;
+let currentPage = 1;
+let hasNext = false;
+let isLoading = false;
+let observer = null;
 
-const messageList = document.querySelector("#messeages")
-let chatSentinel = document.getElementById("chat-load-sentinel")
+const messages = document.querySelector("#messeages");
 
-const chatObserver = new IntersectionObserver(async (entries) => {
-  if (entries[0].isIntersecting && isChatLoading == false && activeChatId) {
-    isChatLoading = true
-    currentChatPage++
-    
-    const previousScrollHeight = messageList.scrollHeight
+function padDateNumber(number){
+  return String(number).padStart(2, '0');
+}
 
-    const response = await fetch(
-      `/chat/${activeChatId}/messages/?page=${currentChatPage}`,
-      {
-        headers: {
-          "X-Requested-With": "XMLHttpRequest"
-        }
-      }
-    )
-    
-    const data = await response.json()
+function formatMessageTime(createdAt){
+  const date = new Date(createdAt);
+  return `${padDateNumber(date.getHours())}:${padDateNumber(date.getMinutes())}`;
+}
 
-    if (data.success && data.messages.length > 0) {
-      let htmlString = ""
-      data.messages.forEach(message => {
-        let msgClass = (message.other_user == message.user_id) ? "message other_user" : "message"
-        const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg'
-        if (msgClass == "message"){
-          
-          htmlString += `
-                <div class="${msgClass}">
-                  <div class="message-outline">
-                      <div class="msg-text">
-                          <p>${message.message_text}</p>
-                      </div>
-                      
-                      <div class="data-message">
-                          <p>10:01</p>
-                          <img src= "${checkReadIconPath}" alt="check_read">
-                      </div>
-                  </div>
-                </div>
-              `
-        }else{
-          // htmlString += `<div class="${msgClass}">${message.sender}: ${message.message_text}</div>`
+function formatMessageDate(createdAt){
+  const date = new Date(createdAt);
+  return `${padDateNumber(date.getDate())}.${padDateNumber(date.getMonth()+1)}.${padDateNumber(date.getFullYear())}`;
+}
 
-          htmlString += `
-            <div class="${msgClass}">
+function renderDateSeparator(dateText){
+  const separator = document.createElement('div');
+  separator.classList.add('message-separator');
+  separator.textContent = dateText;
+  return separator;
+}
 
-              <div class="other-message-outline">
+function updateSeparators(){
+  const allSeparators = document.querySelectorAll('.message-separator');
+  allSeparators.forEach((separator) => {
+    separator.remove();
+  }) 
 
-                  <div class="msg-text">
-                      <p>${message.message_text}</p>
-                  </div>
-                  
-                  <div class="data-message">
-                      <p>10:01</p>
-                      <img src= "${checkReadIconPath}" alt="check_read">
-                  </div>
+  let previousDate = '';
+  const allMessages = document.querySelectorAll('.message');
+  allMessages.forEach((message) => {
+    const messageDate = message.dataset.messageDate;
+    if (messageDate !== previousDate){
+      message.before(renderDateSeparator(messageDate));
+      previousDate = messageDate;
+    }
+  })
+}
 
-              </div>
+window.updateSeparators = updateSeparators;
 
-            </div>
-          `
-          
-        }
-      })
-      
-      chatSentinel = document.getElementById("chat-load-sentinel")
-      
-      if (chatSentinel) {
-        chatSentinel.insertAdjacentHTML("afterend", htmlString)
-      }
-      
-      messageList.scrollTop = messageList.scrollHeight - previousScrollHeight
+
+function renderMessage(data) {
+  const messageDiv = document.createElement("div");
+  const isMe = data.is_current_user;
+  const msgClass = isMe ? "message" : "message other_user";
+  const outlineClass = isMe ? "message-outline" : "other-message-outline";
+  const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg';
+
+  messageDiv.className = msgClass;
+  messageDiv.dataset.messageDate = formatMessageDate(data.created_at)
+
+  messageDiv.innerHTML = `
+    <div class="${outlineClass}">
+        <div class="msg-text">
+            <p>${data.message_text}</p>
+        </div>
+        <div class="data-message">
+            <p>${formatMessageTime(data.created_at)}</p>
+            <img src="${checkReadIconPath}" alt="check_read">
+        </div>
+    </div>
+  `;
+  return messageDiv;
+}
+
+function resetMessages(chatId) {
+  activeChatId = chatId;
+  currentPage = 1;
+  hasNext = true;
+  isLoading = false;
+  if (observer) observer.disconnect();
+  messages.innerHTML = "";
+  const sentinel = document.createElement("div");
+  sentinel.id = "chat-load-sentinel";
+  messages.prepend(sentinel);
+}
+
+async function loadMessages(prepend = false) {
+  if (isLoading || !hasNext) return;
+  isLoading = true;
+  const oldHeight = messages.scrollHeight;
+
+  const response = await fetch(
+    `/chat/${activeChatId}/messages/?page=${currentPage}`,
+    {
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    }
+  );
+  const data = await response.json();
+
+  if (data.success) {
+    const fragment = document.createDocumentFragment();
+    data.messages.forEach((message) =>
+      fragment.appendChild(renderMessage(message))
+    );
+
+    const sentinel = document.querySelector("#chat-load-sentinel");
+    if (prepend) {
+      sentinel.after(fragment);
+    } else {
+      messages.appendChild(fragment);
     }
 
-    if (!data.has_next) {
-      chatObserver.disconnect()
-      if (chatSentinel) chatSentinel.remove()
-    }
+    hasNext = data.has_next;
+    currentPage++;
 
-    isChatLoading = false
+    if (prepend) {
+      messages.scrollTop = messages.scrollHeight - oldHeight;
+    } else {
+      messages.scrollTop = messages.scrollHeight;
+    }
   }
-}, {
-  root: messageList,
-  rootMargin: "20px"
-})
+
+  if (!hasNext && observer) observer.disconnect();
+  isLoading = false;
+}
+
+function startObserver() {
+  const sentinel = document.querySelector("#chat-load-sentinel");
+  observer = new IntersectionObserver(
+    async (entries) => {
+      if (entries[0].isIntersecting && isLoading == false) {
+        await loadMessages(true);
+        updateSeparators();
+      }
+    },
+    { root: messages, rootMargin: "20px" }
+  );
+  if (sentinel) observer.observe(sentinel);
+}

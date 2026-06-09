@@ -1,47 +1,33 @@
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from ..models import Chat
+from ..models import Chat, Message
 from django.http import HttpRequest
+from django.utils import timezone 
+
 
 
 def message_paginator(request: HttpRequest, chat_id: int):
-    chat = get_object_or_404(Chat, id=chat_id, users=request.user)
-    messages_query = chat.messages.select_related('sender').order_by('-created_at')
+    if not Chat.objects.filter(id=chat_id, users=request.user).exists():
+            return JsonResponse({"success": False}, status=403)
 
-    paginator = Paginator(messages_query, 10)
-    page_number = request.GET.get('page', 1)
-    page_obj = paginator.get_page(page_number)
+    query = Message.objects.filter(chat_id=chat_id).select_related("sender").order_by("-created_at", "-id")
+    page_obj = Paginator(query, 10).get_page(request.GET.get("page", 1))
+    # ::-1 - повертає список у зворотньому порядку
+    messages = list(page_obj.object_list)[::-1]
 
-    message_data = []
-    target_user_id = None
-    all_chat_users = chat.users.all()
-
-    for user in all_chat_users:
-        if user != request.user:
-            target_user_id = user.id
-            break  
-
-    for message in reversed(page_obj.object_list):        
-        if message.sender:
-            sender_name = message.sender.username
-        else:
-            sender_name = 'Невідомий'
-            
-        if message.sender:
-            sender_id = message.sender.id
-        else:
-            sender_id = None
-
-        message_data.append({
-            'sender': sender_name,
-            'message_text': message.text,
-            'other_user': sender_id,
-            'user_id': target_user_id
-        })
-        
-    return JsonResponse({
-        "success": True,
-        "messages": message_data,
-        "has_next": page_obj.has_next()
-    })
+    return JsonResponse(
+        {
+            "success": True,
+            "messages": [
+                {
+                    "id": message.id,
+                    "message_text": message.text,
+                    "sender": message.sender.username if message.sender else "Невідомий",
+                    "is_current_user": message.sender == request.user,
+                    "created_at": timezone.localtime(message.created_at).isoformat(),
+                }
+                for message in messages
+            ],
+            "has_next": page_obj.has_next(),
+        }
+    )

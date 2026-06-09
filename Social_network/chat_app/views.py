@@ -1,17 +1,15 @@
 from .services.get_or_create_chat import get_or_create_chat
-from .services.pagination import message_paginator
 from user_app.services.friends_queries import get_friends
-from .models import Chat
+from .services.group_actions import create_group_service, open_chat_by_id_service 
 from user_app.models import User
-
+from .models import Chat
+from .services.pagination import message_paginator
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
 from django.urls import reverse_lazy
 
-
-# Create your views here.
 class ChatView(LoginRequiredMixin, TemplateView):
     template_name = 'chat_app/chats.html'
 
@@ -27,6 +25,11 @@ class ChatView(LoginRequiredMixin, TemplateView):
             chats__is_group = False
         ).exclude(id = self.request.user.id).distinct()
 
+        context['group_chat'] = Chat.objects.filter(
+            users = self.request.user,
+            is_group = True
+        ).order_by('-id')
+
 
         return context
     
@@ -36,8 +39,19 @@ class SoloChatView(View):
     def post(self, request, user_id, *args, **kwargs):
         return get_or_create_chat(request = request, user_id = user_id)
 
+# class ChatMessagesPaginationView(LoginRequiredMixin, View):
+#     def get(self, request, chat_id, *args, **kwargs):
+#         return message_paginator(request= request, chat_id= chat_id)
 class ChatMessagesPaginationView(LoginRequiredMixin, View):
+    login_url = "auth_view"
+
     def get(self, request, chat_id, *args, **kwargs):
-        return message_paginator(request= request, chat_id= chat_id)
-    
-    
+        return message_paginator(request=request, chat_id=chat_id)
+
+class OpenChatByIdView(LoginRequiredMixin, View):
+    def get(self, request, chat_id, *args, **kwargs):
+        return open_chat_by_id_service(request=request, chat_id=chat_id)
+
+class CreateGroupView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        return create_group_service(request=request)
