@@ -27,12 +27,12 @@
     height: 50%;
 }
 
-.text-data{
+.text-data-header{
     display: flex;
     flex-direction: row;
     gap: 0.694vw;
     height: 100%;
-}
+} 
 
 .title-chat{
     font-size: 2.5vh;
