@@ -22,12 +22,12 @@
             {% for friend in friends %}
                 <div class="participant-item">
                     <div class="avatar-wrap">
-                        <p>{{ friend.username|slice:":2"|upper }}</p>
+                        <p>{{ friend.userprofile.pseudonym|slice:":2"|upper }}</p>
                     </div>
 
                     <div class="user-details">
-                        <span class="participant-name">{{ friend.username }}</span>
-                        <input type="checkbox" class="custom-checkbox group-user-checkbox" value="{{ friend.id }}" data-user-name="{{ friend.username }}">
+                        <span class="participant-name">{{ friend.userprofile.pseudonym }}</span>
+                        <input type="checkbox" class="custom-checkbox group-user-checkbox" value="{{ friend.id }}" data-user-name="{{ friend.userprofile.pseudonym }}">
                     </div>
                 </div>
             {% endfor %}
