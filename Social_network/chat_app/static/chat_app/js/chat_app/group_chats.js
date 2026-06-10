@@ -51,8 +51,11 @@ if (nextGroupStepBtn) {
         document.querySelectorAll(".group-user-checkbox:checked").forEach(cb => {
             const userName = cb.dataset.userName || cb.dataset.username
             const userDiv = document.createElement("div")
+
             userDiv.className = "selected-member-item"
+
             userDiv.innerHTML = `<p>${userName}</p>`
+            
             if (selectedUsersList) selectedUsersList.appendChild(userDiv)
         })
 
@@ -95,9 +98,8 @@ if (submitCreateGroupBtn) {
             if (data.success) {
                 closeAllModals()
                 insertGroupChatCard(data.chat_id, data.name)
-                if (typeof openChatById === 'function') {
-                    openChatById(data.chat_id, data.name)
-                }
+                openChatById(data.chat_id, data.name)
+                
             }
         } catch (error) {
             console.error(error)

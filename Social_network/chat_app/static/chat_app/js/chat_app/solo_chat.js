@@ -48,7 +48,7 @@ async function openChatById(chatId, chatName) {
   if (data.success) {
     chatTitle.textContent = chatName;
     chatWindow.classList.add("is-open");
-    document.querySelector(".header-chat").classList.remove("hidden");
+    document.querySelector("#header-chat").classList.remove("hidden");
     chatWindow.classList.remove('hidden');
     document.querySelector(".texting-box").classList.add("show-chat");
 
@@ -71,7 +71,7 @@ async function openChatWithUser(userId, username) {
   if (data.success) {
     chatTitle.textContent = username;
     chatWindow.classList.add("is-open");
-    document.querySelector(".header-chat").classList.remove("hidden");
+    document.querySelector("#header-chat").classList.remove("hidden");
     chatWindow.classList.remove('hidden');
     document.querySelector(".texting-box").classList.add("show-chat");
 

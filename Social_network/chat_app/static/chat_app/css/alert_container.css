@@ -23,12 +23,14 @@
 
 
 .message-cont{
-    height: 40.52vh;
+    min-height: 40.52vh;
 }
 
 .group-cont{
     flex-grow: 1;
 }
+
+
 
 .block-header{
     width: 100%;
@@ -65,8 +67,17 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: auto;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
 }
+
+.side-block{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 
 .block-card{
     width: 100%;
@@ -74,6 +85,10 @@
     display: flex;
     gap: 1.11vw;
     padding: 0.83vh 1.11vw;
+}
+
+.block-card:hover, .card-contact:hover{
+    cursor: pointer;
 }
 
 .block-card img{
@@ -86,7 +101,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
+} 
 
 .top-data{
     width: 100%;
@@ -117,3 +132,4 @@
     font-size: 1.45vh;
     color: #070A1C;
 }
+
