@@ -1,6 +1,7 @@
 from .services.get_or_create_chat import get_or_create_chat
 from user_app.services.friends_queries import get_friends
 from .services.group_actions import create_group_service, open_chat_by_id_service 
+from .services.delete_chat import delete_chat
 from user_app.models import User
 from .models import Chat
 from .services.pagination import message_paginator
@@ -9,6 +10,22 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
 from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
+import secrets
+
+User = get_user_model()
+
+class FakeProfile:
+    def __init__(self, pseudonym):
+        self.pseudonym = pseudonym
+
+
+class FakeUser:
+    def __init__(self, id, username, email, pseudonym):
+        self.id = id
+        self.username = username
+        self.email = email
+        self.userprofile = FakeProfile(pseudonym)
 
 class ChatView(LoginRequiredMixin, TemplateView):
     template_name = 'chat_app/chats.html'
@@ -18,6 +35,8 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['add_member_form'] = AddChatMemberForm()
         context['create_group_form'] = CreateGroupChatForm()
         context['group_chat_update_form'] = GroupChatUpdateForm()
+
+
         context["friends"] = get_friends(self.request.user)
 
         context['active_chats'] = User.objects.filter(
@@ -55,3 +74,7 @@ class OpenChatByIdView(LoginRequiredMixin, View):
 class CreateGroupView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         return create_group_service(request=request)
+    
+class DeleteChat(LoginRequiredMixin, View):
+    def get(self, request, chat_id):
+        return delete_chat(request = request, chat_id = chat_id)

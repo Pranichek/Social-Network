@@ -1,4 +1,5 @@
 let chatSocket = null
+let currentChatId = null
 
 const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
 const chatTitle = document.getElementById('title-chat')
@@ -10,6 +11,8 @@ function connectWebSocket(chatId) {
   if (chatSocket) {
     chatSocket.close()
   }
+
+  currentChatId = chatId
 
   chatSocket = new WebSocket(`ws://${window.location.host}/chat/${chatId}/`)
 
@@ -41,6 +44,8 @@ async function openChatById(chatId, chatName) {
     method: 'GET',
     headers: { 'X-Requested-With': 'XMLHttpRequest' },
   })
+
+  currentChatId = chatId
 
   const data = await response.json()
   document.querySelector("#main-text").classList.add("hidden")
