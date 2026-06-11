@@ -8,14 +8,19 @@ const allElements = [headerChats, mainText, bottomPart];
 const mainBlock = document.querySelector('.texting-box');
 
 
-
-closeChat.addEventListener('click', (event) => {
-
+function showMainPrevview(){
     allElements.forEach((element) => {
         element.classList.toggle('hidden')
     });
     if (mainBlock.classList.contains('show-chat')){
         mainBlock.classList.remove('show-chat')
     }
+}
+
+window.showMainPrevview = showMainPrevview
+
+closeChat.addEventListener('click', (event) => {
+
+    showMainPrevview()
 })
 

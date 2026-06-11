@@ -48,15 +48,15 @@ function renderSelectedUsers() {
         const avatarPath = "/static/chat_app/images/alert_conteiner/example-message.svg"
         const binPath = "/static/chat_app/images/alert_conteiner/bin.svg"
 
-        userDiv.className = "selected-member-item"
+        userDiv.className = "member"
         userDiv.innerHTML = `
-        <div class="member">
             <div class="user-info">
-                <img src="${avatarPath}" class="avatar" alt="avatar-icon">
+                <img src="${avatarPath}" alt="avatar-icon">
                 <p class="name">${checkbox.dataset.userName}</p>
             </div>
+
             <img src="${binPath}" alt="" class="bin">
-        </div>`
+        `
 
         selectedUsersList.appendChild(userDiv);
     }

@@ -10,11 +10,14 @@ def create_group_service(request: HttpRequest):
     if not name or not user_ids:
         return JsonResponse({'success': False, 'error': 'Некоректні дані'}, status=400)
 
-    chat = Chat.objects.create(name=name, is_group=True)
-    
+    chat = Chat.objects.create(
+        name=name, 
+        is_group=True,
+        admin = request.user
+    )
+        
     chat.users.add(request.user)
-    for user_id in user_ids:
-        chat.users.add(user_id)
+    chat.users.add(*user_ids)
         
     return JsonResponse({
         'success': True, 
