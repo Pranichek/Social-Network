@@ -51,6 +51,13 @@ async function openChatById(chatId, chatName) {
   document.querySelector("#main-text").classList.add("hidden")
 
   if (data.success) {
+    currentChatId = data.chat_id
+    isCurrentChatGroup = data.is_group
+    currentChatMembers = data.chat_members
+    onlineMemberCount = data.online_count
+
+    document.querySelector(".status-chat").textContent = `${onlineMemberCount} в мережі`
+
     chatTitle.textContent = chatName
     chatWindow.classList.add("is-open")
     document.querySelector("#header-chat").classList.remove("hidden")
@@ -74,6 +81,12 @@ async function openChatWithUser(userId, username) {
   document.querySelector("#main-text").classList.add("hidden")
 
   if (data.success) {
+    currentChatId = data.chat_id
+    isCurrentChatGroup = data.is_group
+    currentChatMembers = data.chat_members
+
+    document.querySelector(".status-chat").textContent = data.is_online ? 'в мережі' : 'не в мережі'
+
     chatTitle.textContent = username
     chatWindow.classList.add("is-open")
     document.querySelector("#header-chat").classList.remove("hidden")

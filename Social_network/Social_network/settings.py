@@ -196,3 +196,10 @@ LOGOUT_REDIRECT_URL = 'auth_view'
 LOGIN_URL = 'auth_view' 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# кеш, де збергіються дані в оперативної пам'яті компю'тера
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+}
