@@ -14,12 +14,18 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from chat_app import routing
 from channels.auth import AuthMiddlewareStack
 
+import chat_app.routing
+import user_app.routing
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Social_network.settings')
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
     'websocket': AuthMiddlewareStack(
-        URLRouter(routing.websocket_urlpatterns)
+        URLRouter(
+            chat_app.routing.websocket_urlpatterns +
+            user_app.routing.websocket_urlpatterns
+        )
     )
 })
 

@@ -1,10 +1,11 @@
 from user_app.models import User
 from ..models import Chat
 from user_app.services.friends_queries import get_friends
+
+
 from django.template.loader import render_to_string
-
-
 from django.http import JsonResponse, HttpRequest
+from django.core.cache import cache
 
 
 def get_or_create_chat(request: HttpRequest, user_id: int):
@@ -41,10 +42,17 @@ def get_or_create_chat(request: HttpRequest, user_id: int):
             "chat_user": other_user
         }
     )
+
+    
+
+    is_online = cache.get(f'user_online_{other_user.id}', False)
     
     return JsonResponse({
         "success": True, 
         "chat_id": chat.id,
         "html": render_messages_html,
         "chat_card_html": chat_card_html, 
+        'is_online': is_online,
+        'chat_members': [other_user.id],
+        'is_group': False
     })
