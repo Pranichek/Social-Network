@@ -34,14 +34,42 @@ if (btnCreateChat) {
     })
 }
 
+function updateSelectedCount() {
+  const count = document.querySelectorAll(".group-user-checkbox:checked").length
+  selectedCount.textContent = count;
+}
+
+function renderSelectedUsers() {
+  selectedUsersList.innerHTML = "";
+  groupUserCheckboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+        const userDiv = document.createElement("div")
+
+        const avatarPath = "/static/chat_app/images/alert_conteiner/example-message.svg"
+        const binPath = "/static/chat_app/images/alert_conteiner/bin.svg"
+
+        userDiv.className = "member"
+        userDiv.innerHTML = `
+            <div class="user-info">
+                <img src="${avatarPath}" alt="avatar-icon">
+                <p class="name">${checkbox.dataset.userName}</p>
+            </div>
+
+            <img src="${binPath}" alt="" class="bin">
+        `
+
+        selectedUsersList.appendChild(userDiv);
+    }
+  });
+}
+
 closeCrosses.forEach(cross => {
     cross.addEventListener('click', closeAllModals)
 })
 
 groupUserCheckboxes.forEach(cb => {
     cb.addEventListener('change', () => {
-        const count = document.querySelectorAll(".group-user-checkbox:checked").length
-        if (selectedCount) selectedCount.textContent = count
+        updateSelectedCount()
     })
 })
 console.log('1')
@@ -50,21 +78,7 @@ if (nextGroupStepBtn) {
         console.log('2')
         if (selectedUsersList) selectedUsersList.innerHTML = ""
         document.querySelectorAll(".group-user-checkbox:checked").forEach(cb => {
-            const userName = cb.dataset.userName || cb.dataset.username
-            const userDiv = document.createElement("div")
-            const avatarPath = "/static/chat_app/images/alert_conteiner/example-message.svg"
-            const binPath = "/static/chat_app/images/alert_conteiner/bin.svg"
-            userDiv.className = "selected-member-item"
-            userDiv.innerHTML = `
-            <div class="member">
-                <div class="user-info">
-                    <img src="${avatarPath}" class="avatar" alt="avatar-icon">
-                    <p class="name">${userName}</p>
-                </div>
-                <img src="${binPath}" alt="" class="bin">
-           </div>`
-           console.log('3')
-            if (selectedUsersList) selectedUsersList.appendChild(userDiv)
+            renderSelectedUsers()            
         })
 
         if (step1Modal) step1Modal.classList.add("hidden")
@@ -82,11 +96,6 @@ if (backGroupStepBtn) {
 if (submitCreateGroupBtn) {
     submitCreateGroupBtn.addEventListener('click', async () => {
         const name = groupNameInput.value.trim()
-        
-        if (!name) {
-            alert("Введіть назву групи")
-            return
-        }
 
         const formData = new FormData()
         formData.append('name', name)
@@ -95,24 +104,20 @@ if (submitCreateGroupBtn) {
             formData.append('users', checkboxe.value)
         })
 
-        try {
-            const response = await fetch('/chat/create_group/', { 
-                method: 'POST',
-                headers: { 'X-CSRFToken': csrfToken },
-                body: formData
-            })
-            const data = await response.json()
+        const response = await fetch('/chat/create_group/', { 
+            method: 'POST',
+            headers: { 'X-CSRFToken': csrfToken },
+            body: formData
+        })
+        const data = await response.json()
 
-            if (data.success) {
-                closeAllModals()
-                insertGroupChatCard(data.chat_id, data.name)
-                if (typeof openChatById === 'function') {
-                    openChatById(data.chat_id, data.name)
-                }
-            }
-        } catch (error) {
-            console.error(error)
+        if (data.success) {
+            closeAllModals()
+            insertGroupChatCard(data.chat_id, data.name)
+            openChatById(data.chat_id, data.name)
+            
         }
+        
     })
 }
 
