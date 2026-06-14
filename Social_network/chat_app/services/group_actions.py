@@ -1,4 +1,5 @@
 from ..models import Chat
+from chat_app.consumers import OnlineStatusConsumer
 
 from django.http import JsonResponse, HttpRequest
 from django.shortcuts import get_object_or_404
@@ -43,13 +44,7 @@ def open_chat_by_id_service(request: HttpRequest, chat_id: int):
     )
 
     user_ids = list(chat.users.values_list('id', flat=True))
-    count_online = 0
-    # is_online = cache.get(f'user_online_{other_user.id}', False)
-    
-    for id in user_ids:
-        is_online = cache.get(f'user_online_{id}', False)
-        if is_online:
-            count_online + 1
+    count_online = OnlineStatusConsumer.get_online_count(user_ids)
 
     return JsonResponse({
         'success': True,
