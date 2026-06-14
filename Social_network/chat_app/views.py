@@ -11,7 +11,11 @@ from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
-import secrets
+
+
+from django.core.paginator import Paginator, EmptyPage
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 User = get_user_model()
 
@@ -37,7 +41,7 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['group_chat_update_form'] = GroupChatUpdateForm()
 
 
-        context["friends"] = get_friends(self.request.user)
+        context["friends"] = get_friends(self.request.user)[:20]
 
         context['active_chats'] = User.objects.filter(
             chats__users = self.request.user,
@@ -78,3 +82,30 @@ class CreateGroupView(LoginRequiredMixin, View):
 class DeleteChat(LoginRequiredMixin, View):
     def get(self, request, chat_id):
         return delete_chat(request = request, chat_id = chat_id)
+    
+# пагінація
+class LoadContactsView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        page_number = request.GET.get('page', 1)
+        friends_list = get_friends(request.user)
+        
+        paginator = Paginator(friends_list, 20)
+        
+        try:
+            page_obj = paginator.page(page_number)
+        except EmptyPage:
+            return JsonResponse({
+                'html': '',
+                'has_next': False
+            })
+
+        html = render_to_string(
+            'chat_app/particles/contacts_list.html', 
+            {'friends': page_obj.object_list}, 
+            request=request
+        )
+
+        return JsonResponse({
+            'html': html,
+            'has_next': page_obj.has_next()
+        })

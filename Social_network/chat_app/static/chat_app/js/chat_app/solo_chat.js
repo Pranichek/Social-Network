@@ -1,11 +1,41 @@
 let chatSocket = null
 let currentChatId = null
 
+let isCurrentChatGroup = false
+let currentChatMembers = []
+
 const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
 const chatTitle = document.getElementById('title-chat')
 const chatWindow = document.querySelector("#chat-window")
 const messageForm = document.querySelector("#messeage-form")
 const messageInput = document.getElementById("messeage-input")
+
+function changeStatus(isGroup, members){
+  isCurrentChatGroup = isGroup
+  currentChatMembers = members || []
+
+  const statusLabel = document.querySelector(".status-chat")
+  if (!statusLabel) return
+
+  if (isCurrentChatGroup) {
+      let onlineCount = 0
+      currentChatMembers.forEach(id => {
+          if (window.onlineUsers && window.onlineUsers.has(String(id))) {
+              onlineCount++
+          }
+      })
+      statusLabel.textContent = `${currentChatMembers.length} учасників, ${onlineCount} в мережі`
+  } else {
+      const otherUserId = currentChatMembers[0]
+      if (window.onlineUsers && window.onlineUsers.has(String(otherUserId))) {
+          statusLabel.textContent = "в мережі"
+      } else {
+          statusLabel.textContent = "не в мережі"
+      }
+  }
+}
+
+window.changeStatus = changeStatus
 
 function connectWebSocket(chatId) {
   if (chatSocket) {
@@ -33,8 +63,6 @@ function InsertChatCard(userId, cardUser) {
   const existCard = messageListContainer.querySelector(`.block-card[data-chat-user="${userId}"]`)
 
   if (!existCard) {
-    const emptyText = messageListContainer.querySelector('p')
-    if (emptyText) emptyText.remove()
     messageListContainer.insertAdjacentHTML('beforeend', cardUser)
   }
 }
@@ -56,7 +84,7 @@ async function openChatById(chatId, chatName) {
     currentChatMembers = data.chat_members
     onlineMemberCount = data.online_count
 
-    document.querySelector(".status-chat").textContent = `${onlineMemberCount} в мережі`
+    changeStatus(data.is_group, data.chat_members)
 
     chatTitle.textContent = chatName
     chatWindow.classList.add("is-open")
@@ -85,7 +113,7 @@ async function openChatWithUser(userId, username) {
     isCurrentChatGroup = data.is_group
     currentChatMembers = data.chat_members
 
-    document.querySelector(".status-chat").textContent = data.is_online ? 'в мережі' : 'не в мережі'
+    changeStatus(data.is_group, data.chat_members)
 
     chatTitle.textContent = username
     chatWindow.classList.add("is-open")
