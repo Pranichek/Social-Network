@@ -26,8 +26,24 @@
 
 
             <div id="modal-settings" class = 'modal-settings hidden' data-user-id = "{{ request.user.id }}"> 
-                <button class = 'media-button'>Медіа</button>
-                <button class = 'delete-chat' id="delete-chat">Видалити чат</button>
+                
+                <div class="media"> 
+                    <img src="{% static 'chat_app/images/chat_images/media.svg' %}" alt="media">
+                    <p class = 'media-button'>Медіа</p>
+                </div>
+               
+                <div class="edit-group">
+                    <img src="{% static 'chat_app/images/chat_images/edit.svg' %}" alt="edit group">
+                    <p class="edit">Редагувати групу</p>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="delete">
+                    <img src="{% static 'chat_app/images/modals_chat/trash-icon.svg' %}" alt="rubbish bin">
+                    <p class = 'delete-chat' id="delete-chat">Видалити чат</p>
+                </div>
+                
             </div>
 
         </div>
