@@ -71,17 +71,45 @@
 
     display: flex;
     align-items: end;
+    max-width: 70%;
 }
 
 .other-message-outline{
     background-color: transparent;
     border-radius: 0.625vh;
     padding: 1.04vh 0.69vw;
-    gap: 0.69vw;
     border: 0.07vw #E9E5EE solid;
 
     display: flex;
+    flex-direction: row;
     align-items: end;
+    gap: 1.04vh;
+    max-width: 70%;
+}
+
+.change-dir{
+    flex-direction: column;
+    /* js: end; */
+}
+
+.nick-data{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+}
+
+.nick-data p{
+    font-weight: 400;
+    color: #543C52;
+    font-size: 1.04vh;
+}
+
+.text-message{
+    display: flex;
+    width: 100%;
+    align-items: end;
+    gap: 0.69vw;
 }
 
 .main-text{
@@ -90,15 +118,35 @@
     gap: 2.5vh;
 }
 
-.msg-text{
+.msg-text {
     height: 100%;
     display: flex;
-    text-align: center;
-    justify-content: center;
+    text-align: left;
+    justify-content: start;
     align-items: center;
     font-size: 1.46vh;
     color: #070A1C;
     font-weight: 400;
+    max-width: 100%; 
+}
+
+.msg-text p {
+    margin: 0;
+    overflow-wrap: anywhere; 
+    word-break: break-word; 
+    white-space: pre-wrap;  
+}
+
+
+.avatar-message{
+    height: 4.8vh;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-message img{
+    height: 100%;
 }
 
 .hidden {

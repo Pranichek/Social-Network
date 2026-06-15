@@ -76,7 +76,7 @@ function updateSeparators(){
 window.updateSeparators = updateSeparators;
 
 
-function renderMessage(data) {
+function renderMessage(data, username, isGroup) {
   const messageDiv = document.createElement("div");
   const isMe = data.is_current_user;
   console.log(isMe)
@@ -91,17 +91,45 @@ function renderMessage(data) {
     messageDiv.appendChild(window.renderMessageImage(data.images));
   }
 
-  messageDiv.insertAdjacentHTML('beforeend', `
-    <div class="${outlineClass}">
-        <div class="msg-text">
-            <p>${data.message_text ? data.message_text : ""}</p>
-        </div>
-        <div class="data-message">
-            <p>${formatMessageTime(data.created_at)}</p>
-            <img src="${checkReadIconPath}" alt="check_read">
-        </div>
-    </div>
-  `);
+
+
+  if (outlineClass == "message-outline" || isGroup == false){
+    messageDiv.insertAdjacentHTML('beforeend', `
+      <div class="${outlineClass}">
+          <div class="msg-text">
+              <p>${data.message_text ? data.message_text : ""}</p>
+          </div>
+          <div class="data-message">
+              <p>${formatMessageTime(data.created_at)}</p>
+              <img src="${checkReadIconPath}" alt="check_read">
+          </div>
+      </div>
+    `);
+  }else{
+    const avatarSrc = '/static/chat_app/images/alert_conteiner/avatar-chat.png';
+
+    messageDiv.insertAdjacentHTML('beforeend', `
+      <div class='avatar-message'>
+        <img src=${avatarSrc}>
+      </div>
+
+      <div class="${outlineClass} change-dir">
+          <div class='nick-data'>
+            <p>${username}</p>
+          </div>
+
+          <div class = 'text-message'>
+            <div class="msg-text">
+                <p>${data.message_text ? data.message_text : ""}</p>
+            </div>
+            <div class="data-message">
+                <p>${formatMessageTime(data.created_at)}</p>
+                <img src="${checkReadIconPath}" alt="check_read">
+            </div>
+          </div>
+      </div>
+    `);
+  }
 
   return messageDiv;
 }
@@ -134,7 +162,7 @@ async function loadMessages(prepend = false) {
   if (data.success) {
     const fragment = document.createDocumentFragment();
     data.messages.forEach((message) =>
-      fragment.appendChild(renderMessage(message))
+      fragment.appendChild(renderMessage(message, message.sender, data.is_group))
     );
 
     const sentinel = document.querySelector("#chat-load-sentinel");

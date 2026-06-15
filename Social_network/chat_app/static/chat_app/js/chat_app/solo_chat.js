@@ -49,7 +49,8 @@ function connectWebSocket(chatId) {
   chatSocket.onmessage = function (event) {
     let data = JSON.parse(event.data)
     if (data.action == "chat_message") {
-      const messageElement = renderMessage(data)
+      
+      const messageElement = renderMessage(data, data.sender, isCurrentChatGroup)
       document.querySelector("#messeages").appendChild(messageElement)
       const messagesContainer = document.querySelector("#messeages")
       messagesContainer.scrollTop = messagesContainer.scrollHeight

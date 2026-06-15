@@ -120,7 +120,7 @@ class PostForm(forms.ModelForm):
                     post.tags.add(tag_object)
 
             for url in self.links_list:
-                Link.objects.create(post=post, url=url)
+                PostLink.objects.create(post=post, url=url)
 
             uploaded_images = self.cleaned_data.get('images')
 

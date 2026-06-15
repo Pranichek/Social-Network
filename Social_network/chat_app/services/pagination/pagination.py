@@ -1,9 +1,10 @@
+from ...models import Chat, Message
+
+
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from ..models import Chat, Message
 from django.http import HttpRequest
 from django.utils import timezone 
-
 
 
 def message_paginator(request: HttpRequest, chat_id: int):
@@ -26,7 +27,7 @@ def message_paginator(request: HttpRequest, chat_id: int):
                 {
                     "id": message.id,
                     "message_text": message.text,
-                    "sender": message.sender.username if message.sender else "Невідомий",
+                    "sender": message.sender.userprofile.pseudonym if message.sender else "Невідомий",
                     "is_current_user": message.sender.id == request.user.id,
                     "created_at": timezone.localtime(message.created_at).isoformat(),
                     "images": [img.image.url for img in message.images.all()]
@@ -34,5 +35,6 @@ def message_paginator(request: HttpRequest, chat_id: int):
                 for message in messages
             ],
             "has_next": page_obj.has_next(),
+            "is_group": Chat.objects.filter(id=chat_id, users=request.user).first().is_group
         }
     )

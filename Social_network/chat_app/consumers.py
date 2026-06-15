@@ -4,17 +4,17 @@ from channels.db import database_sync_to_async
 from .models import Message
 from django.utils import timezone
 
-
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.chat_id = self.scope["url_route"]['kwargs']["chat_id"]
         self.room_group_name = f"chat_{self.chat_id}"
         
+        self.user_pseudonym = await self.get_pseudonym(self.scope["user"])
+
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         await self.accept()
         await self.send(
-            # dumps - Приобразовывает из словаря в строку 
             text_data=json.dumps({
                 "action": 'connection_information',
                 "message" : "Підключено успішно",
@@ -34,20 +34,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {
                     "type": "send_chat_message",
                     "message_text": message_text,
-                    "sender": self.scope["user"].username,
+                    "sender": self.user_pseudonym,
                     "created_at": message_data["created_at"],
                     "images": message_data.get("images", [])
                 }
             )
 
     async def send_chat_message(self, event):
-        # await self.send(text_data=json.dumps({
-        #     'action': 'chat_message',
-        #     'message_text': event['message_text'],
-        #     'sender': event['sender'],
-        #     'created_at': event['created_at']
-        # }))
-        is_me = self.scope["user"].username == event['sender']
+        is_me = self.user_pseudonym == event['sender']
 
         await self.send(text_data=json.dumps({
             'action': 'chat_message',
@@ -66,6 +60,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "created_at": timezone.localtime(message.created_at).isoformat(),
             'images': []
         }
+    
+    @database_sync_to_async
+    def get_pseudonym(self, user):
+        if user.is_authenticated:
+            return user.userprofile.pseudonym
+        return "Невідомий"
     
 class OnlineStatusConsumer(AsyncWebsocketConsumer):
     online_users = set()
