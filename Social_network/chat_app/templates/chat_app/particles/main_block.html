@@ -45,7 +45,10 @@
         
         <form id="messeage-form" class="messeage-form">
             <input type="text" id="messeage-input" class="message-input" placeholder="Повідомлення">
-            <button class="select-icon"><img src="{% static 'chat_app/images/chat_images/gallery-icon.svg' %}" alt="gallery-icon"></button>
+            
+            <input type="file" id="message-images" accept="images/*" multiple hidden>
+            <button class="select-icon" type="button" id="message-button"><img src="{% static 'chat_app/images/chat_images/gallery-icon.svg' %}" alt="gallery-icon"></button>
+
             <button class="send-btn"><img src="{% static 'chat_app/images/chat_images/send_icon.svg' %}" alt="send-text"></button>
         </form>
     </div>

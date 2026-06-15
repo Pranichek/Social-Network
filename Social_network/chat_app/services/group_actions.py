@@ -50,7 +50,7 @@ def open_chat_by_id_service(request: HttpRequest, chat_id: int):
         'success': True,
         'chat_id': chat.id,
         'html': render_messages_html,
-        'count_online': count_online,
+        'chat_members': user_ids,
         "is_group": True,
         'online_count': count_online
     })

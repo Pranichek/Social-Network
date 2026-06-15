@@ -156,3 +156,14 @@
     color: #070A1C;
 }
 
+
+
+.message-images{
+    height: 5vh;
+    width: 5vw;
+    position: relative;
+}
+
+.message-images img{
+    height: 100%;
+}

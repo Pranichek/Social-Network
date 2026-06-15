@@ -5,17 +5,20 @@ from .services.delete_chat import delete_chat
 from user_app.models import User
 from .models import Chat
 from .services.pagination import message_paginator
+from .models import Message, MessageImage
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
-
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from django.utils import timezone
 
 from django.core.paginator import Paginator, EmptyPage
 from django.template.loader import render_to_string
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest
 
 User = get_user_model()
 
@@ -108,4 +111,49 @@ class LoadContactsView(LoginRequiredMixin, View):
         return JsonResponse({
             'html': html,
             'has_next': page_obj.has_next()
+        })
+    
+class MessageUploadView(LoginRequiredMixin, View):
+    login_url = reverse_lazy("auth_view")
+
+    def post(self, request: HttpRequest, chat_id):
+        if not Chat.objects.filter(id= chat_id, users= request.user).exists():
+            return JsonResponse({
+                'success': False
+            }, status= 403) 
+        
+        text = request.POST.get('text', "").strip()
+        images = request.FILES.getlist('images')
+
+        if not text and not images:
+            return JsonResponse({
+                'success': False
+            }, status= 400)
+        
+        message = Message.objects.create(
+            chat_id= chat_id,
+            sender= request.user,
+            text= text
+        )
+
+        for image in images:
+            MessageImage.objects.create(message= message, image= image)
+
+        image_urls = [image.image.url for image in message.images.all()]
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f'chat_{chat_id}',
+            {
+                'type': 'send_chat_message',
+                'id': message.id,
+                'message_text': message.text,
+                'sender': message.sender.username,
+                'created_at': timezone.localtime(message.created_at).isoformat(),
+                'images': image_urls,
+                'is_current_user': True,
+            }
+        )
+        return JsonResponse({
+            'success': True
         })
