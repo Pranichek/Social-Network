@@ -4,7 +4,6 @@ from chat_app.consumers import OnlineStatusConsumer
 from django.http import JsonResponse, HttpRequest
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from django.core.cache import cache
 
 
 def create_group_service(request: HttpRequest):
@@ -36,7 +35,7 @@ def open_chat_by_id_service(request: HttpRequest, chat_id: int):
     last_messages = chat.messages.select_related('sender').order_by('-created_at')[:20]
 
     render_messages_html = render_to_string(
-        "chat_app/particles/messages_list.html",
+        "chat_app/particles/html_parts/messages_list.html",
         {
             "messages": reversed(last_messages),
             "current_user_id": request.user.id

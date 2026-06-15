@@ -10,5 +10,8 @@ urlpatterns = [
     path('delete/<int:chat_id>/', DeleteChat.as_view(), name = 'delete_chat'),
 
     path('contacts/', LoadContactsView.as_view(), name='load_contacts'),
+    path('message_block/', LoadMessageBlockView.as_view(), name='paginate_message_block'),
+    path('group_block/', LoadGroupBlockView.as_view(), name='paginate_group_block'),
+    
     path('upload_images/<int:chat_id>/', MessageUploadView.as_view(), name = 'message_upload'),
 ]

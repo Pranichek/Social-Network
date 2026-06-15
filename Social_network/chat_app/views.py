@@ -2,37 +2,21 @@ from .services.get_or_create_chat import get_or_create_chat
 from user_app.services.friends_queries import get_friends
 from .services.group_actions import create_group_service, open_chat_by_id_service 
 from .services.delete_chat import delete_chat
+from .services.pagination.pagination import message_paginator
+from .services.pagination.paginator_contact import paginate_contact
+from .services.pagination.pagination_messages_block import paginate_active_chats
+from .services.pagination.paginations_groups import paginate_group_chats
+from .services.save_images import message_images
+
 from user_app.models import User
 from .models import Chat
-from .services.pagination import message_paginator
-from .models import Message, MessageImage
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
 from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
-from django.utils import timezone
+from django.http import HttpRequest
 
-from django.core.paginator import Paginator, EmptyPage
-from django.template.loader import render_to_string
-from django.http import JsonResponse, HttpRequest
-
-User = get_user_model()
-
-class FakeProfile:
-    def __init__(self, pseudonym):
-        self.pseudonym = pseudonym
-
-
-class FakeUser:
-    def __init__(self, id, username, email, pseudonym):
-        self.id = id
-        self.username = username
-        self.email = email
-        self.userprofile = FakeProfile(pseudonym)
 
 class ChatView(LoginRequiredMixin, TemplateView):
     template_name = 'chat_app/chats.html'
@@ -49,12 +33,12 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['active_chats'] = User.objects.filter(
             chats__users = self.request.user,
             chats__is_group = False
-        ).exclude(id = self.request.user.id).distinct()
+        ).exclude(id = self.request.user.id).distinct()[:10]
 
         context['group_chat'] = Chat.objects.filter(
             users = self.request.user,
             is_group = True
-        ).order_by('-id')
+        ).order_by('-id')[:10]
 
 
         return context
@@ -89,71 +73,20 @@ class DeleteChat(LoginRequiredMixin, View):
 # пагінація
 class LoadContactsView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        page_number = request.GET.get('page', 1)
-        friends_list = get_friends(request.user)
-        
-        paginator = Paginator(friends_list, 20)
-        
-        try:
-            page_obj = paginator.page(page_number)
-        except EmptyPage:
-            return JsonResponse({
-                'html': '',
-                'has_next': False
-            })
-
-        html = render_to_string(
-            'chat_app/particles/contacts_list.html', 
-            {'friends': page_obj.object_list}, 
-            request=request
-        )
-
-        return JsonResponse({
-            'html': html,
-            'has_next': page_obj.has_next()
-        })
+        return paginate_contact(request= request)
     
+
+class LoadMessageBlockView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return paginate_active_chats(request= request)
+    
+class LoadGroupBlockView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        return paginate_group_chats(request=request)
+
+# Збереження зображень до повідомлень
 class MessageUploadView(LoginRequiredMixin, View):
     login_url = reverse_lazy("auth_view")
 
     def post(self, request: HttpRequest, chat_id):
-        if not Chat.objects.filter(id= chat_id, users= request.user).exists():
-            return JsonResponse({
-                'success': False
-            }, status= 403) 
-        
-        text = request.POST.get('text', "").strip()
-        images = request.FILES.getlist('images')
-
-        if not text and not images:
-            return JsonResponse({
-                'success': False
-            }, status= 400)
-        
-        message = Message.objects.create(
-            chat_id= chat_id,
-            sender= request.user,
-            text= text
-        )
-
-        for image in images:
-            MessageImage.objects.create(message= message, image= image)
-
-        image_urls = [image.image.url for image in message.images.all()]
-
-        channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.group_send)(
-            f'chat_{chat_id}',
-            {
-                'type': 'send_chat_message',
-                'id': message.id,
-                'message_text': message.text,
-                'sender': message.sender.username,
-                'created_at': timezone.localtime(message.created_at).isoformat(),
-                'images': image_urls,
-                'is_current_user': True,
-            }
-        )
-        return JsonResponse({
-            'success': True
-        })
+        return message_images(request= request, chat_id= chat_id)
