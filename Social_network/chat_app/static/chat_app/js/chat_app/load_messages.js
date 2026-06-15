@@ -79,30 +79,46 @@ window.updateSeparators = updateSeparators;
 function renderMessage(data) {
   const messageDiv = document.createElement("div");
   const isMe = data.is_current_user;
-  console.log(isMe)
   const msgClass = isMe ? "message" : "message other_user";
   const outlineClass = isMe ? "message-outline" : "other-message-outline";
   const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg';
 
   messageDiv.className = msgClass;
-  messageDiv.dataset.messageDate = formatMessageDate(data.created_at)
+  messageDiv.dataset.messageDate = formatMessageDate(data.created_at);
 
-  if (window.hasMessageImages(data)){
-    messageDiv.appendChild(window.renderMessageImage(data.images));
+  const outlineDiv = document.createElement("div");
+  outlineDiv.className = outlineClass;
+
+  if (window.hasMessageImages(data) && data.images && data.images.length > 0) {
+    const imagesContainer = window.renderMessageImage(data.images); 
+    const imgCount = data.images.length;
+
+    imagesContainer.classList.remove("single-image", "two-images", "multi-images");
+    if (imgCount === 1) {
+      imagesContainer.classList.add("single-image");
+    } else if (imgCount === 2) {
+      imagesContainer.classList.add("two-images");
+    } else {
+      imagesContainer.classList.add("multi-images");
+      imagesContainer.setAttribute("data-count", imgCount);
+    }
+    
+    outlineDiv.appendChild(imagesContainer);
+  } else {
+    outlineDiv.classList.add("no-images");
   }
 
-  messageDiv.insertAdjacentHTML('beforeend', `
-    <div class="${outlineClass}">
-        <div class="msg-text">
-            <p>${data.message_text ? data.message_text : ""}</p>
-        </div>
-        <div class="data-message">
-            <p>${formatMessageTime(data.created_at)}</p>
-            <img src="${checkReadIconPath}" alt="check_read">
-        </div>
+  const textContent = data.message_text ? `<div class="msg-text"><p>${data.message_text}</p></div>` : "";
+
+  outlineDiv.insertAdjacentHTML('beforeend', `
+    ${textContent}
+    <div class="data-message">
+        <span class="msg-time">${formatMessageTime(data.created_at)}</span>
+        <img src="${checkReadIconPath}" alt="check_read" class="msg-status">
     </div>
   `);
 
+  messageDiv.appendChild(outlineDiv);
   return messageDiv;
 }
 
