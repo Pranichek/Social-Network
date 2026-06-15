@@ -24,6 +24,7 @@
 
 .message-cont{
     min-height: 40.52vh;
+    max-height: 40.52vh;
 }
 
 .group-cont{
@@ -91,13 +92,34 @@
     padding: 0.83vh 1.11vw;
 }
 
-
 .block-card:hover, .card-contact:hover{
     cursor: pointer;
 }
 
 .block-card img{
     height: 100%;
+}
+
+.avatar-wrapper{
+    height: 100%;
+    width: auto;
+    position: relative;
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 1.5vh;       
+    height: 1.5vh;       
+    background-color: #CDCED2; 
+    border-radius: 50%;
+    border: 0.2vh solid #FFFFFF; 
+    transition: background-color 0.3s ease;
+}
+
+.status-indicator.online {
+    background-color: #22C55E; 
 }
 
 .text-data{
@@ -138,3 +160,14 @@
     color: #070A1C;
 }
 
+
+
+.message-images{
+    height: 5vh;
+    width: 5vw;
+    position: relative;
+}
+
+.message-images img{
+    height: 100%;
+}

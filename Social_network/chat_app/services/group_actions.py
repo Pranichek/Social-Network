@@ -1,7 +1,11 @@
+from ..models import Chat
+from chat_app.consumers import OnlineStatusConsumer
+
 from django.http import JsonResponse, HttpRequest
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from ..models import Chat
+from django.core.cache import cache
+
 
 def create_group_service(request: HttpRequest):
     name = request.POST.get('name')
@@ -39,8 +43,14 @@ def open_chat_by_id_service(request: HttpRequest, chat_id: int):
         }
     )
 
+    user_ids = list(chat.users.values_list('id', flat=True))
+    count_online = OnlineStatusConsumer.get_online_count(user_ids)
+
     return JsonResponse({
         'success': True,
         'chat_id': chat.id,
-        'html': render_messages_html
+        'html': render_messages_html,
+        'chat_members': user_ids,
+        "is_group": True,
+        'online_count': count_online
     })

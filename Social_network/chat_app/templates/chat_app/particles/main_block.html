@@ -26,24 +26,8 @@
 
 
             <div id="modal-settings" class = 'modal-settings hidden' data-user-id = "{{ request.user.id }}"> 
-                
-                <div class="media"> 
-                    <img src="{% static 'chat_app/images/chat_images/media.svg' %}" alt="media">
-                    <p class = 'media-button'>Медіа</p>
-                </div>
-               
-                <div class="edit-group">
-                    <img src="{% static 'chat_app/images/chat_images/edit.svg' %}" alt="edit group">
-                    <p class="edit">Редагувати групу</p>
-                </div>
-
-                <div class="line"></div>
-
-                <div class="delete">
-                    <img src="{% static 'chat_app/images/modals_chat/trash-icon.svg' %}" alt="rubbish bin">
-                    <p class = 'delete-chat' id="delete-chat">Видалити чат</p>
-                </div>
-                
+                <button class = 'media-button'>Медіа</button>
+                <button class = 'delete-chat' id="delete-chat">Видалити чат</button>
             </div>
 
         </div>
@@ -61,7 +45,10 @@
         
         <form id="messeage-form" class="messeage-form">
             <input type="text" id="messeage-input" class="message-input" placeholder="Повідомлення">
-            <button class="select-icon"><img src="{% static 'chat_app/images/chat_images/gallery-icon.svg' %}" alt="gallery-icon"></button>
+            
+            <input type="file" id="message-images" accept="images/*" multiple hidden>
+            <button class="select-icon" type="button" id="message-button"><img src="{% static 'chat_app/images/chat_images/gallery-icon.svg' %}" alt="gallery-icon"></button>
+
             <button class="send-btn"><img src="{% static 'chat_app/images/chat_images/send_icon.svg' %}" alt="send-text"></button>
         </form>
     </div>
