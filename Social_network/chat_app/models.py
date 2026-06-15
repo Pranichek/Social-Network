@@ -41,7 +41,7 @@ class Message(models.Model):
     
 
 class MessageImage(models.Model):
-    image = models.ImageField(upload_to = 'message_images/')
+    image = models.ImageField(upload_to = 'images/chat_images')
     message = models.ForeignKey(Message, on_delete = models.CASCADE, related_name = 'images')
     
     def __str__(self):

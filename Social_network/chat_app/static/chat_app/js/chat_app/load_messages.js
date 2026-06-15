@@ -79,6 +79,7 @@ window.updateSeparators = updateSeparators;
 function renderMessage(data) {
   const messageDiv = document.createElement("div");
   const isMe = data.is_current_user;
+  console.log(isMe)
   const msgClass = isMe ? "message" : "message other_user";
   const outlineClass = isMe ? "message-outline" : "other-message-outline";
   const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg';
@@ -86,17 +87,22 @@ function renderMessage(data) {
   messageDiv.className = msgClass;
   messageDiv.dataset.messageDate = formatMessageDate(data.created_at)
 
-  messageDiv.innerHTML = `
+  if (window.hasMessageImages(data)){
+    messageDiv.appendChild(window.renderMessageImage(data.images));
+  }
+
+  messageDiv.insertAdjacentHTML('beforeend', `
     <div class="${outlineClass}">
         <div class="msg-text">
-            <p>${data.message_text}</p>
+            <p>${data.message_text ? data.message_text : ""}</p>
         </div>
         <div class="data-message">
             <p>${formatMessageTime(data.created_at)}</p>
             <img src="${checkReadIconPath}" alt="check_read">
         </div>
     </div>
-  `;
+  `);
+
   return messageDiv;
 }
 

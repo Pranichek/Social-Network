@@ -35,7 +35,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     "type": "send_chat_message",
                     "message_text": message_text,
                     "sender": self.scope["user"].username,
-                    "created_at": message_data["created_at"] 
+                    "created_at": message_data["created_at"],
+                    "images": message_data.get("images", [])
                 }
             )
 
@@ -53,7 +54,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'message_text': event['message_text'],
             'sender': event['sender'],
             'created_at': event['created_at'],
-            'is_current_user': is_me
+            'is_current_user': is_me,
+            "images": event.get("images", [])
         }))
 
     @database_sync_to_async
@@ -61,7 +63,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         user = self.scope["user"]
         message = Message.objects.create(chat_id=self.chat_id, sender=user, text=text)
         return {
-            "created_at": timezone.localtime(message.created_at).isoformat()
+            "created_at": timezone.localtime(message.created_at).isoformat(),
+            'images': []
         }
     
 class OnlineStatusConsumer(AsyncWebsocketConsumer):
@@ -105,7 +108,6 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
 
     # для відображення в хедері чату статус 
     # classmethod - щоб можна було звертатися до методів класу, без створення екземплрів
-
     @classmethod
     def is_online(cls, user_id):
         return str(user_id) in cls.online_users

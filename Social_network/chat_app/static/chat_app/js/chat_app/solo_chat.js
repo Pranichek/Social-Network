@@ -145,10 +145,31 @@ document.addEventListener('click', async (event) => {
   }
 })
 
-messageForm.addEventListener('submit', (event) => {
-  event.preventDefault()
-  const messageText = messageInput.value.trim()
-  if (messageText) {
+// messageForm.addEventListener('submit', (event) => {
+//   event.preventDefault()
+//   const messageText = messageInput.value.trim()
+//   if (messageText) {
+//     chatSocket.send(JSON.stringify({ messageText: messageText }))
+//     messageInput.value = ""
+//   }
+// })
+
+messageForm.addEventListener('submit', async (event)=>{
+  event.preventDefault();
+  const messageText = messageInput.value.trim();
+  if (!messageText && !window.hasSelectedImages()){
+    return
+  }
+
+  if (window.hasSelectedImages()){
+    const data = await window.sendMessageWithImages(messageText)
+    
+    if (data && !data.success){
+      return
+    }
+    messageInput.value = ''
+    window.clearSelectedImages()
+  }else{
     chatSocket.send(JSON.stringify({ messageText: messageText }))
     messageInput.value = ""
   }
