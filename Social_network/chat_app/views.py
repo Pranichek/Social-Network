@@ -16,6 +16,7 @@ from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
 from django.urls import reverse_lazy
 from django.http import HttpRequest
+from django.utils import timezone
 
 
 class ChatView(LoginRequiredMixin, TemplateView):
@@ -30,15 +31,52 @@ class ChatView(LoginRequiredMixin, TemplateView):
 
         context["friends"] = get_friends(self.request.user)[:20]
 
-        context['active_chats'] = User.objects.filter(
-            chats__users = self.request.user,
-            chats__is_group = False
-        ).exclude(id = self.request.user.id).distinct()[:10]
+        active_chats_users = User.objects.filter(
+            chats__users=self.request.user,
+            chats__is_group=False
+        ).exclude(id=self.request.user.id).distinct()[:10]
 
-        context['group_chat'] = Chat.objects.filter(
+        active_chats_data = []
+
+        for user in active_chats_users:
+            chat = Chat.objects.filter(
+                users=self.request.user,
+                is_group=False
+            ).filter(users=user).first()
+            
+            message = chat.messages.order_by('-created_at').first() if chat else None
+            
+            active_chats_data.append({
+                'user': user,
+                'last_message_text': message.text if message else 'Немає повідомлень',
+                'last_message_data': timezone.localtime(message.created_at).strftime('%H:%M') if message else '',
+            })
+
+        context['active_chats_data'] = active_chats_data
+
+        chats = Chat.objects.filter(
             users = self.request.user,
             is_group = True
         ).order_by('-id')[:10]
+
+        group_chats_data = []
+
+        for chat in chats:
+            message = chat.messages.order_by('-created_at').first()
+            if message:
+                last_message_text = message.text
+                last_message_data = timezone.localtime(message.created_at).strftime('%H:%M')
+            else:
+                last_message_text = "Немає повідомлень"
+                last_message_data = ""
+
+            group_chats_data.append({
+                'chat_object': chat,
+                'last_message_text': last_message_text,
+                'last_message_data': last_message_data,
+            })
+
+        context['group_chats_data'] = group_chats_data
 
 
         return context

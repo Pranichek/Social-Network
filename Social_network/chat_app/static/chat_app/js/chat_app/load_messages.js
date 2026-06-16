@@ -79,7 +79,6 @@ window.updateSeparators = updateSeparators;
 function renderMessage(data, username, isGroup) {
   const messageDiv = document.createElement("div");
   const isMe = data.is_current_user;
-  console.log(isMe)
   const msgClass = isMe ? "message" : "message other_user";
   const outlineClass = isMe ? "message-outline" : "other-message-outline";
   const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg';
