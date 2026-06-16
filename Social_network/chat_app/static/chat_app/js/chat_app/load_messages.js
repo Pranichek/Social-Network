@@ -108,15 +108,17 @@ function renderMessage(data) {
     outlineDiv.classList.add("no-images");
   }
 
-  const textContent = data.message_text ? `<div class="msg-text"><p>${data.message_text}</p></div>` : "";
+  const textContent = data.message_text ? `<span class="msg-text">${data.message_text}</span>` : "";
 
   outlineDiv.insertAdjacentHTML('beforeend', `
-    ${textContent}
     <div class="data-message">
-        <span class="msg-time">${formatMessageTime(data.created_at)}</span>
-        <img src="${checkReadIconPath}" alt="check_read" class="msg-status">
+        ${textContent}
+        <div class="msg-meta">
+            <span class="msg-time">${formatMessageTime(data.created_at)}</span>
+            <img src="${checkReadIconPath}" alt="check_read" class="msg-status">
+        </div>
     </div>
-  `);
+`);
 
   messageDiv.appendChild(outlineDiv);
   return messageDiv;
