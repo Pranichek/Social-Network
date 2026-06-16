@@ -8,11 +8,11 @@
             <div class="top-data">
                 <p class="nickname-card">{{group.name}}</p>
 
-                <p class="card-time">09:41</p>
+                <p class="card-time">{{ group.last_message_data|date:"H:i" }}</p>
             </div>
 
             <div class="bottom-data">
-                <p>Привіт</p>
+                <p>{{ group.last_message_text }}</p>
             </div>
         </div>
 

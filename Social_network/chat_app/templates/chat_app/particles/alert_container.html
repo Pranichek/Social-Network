@@ -14,8 +14,8 @@
 
         <div class="message-list" id="message-block-cards">
 
-            {% for friend in active_chats %}
-                <div class="block-card" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.userprofile.pseudonym }}" >
+            {% for item in active_chats_data %}
+                <div class="block-card" data-chat-user="{{ item.user.id }}" data-chat-username="{{ item.user.userprofile.pseudonym }}">
                     <div class="avatar-wrapper">
                         <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon" class="avatar-img">
                         <span class="status-indicator"></span>
@@ -23,16 +23,14 @@
 
                     <div class="text-data">
                         <div class="top-data">
-                            <p class="nickname-card">{{ friend.userprofile.pseudonym }}</p>
-
-                            <p class="card-time">09:41</p>
+                            <p class="nickname-card">{{ item.user.userprofile.pseudonym }}</p>
+                            <p class="card-time">{{ item.last_message_data }}</p>
                         </div>
 
                         <div class="bottom-data">
-                            <p>Привіт! Як справи ?</p>
+                            <p>{{ item.last_message_text }}</p>
                         </div>
                     </div>
-
                 </div>
             {% endfor %}
             <div id="active-chats-sentinel"></div>
@@ -49,22 +47,20 @@
         </div>
 
         <div class="message-list" id="group-block-cards">
-            {% for group in group_chat %}
-                <div class="block-card" data-chat-id="{{ group.id }}" data-chat-title="{{ group.name }}">
+            {% for group in group_chats_data %}
+                <div class="block-card" data-chat-id="{{ group.chat_object.id }}" data-chat-title="{{ group.chat_object.name }}">
                     <img src="{% static 'chat_app/images/alert_conteiner/group-avatar.svg' %}" alt="avatar-icon">
 
                     <div class="text-data">
                         <div class="top-data">
-                            <p class="nickname-card">{{group.name}}</p>
-
-                            <p class="card-time">09:41</p>
+                            <p class="nickname-card">{{ group.chat_object.name }}</p>
+                            <p class="card-time">{{ group.last_message_data }}</p>
                         </div>
 
                         <div class="bottom-data">
-                            <p>Привіт</p>
+                            <p>{{ group.last_message_text }}</p>
                         </div>
                     </div>
-
                 </div>
             {% endfor %}
             <div id="group-sentinel"></div>

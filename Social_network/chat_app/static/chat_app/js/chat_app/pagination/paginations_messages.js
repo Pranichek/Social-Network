@@ -39,6 +39,9 @@ const observerChats = new IntersectionObserver(async (entries) => {
         if (preloadedDataChats) { 
             if (preloadedDataChats.html) {
                 sentielChats.insertAdjacentHTML("beforebegin", preloadedDataChats.html);
+                window.reloadDict()
+                console.log(currentId)
+                window.recheckCard(currentId)
             }
 
             if (!preloadedDataChats.has_next) {
