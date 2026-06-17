@@ -37,6 +37,14 @@ if (btnCreateChat) {
 function updateSelectedCount() {
   const count = document.querySelectorAll(".group-user-checkbox:checked").length
   selectedCount.textContent = count;
+  
+  if (nextGroupStepBtn) {
+    if (count > 0) {
+      nextGroupStepBtn.disabled = false;
+    } else {
+      nextGroupStepBtn.disabled = true;
+    }
+  }
 }
 
 function renderSelectedUsers() {
@@ -72,9 +80,10 @@ groupUserCheckboxes.forEach(cb => {
         updateSelectedCount()
     })
 })
-
+console.log('1')
 if (nextGroupStepBtn) {
     nextGroupStepBtn.addEventListener('click', () => {
+        console.log('2')
         if (selectedUsersList) selectedUsersList.innerHTML = ""
         document.querySelectorAll(".group-user-checkbox:checked").forEach(cb => {
             renderSelectedUsers()            
@@ -178,7 +187,7 @@ document.addEventListener('click', (event) => {
 
                 
             }
-            
+
             return
         }
         userCard.remove(); 

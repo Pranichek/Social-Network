@@ -1,0 +1,250 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.modal-shadow {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh 2vw;
+}
+
+.modal-container {
+    background: #FFFFFF;
+    width: 34vw;
+    height: 81vh;
+    max-width: 490px;
+    border-radius: 1.4vw;
+    padding: 2.5vh 2vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    position: relative;
+}
+
+.modal-close-wrapper {
+    height: 2vh;
+    width: 28vw;
+    gap: 0.7vw;
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+.modal-close-wrapper img{
+    height: 2vh;
+    width: 1.4vw;
+}
+
+.modal-header {
+    text-align: center;
+    font-size: 3.55vh;
+    line-height: 1;
+    letter-spacing: -0.001em;
+    font-weight: 500;
+    font-family: Roboto, sans-serif;
+    color: #070A1C;
+}
+
+.inputs-container .search {
+    position: relative;
+    width: 28vw;
+    height: 4.375vh;
+    border: 0.069vw solid #CDCED2;
+    border-radius: 0.694vw;
+    background-color: #FFFFFF;
+}
+
+.inputs-container .search input {
+    width: 100%;
+    height: 100%;
+    padding: 0 1.1vw 0 2.5vw;
+    border: none;
+    outline: none;
+    border-radius: 0.694vw;
+    font-size: 1.46vh;
+    line-height: 2.08vh;
+    color: #81818D;
+}
+
+.inputs-container .search .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 1.1vw;
+    transform: translateY(-50%);
+    width: 1vw;
+    height: 1.6vh;
+}
+
+.selected-count {
+    font-weight: 500;
+    font-size: 1.45vw;
+    color: #81818D;
+    line-height: 1;
+    letter-spacing: -0.01em;
+
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.4vw;
+}
+
+.main-content::-webkit-scrollbar {
+    width: 0.3vw;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: #543C52;
+    border-radius: 1vw;
+}
+
+.group-letter {
+    font-size: 1.25vh;
+    font-weight: 500;
+    font-family: Roboto, sans-serif;
+    color: #070A1C;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin: 1vh 0;
+}
+
+.user-data {
+    display: flex;
+    align-items: center;
+    max-width: 402px;
+    padding: 1vh 0;
+    border-bottom: 1px solid #FFFFFF;
+}
+
+.user-data:hover {
+    background: #FFFFFF;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 3.2vw;
+    height: 4.8vh;
+    flex-shrink: 0;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.status-indicator {
+    position: absolute;
+    top: 3.2vh;
+    right: 0;
+    bottom: 0;
+    left: 2.15vw;
+    width: 0.8vw;
+    height: 1.25vh;
+    border-radius: 12.85vw;
+    border: 0.15vw solid #FFFFFF;
+    background: #CDCED2;
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.8vw;
+    scrollbar-width: thin; 
+    scrollbar-color: #543C52 #F0EAF1;
+}
+
+.username {
+    flex: 1;
+    margin-left: 1rem;
+    font-size: 1.7vh;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0;
+    font-family: Roboto, sans-serif;
+    color: #070A1C;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    width: 1.45vw;
+    height: 2vh;
+}
+
+.real-checkbox {
+    opacity: 0;
+    position: absolute;
+}
+
+.custom-checkbox {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #543C52;
+    border-radius: 0.3rem;
+    position: absolute;
+}
+
+.real-checkbox:checked ~ .custom-checkbox::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid #543C52;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1vw;
+    padding-top: 1vh;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vh 1.1vw;
+    width: 6.25vw;
+    height: 4.17vh;
+    gap: 0.5vw;
+    border-radius: 86vw;
+    font-size: 1.46vh;
+    font-weight: 500;
+    line-height: 1.389vw;
+    letter-spacing: -0.006em;
+    cursor: pointer;
+    font-family: Roboto, sans-serif;
+}
+
+
+.btn-cancel {
+    background: transparent;
+    width: 7vw;
+    color: #543C52;
+    border: 1px solid #543C52;
+}
+
+.btn-save {
+    background: #543C52;
+    color: #FFFFFF;
+    border: none;
+}

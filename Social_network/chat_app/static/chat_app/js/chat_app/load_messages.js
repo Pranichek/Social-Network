@@ -84,10 +84,28 @@ function renderMessage(data, username, isGroup) {
   const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg';
 
   messageDiv.className = msgClass;
-  messageDiv.dataset.messageDate = formatMessageDate(data.created_at)
+  messageDiv.dataset.messageDate = formatMessageDate(data.created_at);
 
-  if (window.hasMessageImages(data)){
-    messageDiv.appendChild(window.renderMessageImage(data.images));
+  const outlineDiv = document.createElement("div");
+  outlineDiv.className = outlineClass;
+
+  if (window.hasMessageImages(data) && data.images && data.images.length > 0) {
+    const imagesContainer = window.renderMessageImage(data.images); 
+    const imgCount = data.images.length;
+
+    imagesContainer.classList.remove("single-image", "two-images", "multi-images");
+    if (imgCount === 1) {
+      imagesContainer.classList.add("single-image");
+    } else if (imgCount === 2) {
+      imagesContainer.classList.add("two-images");
+    } else {
+      imagesContainer.classList.add("multi-images");
+      imagesContainer.setAttribute("data-count", imgCount);
+    }
+    
+    outlineDiv.appendChild(imagesContainer);
+  } else {
+    outlineDiv.classList.add("no-images");
   }
 
 
@@ -130,6 +148,7 @@ function renderMessage(data, username, isGroup) {
     `);
   }
 
+  messageDiv.appendChild(outlineDiv);
   return messageDiv;
 }
 
