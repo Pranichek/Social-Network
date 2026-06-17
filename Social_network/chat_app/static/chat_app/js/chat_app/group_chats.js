@@ -153,3 +153,36 @@ function insertGroupChatCard(chatId, chatName) {
     
     groupListContainer.insertAdjacentHTML('afterbegin', cardHTML)
 }
+
+document.addEventListener('click', (event) => {
+    
+    const trashBtn = event.target.closest('.delete-btn, .bin');
+    
+    if (!trashBtn) return; 
+
+    const userCard = trashBtn.closest('.member-card, .member');
+    
+    if (userCard) {
+        const memberList = userCard.parentElement
+        const countMembers = memberList.querySelectorAll('.member-card, .member').length
+
+        if (countMembers <= 2) {
+            let existingError = memberList.querySelector('.errorMessage');
+
+            if (!existingError) {
+                const errorMessage = document.createElement('p')
+                errorMessage.classList.add('errorMessage')
+                errorMessage.textContent = 'Група повинна мати хоча б 2 користувача'
+
+                memberList.prepend(errorMessage);
+
+                
+            }
+            
+            return
+        }
+        userCard.remove(); 
+        
+        updateSelectedCount(); 
+    }
+});
