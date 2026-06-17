@@ -1,7 +1,8 @@
+from .models import Message, Chat
+
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .models import Message
 from django.utils import timezone
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -28,7 +29,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if message_text:
             message_data = await self.save_message(message_text)
-            
+
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -52,6 +53,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "images": event.get("images", [])
         }))
 
+        chat_members = await self.get_chat_members_ids() 
+        for member_id in chat_members:
+            await self.channel_layer.group_send(
+                f"user_notifications_{member_id}", 
+                {
+                    "type": "new_message_notification",
+                    "chat_id": self.chat_id,
+                    "sender": self.user_pseudonym,
+                    'message_text': event['message_text']
+                }
+            )
+
+    @database_sync_to_async
+    def get_chat_members_ids(self):
+        try:
+            chat = Chat.objects.get(id=self.chat_id)
+            return list(chat.users.values_list('id', flat=True))
+        except Chat.DoesNotExist:
+            return []
+
     @database_sync_to_async
     def save_message(self, text):
         user = self.scope["user"]
@@ -66,6 +87,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if user.is_authenticated:
             return user.userprofile.pseudonym
         return "Невідомий"
+
+class NotificationConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.group_name = f"user_notifications_{self.scope['user'].id}"
+        await self.channel_layer.group_add(self.group_name, self.channel_name)
+        await self.accept()
+
+    async def new_message_notification(self, event):
+        await self.send(text_data=json.dumps({
+            "action": "new_message",
+            "chat_id": event["chat_id"],
+            "sender": event["sender"],
+            "text": event["message_text"]
+        }))
+
     
 class OnlineStatusConsumer(AsyncWebsocketConsumer):
     online_users = set()

@@ -39,6 +39,7 @@ const observerContact = new IntersectionObserver(async (entries) => {
         if (preloadedData) { 
             if (preloadedData.html) {
                 sentinel.insertAdjacentHTML("beforebegin", preloadedData.html);
+                window.reloadDict()
             }
 
             if (!preloadedData.has_next) {

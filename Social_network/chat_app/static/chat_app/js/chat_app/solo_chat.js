@@ -1,3 +1,4 @@
+
 let chatSocket = null
 let currentChatId = null
 
@@ -121,8 +122,8 @@ async function openChatWithUser(userId, username) {
     document.querySelector("#header-chat").classList.remove("hidden")
     chatWindow.classList.remove('hidden')
     document.querySelector(".texting-box").classList.add("show-chat")
-
     InsertChatCard(userId, data.chat_card_html)
+    window.recheckCard()
     connectWebSocket(data.chat_id)
     resetMessages(data.chat_id)
     await loadMessages()

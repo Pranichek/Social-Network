@@ -25,18 +25,14 @@ async function deleteChatfromDB(chatId){
   const data = await response.json()
 
   if (data.success) {
-    console.log('chat has deleted')
     window.showMainPrevview()
   }
 }
 
 function deleteCardUser(chatId){
     const allCards = document.querySelectorAll(".block-card")
-    console.log(allCards)
 
     allCards.forEach(card => {
-        console.log(card.dataset.chatUser)
-        console.log(chatId)
         if (Number(card.dataset.chatUser) == Number(chatId)){
             card.remove()
             return false;

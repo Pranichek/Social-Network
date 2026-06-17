@@ -1,7 +1,7 @@
 {% load static %}
 
 {% for friend in active_chats %}
-    <div class="block-card" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.userprofile.pseudonym }}" >
+    <div class="block-card" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.userprofile.pseudonym }}">
         <div class="avatar-wrapper">
             <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon" class="avatar-img">
             <span class="status-indicator"></span>
@@ -10,14 +10,12 @@
         <div class="text-data">
             <div class="top-data">
                 <p class="nickname-card">{{ friend.userprofile.pseudonym }}</p>
-
-                <p class="card-time">09:41</p>
+                <p class="card-time">{{ friend.last_message_data|date:"H:i" }}</p>
             </div>
 
             <div class="bottom-data">
-                <p>Привіт! Як справи ?</p>
+                <p>{{ friend.last_message_text }}</p>
             </div>
         </div>
-
     </div>
 {% endfor %}

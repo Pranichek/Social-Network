@@ -25,7 +25,6 @@ async function loadPreDataGroupChats() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Щоб не робити зайвих запитів, якщо ми не на сторінці чатів
     if (sentinelGroupChats) {
         loadPreDataGroupChats();
     }
@@ -42,6 +41,7 @@ const observerGroupChats = new IntersectionObserver(async (entries) => {
         if (preloadedDataGroupChats) { 
             if (preloadedDataGroupChats.html) {
                 sentinelGroupChats.insertAdjacentHTML("beforebegin", preloadedDataGroupChats.html);
+                window.reloadDict()
             }
 
             if (!preloadedDataGroupChats.has_next) {
@@ -62,6 +62,4 @@ const observerGroupChats = new IntersectionObserver(async (entries) => {
 
 if (sentinelGroupChats && scrollContainerGroupChats) {
     observerGroupChats.observe(sentinelGroupChats);
-} else {
-    console.warn("Елементи для пагінації груп не знайдено!");
-}
+} 
