@@ -21,7 +21,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "message" : "Підключено успішно",
             })
         )
-        print("Підключення було встановлено")
     
     async def receive(self, text_data=None):
         data = json.loads(text_data)
@@ -53,17 +52,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "images": event.get("images", [])
         }))
 
-        chat_members = await self.get_chat_members_ids() 
-        for member_id in chat_members:
-            await self.channel_layer.group_send(
-                f"user_notifications_{member_id}", 
-                {
-                    "type": "new_message_notification",
-                    "chat_id": self.chat_id,
-                    "sender": self.user_pseudonym,
-                    'message_text': event['message_text']
-                }
-            )
+        if is_me:
+            chat_members = await self.get_chat_members_ids()
+            for member_id in chat_members:
+                if member_id != self.scope["user"].id: 
+                    await self.channel_layer.group_send(
+                        f"user_notifications_{member_id}",
+                        {
+                            "type": "new_message_notification",
+                            "chat_id": self.chat_id,
+                            "sender": self.user_pseudonym,
+                            "message_text": event['message_text'],
+                            'created_at': event['created_at'],
+                        }
+                    )
 
     @database_sync_to_async
     def get_chat_members_ids(self):
@@ -90,16 +92,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.group_name = f"user_notifications_{self.scope['user'].id}"
+        self.user = self.scope["user"]
+        if not self.user.is_authenticated:
+            await self.close()
+            return
+        
+        self.group_name = f"user_notifications_{self.user.id}"
         await self.channel_layer.group_add(self.group_name, self.channel_name)
         await self.accept()
 
+    async def disconnect(self, code):
+        await self.channel_layer.group_discard(self.group_name, self.channel_name)
+
     async def new_message_notification(self, event):
         await self.send(text_data=json.dumps({
-            "action": "new_message",
+            "action": "new_message_notification",
             "chat_id": event["chat_id"],
             "sender": event["sender"],
-            "text": event["message_text"]
+            "message_text": event["message_text"],
+            "created_at": event['created_at']
         }))
 
     
@@ -115,11 +126,9 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
         self.online_users.add(self.user_id)
-        # Поточний користувач отримує іфнормацію про статуси інших користувачів
         for user_id in self.online_users:
             await self.send_status(user_id, "online")
 
-        # Поточний користувач надсилає іфнормацію про свій статус іншим користувачам
         await self.channel_layer.group_send(
             self.group_name,
             {

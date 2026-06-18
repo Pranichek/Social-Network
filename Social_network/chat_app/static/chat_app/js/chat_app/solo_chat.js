@@ -38,6 +38,7 @@ function changeStatus(isGroup, members){
 
 window.changeStatus = changeStatus
 
+
 function connectWebSocket(chatId) {
   if (chatSocket) {
     chatSocket.close()
@@ -70,6 +71,7 @@ function InsertChatCard(userId, cardUser) {
 }
 
 async function openChatById(chatId, chatName) {
+
   const response = await fetch(`/chat/open/${chatId}/`, {
     method: 'GET',
     headers: { 'X-Requested-With': 'XMLHttpRequest' },
@@ -102,6 +104,18 @@ async function openChatById(chatId, chatName) {
 }
 
 async function openChatWithUser(userId, username) {
+  const card = document.querySelector(`.block-card[data-chat-user="${userId}"]`)
+  if (card) card.classList.remove("last-messages")
+
+  window.checkMessages()
+
+  if (card.querySelector(".bottom-data .endicator-messages-bottom")){
+    card.querySelector(".bottom-data .endicator-messages-bottom").remove()
+
+    const bottomData = card.querySelector(".bottom-data");
+    bottomData.style.justifyContent = 'start';
+  }
+
   const response = await fetch(`/chat/chat_with/${userId}/`, {
     method: 'POST',
     headers: { 'X-CSRFToken': CSRFToken },
