@@ -11,6 +11,7 @@ const mainBlock = document.querySelector('.texting-box');
 function showMainPrevview(){
     allElements.forEach((element) => {
         element.classList.toggle('hidden')
+        window.clearCards()
     });
     if (mainBlock.classList.contains('show-chat')){
         mainBlock.classList.remove('show-chat')
@@ -20,7 +21,7 @@ function showMainPrevview(){
 window.showMainPrevview = showMainPrevview
 
 closeChat.addEventListener('click', (event) => {
+    showMainPrevview();
 
-    showMainPrevview()
 })
 

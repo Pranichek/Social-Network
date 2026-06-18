@@ -15,6 +15,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+from sshtunnel import SSHTunnelForwarder
+
 
 #Завантажуємо змінні з .env
 load_dotenv()
@@ -26,7 +28,6 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_APP_PASSWORD')
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,7 +59,9 @@ INSTALLED_APPS = [
     'home_app',
     'user_app',
     'profile_app',
-    'chat_app'
+    'chat_app',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 ASGI_APPLICATION = 'Social_network.asgi.application'
@@ -113,6 +116,36 @@ DATABASES = {
     }
 }
 
+# tunnel = SSHTunnelForwarder(
+#     ('ssh.pythonanywhere.com', 22),
+#     ssh_username=os.getenv("SSH_LOGIN"),
+#     ssh_password=os.getenv("SSH_PASSWORD"),
+#     remote_bind_address=(os.getenv("REMOTE_DB_HOST"), int(os.getenv("REMOTE_DB_PORT"))), # type: ignore
+# )
+
+# tunnel.start()
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv("REMOTE_DB_ENGINE"),
+#         'NAME': os.getenv("REMOTE_DB_NAME"),
+#         'USER': os.getenv("REMOTE_DB_USER"), 
+#         'PASSWORD': os.getenv("REMOTE_DB_PASSWORD"),
+#         'HOST': os.getenv("REMOTE_DB_HOST"),
+#         'PORT': os.getenv("REMOTE_DB_PORT"),
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv("REMOTE_DB_NAME"),
+#         'USER': os.getenv("REMOTE_DB_USER"),
+#         'PASSWORD': os.getenv("REMOTE_DB_PASSWORD"),
+#         'HOST': '127.0.0.1',
+#         'PORT': tunnel.local_bind_port,
+#     }
+# }
 
 
 # Password validation
@@ -170,5 +203,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CHANNEL_LAYERS = {
 #     "default": {
 #         "BACKEND": "channels.layers.InMemoryChannelLayer",
+#     },
+# }
+
+# Налаштування clodunary.com(сервер для зберігання медіа файлів)
+
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+#     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+#     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET')
+# }
+
+# STORAGES = {
+#     'default': {
+#         'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+#     },
+#     'staticfiles': {
+#         'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
 #     },
 # }

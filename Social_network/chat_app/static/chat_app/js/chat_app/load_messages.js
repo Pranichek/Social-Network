@@ -15,6 +15,8 @@ function formatMessageTime(createdAt){
   return `${padDateNumber(date.getHours())}:${padDateNumber(date.getMinutes())}`;
 }
 
+window.formatMessageTime = formatMessageTime
+
 const months = [
   "Січень",
   "Лютий",
@@ -82,52 +84,67 @@ function renderMessage(data, username, isGroup) {
   const msgClass = isMe ? "message" : "message other_user";
   const outlineClass = isMe ? "message-outline" : "other-message-outline";
   const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg';
+  const hasImages = window.hasMessageImages(data);
+  const hasText = data.message_text && data.message_text.trim() !== "";
 
   messageDiv.className = msgClass;
-  messageDiv.dataset.messageDate = formatMessageDate(data.created_at)
+  messageDiv.dataset.messageDate = formatMessageDate(data.created_at);
 
-  if (window.hasMessageImages(data)){
-    messageDiv.appendChild(window.renderMessageImage(data.images));
+  if (hasImages) {
+    const imageBlock = window.renderMessageImage(data.images);
+    if (!hasText) {
+      imageBlock.style.position = "relative";
+      const overlay = document.createElement("div");
+      overlay.className = "image-time-overlay";
+      overlay.innerHTML = `
+        <p>${formatMessageTime(data.created_at)}</p>
+        <img src="${checkReadIconPath}" alt="check_read">
+      `;
+      imageBlock.appendChild(overlay);
+    }
+    messageDiv.appendChild(imageBlock);
   }
 
-
-
-  if (outlineClass == "message-outline" || isGroup == false){
-    messageDiv.insertAdjacentHTML('beforeend', `
-      <div class="${outlineClass}">
+  if (hasText) {
+    if (outlineClass == "message-outline" || isGroup == false) {
+      messageDiv.insertAdjacentHTML('beforeend', `
+        <div class="${outlineClass}">
+          
           <div class="msg-text">
-              <p>${data.message_text ? data.message_text : ""}</p>
+            <p>${data.message_text}</p>
           </div>
+
           <div class="data-message">
-              <p>${formatMessageTime(data.created_at)}</p>
-              <img src="${checkReadIconPath}" alt="check_read">
-          </div>
-      </div>
-    `);
-  }else{
-    const avatarSrc = '/static/chat_app/images/alert_conteiner/avatar-chat.png';
-
-    messageDiv.insertAdjacentHTML('beforeend', `
-      <div class='avatar-message'>
-        <img src=${avatarSrc}>
-      </div>
-
-      <div class="${outlineClass} change-dir">
-          <div class='nick-data'>
-            <p>${username}</p>
+            <p>${formatMessageTime(data.created_at)}</p>
+            <img src="${checkReadIconPath}" alt="check_read">
           </div>
 
-          <div class = 'text-message'>
-            <div class="msg-text">
-                <p>${data.message_text ? data.message_text : ""}</p>
+        </div>
+      `);
+    } else {
+      const avatarSrc = '/static/chat_app/images/alert_conteiner/avatar-chat.png';
+      messageDiv.insertAdjacentHTML('beforeend', `
+        <div class='div-outline-group-msg'>
+          <div class='avatar-message'>
+            <img src=${avatarSrc}>
+          </div>
+          <div class="${outlineClass} change-dir">
+            <div class='nick-data'>
+              <p>${username}</p>
             </div>
-            <div class="data-message">
+            <div class='text-message'>
+              <div class="msg-text">
+                <p>${data.message_text}</p>
+              </div>
+              <div class="data-message">
                 <p>${formatMessageTime(data.created_at)}</p>
                 <img src="${checkReadIconPath}" alt="check_read">
+              </div>
             </div>
           </div>
-      </div>
-    `);
+        </div>
+      `);
+    }
   }
 
   return messageDiv;

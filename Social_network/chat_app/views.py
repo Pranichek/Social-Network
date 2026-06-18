@@ -6,6 +6,7 @@ from .services.pagination.pagination import message_paginator
 from .services.pagination.paginator_contact import paginate_contact
 from .services.pagination.pagination_messages_block import paginate_active_chats
 from .services.pagination.paginations_groups import paginate_group_chats
+from .services.group_actions import update_group_service
 from .services.save_images import message_images
 
 from user_app.models import User
@@ -128,3 +129,9 @@ class MessageUploadView(LoginRequiredMixin, View):
 
     def post(self, request: HttpRequest, chat_id):
         return message_images(request= request, chat_id= chat_id)
+
+# Редагування групи
+class UpdateGroupView(LoginRequiredMixin, View):
+    def post(self, request: HttpRequest, chat_id, *args, **kwargs):
+        return update_group_service(request = request, chat_id = chat_id)
+    

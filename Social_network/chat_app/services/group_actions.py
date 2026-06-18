@@ -1,5 +1,7 @@
 from ..models import Chat
 from chat_app.consumers import OnlineStatusConsumer
+from ..forms import GroupChatUpdateForm
+
 
 from django.http import JsonResponse, HttpRequest
 from django.shortcuts import get_object_or_404
@@ -53,3 +55,40 @@ def open_chat_by_id_service(request: HttpRequest, chat_id: int):
         "is_group": True,
         'online_count': count_online
     })
+
+# редагування групи
+def update_group_service(request: HttpRequest, chat_id: int):
+    chat: Chat = Chat.objects.get(id= chat_id, is_group= True)
+
+    if not chat.exists():
+        return JsonResponse({
+            'success': False
+        }, status= 404)
+    
+    if chat.admin != request.user:
+        return JsonResponse({
+            'success': False
+        }, status= 403)
+    
+    
+    form = GroupChatUpdateForm(request.POST, request.FILES, instance= chat)
+    
+    if form.is_valid():
+        group = form.save(commit=False)
+        group.save()
+        new_users = form.cleaned_data['users']
+        chat.users.set(new_users)
+        chat.user.add(request.user)
+        return JsonResponse({
+            'success': True,
+            'chat_id': chat.id,
+            'name': chat.name,
+            
+       })
+    
+    return JsonResponse({
+        'success': False,
+        
+    }, status =  400)
+    
+    
