@@ -6,7 +6,6 @@
     justify-content: start;
     align-items: center;
     gap: 0.84vh;
-    /* background-color: orange; */
 }
 
 .side-block{
@@ -21,7 +20,6 @@
     border: 0.07vw #CDCED2 solid;
 }
 
-
 .message-cont{
     min-height: 40.52vh;
     max-height: 40.52vh;
@@ -31,14 +29,11 @@
     flex-grow: 1;
 }
 
-
-
 .block-header{
     width: 100%;
     height: 2.4vh;
     display: flex;
     justify-content: space-between;
-    /* зверху та снзу немає padding, справа та зліва padding є */
     padding: 0 1.11vw;   
 }
 
@@ -123,7 +118,6 @@
     overflow: hidden;
 }
 
-
 .block-card{
     width: 100%;
     height: 6.45vh;
@@ -158,20 +152,20 @@
     transition: background-color 0.3s ease;
 }
 
-
-
 .status-indicator.online {
     background-color: #22C55E; 
 }
+
 .text-data {
     height: 100%;
-    min-width: 0;     
-    flex: 1;             
+    min-width: 0;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
 }
+
 .top-data{
     width: 100%;
     display: flex;
@@ -195,13 +189,12 @@
     max-width: 100%;
     display: flex;
     min-width: 0;
-    
 }
+
 .bottom-data p{
     font-weight: 400;
     font-size: 1.45vh;
     color: #070A1C;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -220,10 +213,10 @@
 }
 
 .message-images img {
-    width: 14vw;
+    width: auto;
     max-width: 100%;
     height: auto;
-    max-height: 18vh;
+    max-height: 28vh;
     object-fit: cover;
     display: block;
     border-radius: 0.5vw;
@@ -254,4 +247,143 @@
     width: auto;
     border: none !important;
     border-radius: 0 !important;
+}
+
+.top-part-message {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3vh;
+}
+
+.top-part-message .message-images {
+    width: 100%;
+    border-radius: 0.5vw;
+    overflow: hidden;
+}
+
+.top-part-message .message-images img {
+    width: 100%;
+    height: auto;
+    max-height: 28vh;
+    object-fit: cover;
+    display: block;
+}
+
+.bottom-part-message {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5vw;
+    width: auto;
+    justify-content: flex-end;
+    white-space: nowrap;
+}
+
+.bottom-part-message:has(.msg-text) {
+    justify-content: space-between;
+    width: 100%;
+}
+
+.bottom-part-message .msg-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.bottom-part-message .msg-text p {
+    margin: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-size: 1.46vh;
+    color: #070A1C;
+}
+
+.bottom-part-message .data-message {
+    display: flex;
+    align-items: center;
+    gap: 0.3vw;
+    flex-shrink: 0;
+    align-self: flex-end;
+}
+
+.bottom-part-message .data-message p {
+    font-size: 1.1vh;
+    color: #81818D;
+    white-space: nowrap;
+}
+
+.bottom-part-message .data-message img {
+    height: 1.2vh;
+    width: auto;
+}
+
+.message-outline,
+.other-message-outline {
+    border-radius: 0.625vh;
+    padding: 1.04vh 0.69vw;
+    display: inline-flex;
+    flex-direction: column;
+    width: fit-content;
+    max-width: 70%;
+    min-width: 0;
+    gap: 0.5vh;
+}
+
+.div-outline-group-msg {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5vw;
+    min-width: 0;
+}
+
+.nick-data {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;  
+}
+
+.nick-data p {
+    font-weight: 400;
+    color: #543C52;
+    font-size: 1.04vh;
+    white-space: nowrap;
+}
+
+.other-message-outline.change-dir {
+    width: fit-content;
+    min-width: 0;
+}
+
+.div-outline-group-msg {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5vw;
+    min-width: 0;
+    width: fit-content;      
+    max-width: 70%;         
+}
+
+.other-message-outline.change-dir {
+    display: inline-flex;
+    width: fit-content;
+    min-width: 0;
+    max-width: 100%;         
+}
+
+.message-outline,
+.other-message-outline {
+    border-radius: 0.625vh;
+    padding: 1.04vh 0.69vw;
+    display: inline-flex;
+    flex-direction: column;
+    width: fit-content;
+    max-width: 70%;         
+    min-width: 0;
+    gap: 0.5vh;
+}
+
+.other-message-outline.change-dir {
+    max-width: 100%;        
 }

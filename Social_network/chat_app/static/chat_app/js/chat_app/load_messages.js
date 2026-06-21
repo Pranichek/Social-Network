@@ -90,65 +90,66 @@ function renderMessage(data, username, isGroup) {
   messageDiv.className = msgClass;
   messageDiv.dataset.messageDate = formatMessageDate(data.created_at);
 
-  if (hasImages) {
-    const imageBlock = window.renderMessageImage(data.images);
-    if (!hasText) {
-      imageBlock.style.position = "relative";
-      const overlay = document.createElement("div");
-      overlay.className = "image-time-overlay";
-      overlay.innerHTML = `
+  function buildBubble(extraClass = "") {
+    const bubble = document.createElement("div");
+    bubble.className = outlineClass + (extraClass ? " " + extraClass : "");
+
+    if (hasImages) {
+      const topPart = document.createElement("div");
+      topPart.className = "top-part-message";
+      const imageBlock = window.renderMessageImage(data.images);
+      topPart.appendChild(imageBlock);
+      bubble.appendChild(topPart);
+    }
+
+    const bottomPart = document.createElement("div");
+    bottomPart.className = "bottom-part-message";
+
+    if (hasText) {
+      bottomPart.insertAdjacentHTML('beforeend', `
+        <div class="msg-text">
+          <p>${data.message_text}</p>
+        </div>
+      `);
+    }
+
+    bottomPart.insertAdjacentHTML('beforeend', `
+      <div class="data-message">
         <p>${formatMessageTime(data.created_at)}</p>
         <img src="${checkReadIconPath}" alt="check_read">
-      `;
-      imageBlock.appendChild(overlay);
-    }
-    messageDiv.appendChild(imageBlock);
+      </div>
+    `);
+
+    bubble.appendChild(bottomPart);
+    return bubble;
   }
 
-  if (hasText) {
-    if (outlineClass == "message-outline" || isGroup == false) {
-      messageDiv.insertAdjacentHTML('beforeend', `
-        <div class="${outlineClass}">
-          
-          <div class="msg-text">
-            <p>${data.message_text}</p>
-          </div>
+  if (outlineClass === "message-outline" || isGroup === false) {
+    messageDiv.appendChild(buildBubble());
+  } else {
+    const avatarSrc = '/static/chat_app/images/alert_conteiner/avatar-chat.png';
 
-          <div class="data-message">
-            <p>${formatMessageTime(data.created_at)}</p>
-            <img src="${checkReadIconPath}" alt="check_read">
-          </div>
+    const wrapper = document.createElement("div");
+    wrapper.className = "div-outline-group-msg";
 
-        </div>
-      `);
-    } else {
-      const avatarSrc = '/static/chat_app/images/alert_conteiner/avatar-chat.png';
-      messageDiv.insertAdjacentHTML('beforeend', `
-        <div class='div-outline-group-msg'>
-          <div class='avatar-message'>
-            <img src=${avatarSrc}>
-          </div>
-          <div class="${outlineClass} change-dir">
-            <div class='nick-data'>
-              <p>${username}</p>
-            </div>
-            <div class='text-message'>
-              <div class="msg-text">
-                <p>${data.message_text}</p>
-              </div>
-              <div class="data-message">
-                <p>${formatMessageTime(data.created_at)}</p>
-                <img src="${checkReadIconPath}" alt="check_read">
-              </div>
-            </div>
-          </div>
-        </div>
-      `);
-    }
+    const avatarDiv = document.createElement("div");
+    avatarDiv.className = "avatar-message";
+    avatarDiv.innerHTML = `<img src="${avatarSrc}">`;
+
+    const bubble = buildBubble("change-dir");
+
+    bubble.insertAdjacentHTML('afterbegin', `
+      <div class="nick-data"><p>${username}</p></div>
+    `);
+
+    wrapper.appendChild(avatarDiv);
+    wrapper.appendChild(bubble);
+    messageDiv.appendChild(wrapper);
   }
 
   return messageDiv;
 }
+
 
 function resetMessages(chatId) {
   activeChatId = chatId;

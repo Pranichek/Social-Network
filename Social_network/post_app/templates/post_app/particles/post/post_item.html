@@ -60,7 +60,7 @@
         {% if post.images.all %}
             <div class="images-post">
                 {% for image in post.images.all %}
-                    <img src="{{ image.compressed.url }}" alt="Зображення поста">
+                    <img src="{{ image.compressed_image.url }}" alt="Зображення поста">
                 {% endfor %}
             </div>
         {% endif %}

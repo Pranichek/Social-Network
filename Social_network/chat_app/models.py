@@ -5,7 +5,7 @@ from django.db import models
 class Chat(models.Model):
     name = models.CharField(max_length = 30, blank = True, null = True)
     is_group = models.BooleanField(default = False)
-    avatar = models.ImageField(upload_to = 'chat_avatars/', blank = True, null = True)
+    avatar = models.ImageField(upload_to='chat_app/group_avatars/', blank = True, null = True)
     admin = models.ForeignKey(
         'user_app.User',
         on_delete = models.SET_NULL,
@@ -17,6 +17,8 @@ class Chat(models.Model):
     
     def __str__(self):
         return f'Чат {self.id}: {self.name}'
+    
+ 
 
 class Message(models.Model):
     text = models.TextField(blank = True, null = True)
@@ -41,7 +43,7 @@ class Message(models.Model):
     
 
 class MessageImage(models.Model):
-    image = models.ImageField(upload_to = 'images/chat_images')
+    image = models.ImageField(upload_to='chat_app/message_images/')
     message = models.ForeignKey(Message, on_delete = models.CASCADE, related_name = 'images')
     
     def __str__(self):
