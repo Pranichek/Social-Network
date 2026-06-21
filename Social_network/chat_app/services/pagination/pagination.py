@@ -1,5 +1,5 @@
 from ...models import Chat, Message
-
+from ...socket_client import cloudinary_url_from_field
 
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -17,7 +17,6 @@ def message_paginator(request: HttpRequest, chat_id: int):
         .order_by("-created_at", "-id")
     
     page_obj = Paginator(query, 10).get_page(request.GET.get("page", 1))
-    # ::-1 - повертає список у зворотньому порядку
     messages = list(page_obj.object_list)[::-1]
 
     return JsonResponse(
@@ -30,7 +29,7 @@ def message_paginator(request: HttpRequest, chat_id: int):
                     "sender": message.sender.userprofile.pseudonym if message.sender else "Невідомий",
                     "is_current_user": message.sender.id == request.user.id,
                     "created_at": timezone.localtime(message.created_at).isoformat(),
-                    "images": [img.image.url for img in message.images.all()]
+                    "images": [cloudinary_url_from_field(img.image) for img in message.images.all()]
                 }
                 for message in messages
             ],

@@ -1,9 +1,8 @@
-
 let chatSocket = null
 let currentChatId = null
 
-let isCurrentChatGroup = false
-let currentChatMembers = []
+window.isCurrentChatGroup = false
+window.currentChatMembers = []
 
 const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
 const chatTitle = document.getElementById('title-chat')
@@ -12,22 +11,22 @@ const messageForm = document.querySelector("#messeage-form")
 const messageInput = document.getElementById("messeage-input")
 
 function changeStatus(isGroup, members){
-  isCurrentChatGroup = isGroup
-  currentChatMembers = members || []
+  window.isCurrentChatGroup = isGroup
+  window.currentChatMembers = members || []
 
   const statusLabel = document.querySelector(".status-chat")
   if (!statusLabel) return
 
-  if (isCurrentChatGroup) {
+  if (window.isCurrentChatGroup) {
       let onlineCount = 0
-      currentChatMembers.forEach(id => {
+      window.currentChatMembers.forEach(id => {
           if (window.onlineUsers && window.onlineUsers.has(String(id))) {
               onlineCount++
           }
       })
-      statusLabel.textContent = `${currentChatMembers.length} учасників, ${onlineCount} в мережі`
+      statusLabel.textContent = `${window.currentChatMembers.length} учасників, ${onlineCount} в мережі`
   } else {
-      const otherUserId = currentChatMembers[0]
+      const otherUserId = window.currentChatMembers[0]
       if (window.onlineUsers && window.onlineUsers.has(String(otherUserId))) {
           statusLabel.textContent = "в мережі"
       } else {
@@ -37,7 +36,6 @@ function changeStatus(isGroup, members){
 }
 
 window.changeStatus = changeStatus
-
 
 function connectWebSocket(chatId) {
   if (chatSocket) {
@@ -51,8 +49,8 @@ function connectWebSocket(chatId) {
   chatSocket.onmessage = function (event) {
     let data = JSON.parse(event.data)
     if (data.action == "chat_message") {
-      
-      const messageElement = renderMessage(data, data.sender, isCurrentChatGroup)
+      console.log(data, "dfvdf")
+      const messageElement = renderMessage(data, data.sender, window.isCurrentChatGroup)
       document.querySelector("#messeages").appendChild(messageElement)
       const messagesContainer = document.querySelector("#messeages")
       messagesContainer.scrollTop = messagesContainer.scrollHeight
@@ -71,7 +69,6 @@ function InsertChatCard(userId, cardUser) {
 }
 
 async function openChatById(chatId, chatName) {
-
   const response = await fetch(`/chat/open/${chatId}/`, {
     method: 'GET',
     headers: { 'X-Requested-With': 'XMLHttpRequest' },
@@ -84,9 +81,8 @@ async function openChatById(chatId, chatName) {
 
   if (data.success) {
     currentChatId = data.chat_id
-    isCurrentChatGroup = data.is_group
-    currentChatMembers = data.chat_members
-    onlineMemberCount = data.online_count
+    window.isCurrentChatGroup = data.is_group
+    window.currentChatMembers = data.chat_members
 
     changeStatus(data.is_group, data.chat_members)
 
@@ -105,15 +101,16 @@ async function openChatById(chatId, chatName) {
 
 async function openChatWithUser(userId, username) {
   const card = document.querySelector(`.block-card[data-chat-user="${userId}"]`)
-  if (card) card.classList.remove("last-messages")
+  
+  if (card) {
+    card.classList.remove("last-messages")
+    window.checkMessages()
 
-  window.checkMessages()
-
-  if (card.querySelector(".bottom-data .endicator-messages-bottom")){
-    card.querySelector(".bottom-data .endicator-messages-bottom").remove()
-
-    const bottomData = card.querySelector(".bottom-data");
-    bottomData.style.justifyContent = 'start';
+    if (card.querySelector(".bottom-data .endicator-messages-bottom")) {
+      card.querySelector(".bottom-data .endicator-messages-bottom").remove()
+      const bottomData = card.querySelector(".bottom-data")
+      bottomData.style.justifyContent = 'start'
+    }
   }
 
   const response = await fetch(`/chat/chat_with/${userId}/`, {
@@ -126,8 +123,8 @@ async function openChatWithUser(userId, username) {
 
   if (data.success) {
     currentChatId = data.chat_id
-    isCurrentChatGroup = data.is_group
-    currentChatMembers = data.chat_members
+    window.isCurrentChatGroup = data.is_group
+    window.currentChatMembers = data.chat_members
 
     changeStatus(data.is_group, data.chat_members)
 
@@ -151,42 +148,40 @@ document.addEventListener('click', async (event) => {
   if (chatElement) {
     const userId = chatElement.dataset.chatUser
     const chatId = chatElement.dataset.chatId
+    const chatType = chatElement.dataset.chatType
     const chatName = chatElement.dataset.chatUsername || chatElement.dataset.chatTitle
 
-    if (userId) {
+    if (chatType === 'solo') {
       await openChatWithUser(userId, chatName)
-    } else if (chatId) {
+    } else if (chatType === 'group' || (chatId && !userId)) {
       await openChatById(chatId, chatName)
+    } else if (userId) {
+      await openChatWithUser(userId, chatName)
     }
   }
 })
-
-// messageForm.addEventListener('submit', (event) => {
-//   event.preventDefault()
-//   const messageText = messageInput.value.trim()
-//   if (messageText) {
-//     chatSocket.send(JSON.stringify({ messageText: messageText }))
-//     messageInput.value = ""
-//   }
-// })
-
-messageForm.addEventListener('submit', async (event)=>{
-  event.preventDefault();
-  const messageText = messageInput.value.trim();
-  if (!messageText && !window.hasSelectedImages()){
+messageForm.addEventListener('submit', async (event) => {
+  event.preventDefault()
+  const messageText = messageInput.value.trim()
+  if (!messageText && !window.hasSelectedImages()) {
     return
   }
 
-  if (window.hasSelectedImages()){
+  if (window.hasSelectedImages()) {
     const data = await window.sendMessageWithImages(messageText)
-    
-    if (data && !data.success){
+    if (data && !data.success) {
       return
     }
     messageInput.value = ''
     window.clearSelectedImages()
-  }else{
-    chatSocket.send(JSON.stringify({ messageText: messageText }))
+  } else {
+    chatSocket.send(JSON.stringify({ 
+      messageText: messageText,
+      action: 'send_message'
+    }))
     messageInput.value = ""
+    
+    // чтобы блок с сообщениями скролился вниз при отпрвке нового
+    messages.scrollTop = messages.scrollHeight;
   }
 })

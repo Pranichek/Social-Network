@@ -61,3 +61,7 @@
 
     <script src="{% static 'chat_app/js/chat_app/group_actions/change_group.js' %}"></script>
 {% endblock scripts %}
+
+<script>
+  window.currentUserId = "{{ request.user.id }}"
+</script>

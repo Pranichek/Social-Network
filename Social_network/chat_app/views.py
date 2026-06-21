@@ -47,9 +47,18 @@ class ChatView(LoginRequiredMixin, TemplateView):
             
             message = chat.messages.order_by('-created_at').first() if chat else None
             
+            if message:
+                if message.text:
+                    last_message_text = message.text
+                else:
+                    last_message_text = 'Зображення'
+            else:
+                last_message_text = 'Немає повідомлень'
+            
             active_chats_data.append({
                 'user': user,
-                'last_message_text': message.text if message else 'Немає повідомлень',
+                'chat': chat,
+                'last_message_text': last_message_text,
                 'last_message_data': timezone.localtime(message.created_at).strftime('%H:%M') if message else '',
             })
 
@@ -65,7 +74,7 @@ class ChatView(LoginRequiredMixin, TemplateView):
         for chat in chats:
             message = chat.messages.order_by('-created_at').first()
             if message:
-                last_message_text = message.text
+                last_message_text = message.text if message.text else 'Зображення'
                 last_message_data = timezone.localtime(message.created_at).strftime('%H:%M')
             else:
                 last_message_text = "Немає повідомлень"
