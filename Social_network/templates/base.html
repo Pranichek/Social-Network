@@ -54,8 +54,8 @@
                             
                             <div class="link-page chats-link">
                                 <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
-                                <a href="{% url 'chat_view' %}">Чати</a>
-                            </div>
+                                <a href="{% url 'chat_view' %}">Чати <span id="headerUnreadCount"></span></a>
+                            </div> 
                             
                             <div class="link-page settings-link">
                                 <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
@@ -133,6 +133,7 @@
         <script src = "{% static 'js/lightining_bg.js' %}"></script>
         <script src = "{% static 'js/fininsh_register.js' %}"></script>
         <script src="{% static 'chat_app/js/chat_app/status/online_status.js' %}"></script>
+        <script src = "{% static 'chat_app/js/chat_app/unread.js' %}"></script>
         {% block scripts %}
             
         {% endblock scripts %}
