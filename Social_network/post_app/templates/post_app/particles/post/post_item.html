@@ -4,7 +4,11 @@
         <div class="outline-data">
 
             <div class= 'post-avatar' >
-                <img src="{% static 'post_app/images/view_posts/avatar_user.svg' %}" alt="">
+                <div class="avatar-sect" data-user-id="{{ post.author.id }}">
+                    <img src="{% static 'post_app/images/view_posts/avatar_user.svg' %}" alt="">
+                    <span class="status-indicator"></span>
+                </div>
+                
                 <p>{{ post.author.username }}</p>
             </div>
 
@@ -60,7 +64,7 @@
         {% if post.images.all %}
             <div class="images-post">
                 {% for image in post.images.all %}
-                    <img src="{{ image.compressed.url }}" alt="Зображення поста">
+                    <img src="{{ image.compressed_image.url }}" alt="Зображення поста">
                 {% endfor %}
             </div>
         {% endif %}

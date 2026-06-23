@@ -48,14 +48,22 @@
                             </div>
                             
                             <div class="link-page friends-link">
-                                <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
+                                <div class="card-outline">
+                                    <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
+                                    <div class="endicator-headers hidden"><p id="friendRequestCount"></p></div>
+                                </div>
+                                
                                 <a href="{% url 'friends_view' %}">Друзі</a>
                             </div>
                             
                             <div class="link-page chats-link">
-                                <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
+                                <div class="card-outline">
+                                    <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
+                                    <div class="endicator-headers hidden"><p id="headerUnreadCount"></p></div>
+                                </div>
+                                
                                 <a href="{% url 'chat_view' %}">Чати</a>
-                            </div>
+                            </div> 
                             
                             <div class="link-page settings-link">
                                 <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
@@ -133,6 +141,8 @@
         <script src = "{% static 'js/lightining_bg.js' %}"></script>
         <script src = "{% static 'js/fininsh_register.js' %}"></script>
         <script src="{% static 'chat_app/js/chat_app/status/online_status.js' %}"></script>
+        <script src = "{% static 'chat_app/js/chat_app/unread.js' %}"></script>
+        <script src = "{% static 'user_app/js/user_app/friends_page/friend_requests.js' %}"></script>
         {% block scripts %}
             
         {% endblock scripts %}

@@ -39,17 +39,21 @@ window.sendMessageWithImages = sendMessageWithImages;
 function hasMessageImages(data){
     return Array.isArray(data.images) && data.images.length > 0;
 }
-function renderMessageImage(imageUrl){
+
+function renderMessageImage(imageUrls) {
     const imgList = document.createElement('div');
     imgList.classList.add('message-images');
-    imageUrl.forEach((url) =>{
+
+    imageUrls.forEach((item) => {
+        const url = typeof item === 'string' ? item : item?.image
+        if (!url) return
+
         const img = document.createElement('img');
         img.src = url;
+        console.log(url, "dfkmvfdkl")
         imgList.appendChild(img);
-
     })
-
-    return imgList
+    return imgList;
 }
 
 window.hasMessageImages = hasMessageImages;

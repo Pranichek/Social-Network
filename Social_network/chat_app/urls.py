@@ -13,4 +13,6 @@ urlpatterns = [
     path('group_block/', LoadGroupBlockView.as_view(), name='paginate_group_block'),
     
     path('upload_images/<int:chat_id>/', MessageUploadView.as_view(), name = 'message_upload'),
+
+    path('update_group/<int:chat_id>/', UpdateGroupView.as_view(), name='update_group'),
 ]

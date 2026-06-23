@@ -15,6 +15,8 @@ function formatMessageTime(createdAt){
   return `${padDateNumber(date.getHours())}:${padDateNumber(date.getMinutes())}`;
 }
 
+window.formatMessageTime = formatMessageTime
+
 const months = [
   "Січень",
   "Лютий",
@@ -82,75 +84,73 @@ function renderMessage(data, username, isGroup) {
   const msgClass = isMe ? "message" : "message other_user";
   const outlineClass = isMe ? "message-outline" : "other-message-outline";
   const checkReadIconPath = '/static/chat_app/images/chat_images/check_read.svg';
+  const hasImages = window.hasMessageImages(data);
+  const hasText = data.message_text && data.message_text.trim() !== "";
 
   messageDiv.className = msgClass;
   messageDiv.dataset.messageDate = formatMessageDate(data.created_at);
 
-  const outlineDiv = document.createElement("div");
-  outlineDiv.className = outlineClass;
+  function buildBubble(extraClass = "") {
+    const bubble = document.createElement("div");
+    bubble.className = outlineClass + (extraClass ? " " + extraClass : "");
 
-  if (window.hasMessageImages(data) && data.images && data.images.length > 0) {
-    const imagesContainer = window.renderMessageImage(data.images); 
-    const imgCount = data.images.length;
-
-    imagesContainer.classList.remove("single-image", "two-images", "multi-images");
-    if (imgCount === 1) {
-      imagesContainer.classList.add("single-image");
-    } else if (imgCount === 2) {
-      imagesContainer.classList.add("two-images");
-    } else {
-      imagesContainer.classList.add("multi-images");
-      imagesContainer.setAttribute("data-count", imgCount);
+    if (hasImages) {
+      const topPart = document.createElement("div");
+      topPart.className = "top-part-message";
+      const imageBlock = window.renderMessageImage(data.images);
+      topPart.appendChild(imageBlock);
+      bubble.appendChild(topPart);
     }
-    
-    outlineDiv.appendChild(imagesContainer);
-  } else {
-    outlineDiv.classList.add("no-images");
+
+    const bottomPart = document.createElement("div");
+    bottomPart.className = "bottom-part-message";
+
+    if (hasText) {
+      bottomPart.insertAdjacentHTML('beforeend', `
+        <div class="msg-text">
+          <p>${data.message_text}</p>
+        </div>
+      `);
+    }
+
+    bottomPart.insertAdjacentHTML('beforeend', `
+      <div class="data-message">
+        <p>${formatMessageTime(data.created_at)}</p>
+        <img src="${checkReadIconPath}" alt="check_read">
+      </div>
+    `);
+
+    bubble.appendChild(bottomPart);
+    return bubble;
   }
 
-
-
-  if (outlineClass == "message-outline" || isGroup == false){
-    messageDiv.insertAdjacentHTML('beforeend', `
-      <div class="${outlineClass}">
-          <div class="msg-text">
-              <p>${data.message_text ? data.message_text : ""}</p>
-          </div>
-          <div class="data-message">
-              <p>${formatMessageTime(data.created_at)}</p>
-              <img src="${checkReadIconPath}" alt="check_read">
-          </div>
-      </div>
-    `);
-  }else{
+  if (outlineClass === "message-outline" || isGroup === false) {
+    messageDiv.appendChild(buildBubble());
+  } else {
     const avatarSrc = '/static/chat_app/images/alert_conteiner/avatar-chat.png';
 
-    messageDiv.insertAdjacentHTML('beforeend', `
-      <div class='avatar-message'>
-        <img src=${avatarSrc}>
-      </div>
+    const wrapper = document.createElement("div");
+    wrapper.className = "div-outline-group-msg";
 
-      <div class="${outlineClass} change-dir">
-          <div class='nick-data'>
-            <p>${username}</p>
-          </div>
+    const avatarDiv = document.createElement("div");
+    avatarDiv.className = "avatar-message";
+    avatarDiv.innerHTML = `<img src="${avatarSrc}">`;
 
-          <div class = 'text-message'>
-            <div class="msg-text">
-                <p>${data.message_text ? data.message_text : ""}</p>
-            </div>
-            <div class="data-message">
-                <p>${formatMessageTime(data.created_at)}</p>
-                <img src="${checkReadIconPath}" alt="check_read">
-            </div>
-          </div>
-      </div>
+    const bubble = buildBubble("change-dir");
+
+    bubble.insertAdjacentHTML('afterbegin', `
+      <div class="nick-data"><p>${username}</p></div>
     `);
+
+    wrapper.appendChild(avatarDiv);
+    wrapper.appendChild(bubble);
+    messageDiv.appendChild(wrapper);
   }
 
   messageDiv.appendChild(outlineDiv);
   return messageDiv;
 }
+
 
 function resetMessages(chatId) {
   activeChatId = chatId;

@@ -57,6 +57,7 @@ function renderSelectedUsers() {
         const binPath = "/static/chat_app/images/alert_conteiner/bin.svg"
 
         userDiv.className = "member"
+        userDiv.dataset.userId = checkbox.value
         userDiv.innerHTML = `
             <div class="user-info">
                 <img src="${avatarPath}" alt="avatar-icon">
@@ -190,6 +191,15 @@ document.addEventListener('click', (event) => {
 
             return
         }
+        
+        const userId = userCard.dataset.userId
+        if (userId) {
+            const checkbox = document.querySelector(`.group-user-checkbox[value="${userId}"]`)
+            if (checkbox) {
+                checkbox.checked = false
+            }
+        }
+        
         userCard.remove(); 
         
         updateSelectedCount(); 

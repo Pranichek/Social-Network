@@ -39,7 +39,7 @@ def generate_random_date(start_year=1980, end_year=2010):
 def populate_database(count=40):
     print(f"Начинаем генерацию {count} пользователей...")
     
-    target_email = 'vovagrinchenko19@gmail.com'
+    target_email = 'maksymselifanov055@gmail.com'
     
     # 1. Находим аккаунт, с которым все будут дружить
     try:
@@ -99,4 +99,4 @@ def populate_database(count=40):
     print("\n✅ Генерация успешно завершена!")
 
 # Запускаем функцию
-populate_database(100)
+populate_database(10)

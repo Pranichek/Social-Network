@@ -55,5 +55,12 @@
 
     <script src="{% static 'chat_app/js/chat_app/send_images.js' %}"></script>
     <script src="{% static 'chat_app/js/chat_app/lightning_card.js' %}"></script>
-    <script src="{% static 'chat_app/js/chat_app/checkNewMessage.js' %}"></script>
+
+    <!-- <script src="{% static 'chat_app/js/chat_app/online_notifications.js' %}"></script> -->
+
+    <script src="{% static 'chat_app/js/chat_app/group_actions/change_group.js' %}"></script>
 {% endblock scripts %}
+
+<script>
+  window.currentUserId = "{{ request.user.id }}"
+</script>

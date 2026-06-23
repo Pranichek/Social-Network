@@ -20,6 +20,10 @@ const observer = new IntersectionObserver(async (entries) => {
 
     if (data.html) {
       postList.insertAdjacentHTML("beforeend", data.html);
+
+      if (typeof window.applyOnlineStatuses === "function") {
+        window.applyOnlineStatuses(postList);
+      }
     }
 
     if (!data.has_next) {
@@ -34,4 +38,3 @@ const observer = new IntersectionObserver(async (entries) => {
 if (sentinel) {
     observer.observe(sentinel);
 }
-

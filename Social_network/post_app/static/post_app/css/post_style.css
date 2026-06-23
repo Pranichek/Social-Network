@@ -47,16 +47,38 @@
     align-items: center;
 }
 
-.post-avatar img {
-    height: 100%;
-}
-
-.post-avatar p {
+.post-avatar p{
     font-size: 1.45vh;
     font-weight: 500;
 }
 
-.settings-post {
+.avatar-sect{
+    height: 100%;
+    width: auto;
+    position: relative;
+}
+
+.avatar-sect img{
+    height: 100%;
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 1.5vh;       
+    height: 1.5vh;       
+    background-color: #CDCED2; 
+    border-radius: 50%;
+    border: 0.2vh solid #FFFFFF; 
+    transition: background-color 0.3s ease;
+}
+
+.status-indicator.online {
+    background-color: #22C55E; 
+}
+
+.settings-post{
     display: flex;
     flex-direction: column;
     justify-content: start;

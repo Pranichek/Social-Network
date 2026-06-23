@@ -1,9 +1,8 @@
-
 let chatSocket = null
 let currentChatId = null
 
-let isCurrentChatGroup = false
-let currentChatMembers = []
+window.isCurrentChatGroup = false
+window.currentChatMembers = []
 
 const CSRFToken = document.querySelector('meta[name="csrf-token"]').content
 const chatTitle = document.getElementById('title-chat')
@@ -12,22 +11,22 @@ const messageForm = document.querySelector("#messeage-form")
 const messageInput = document.getElementById("messeage-input")
 
 function changeStatus(isGroup, members){
-  isCurrentChatGroup = isGroup
-  currentChatMembers = members || []
+  window.isCurrentChatGroup = isGroup
+  window.currentChatMembers = members || []
 
   const statusLabel = document.querySelector(".status-chat")
   if (!statusLabel) return
 
-  if (isCurrentChatGroup) {
+  if (window.isCurrentChatGroup) {
       let onlineCount = 0
-      currentChatMembers.forEach(id => {
+      window.currentChatMembers.forEach(id => {
           if (window.onlineUsers && window.onlineUsers.has(String(id))) {
               onlineCount++
           }
       })
-      statusLabel.textContent = `${currentChatMembers.length} учасників, ${onlineCount} в мережі`
+      statusLabel.textContent = `${window.currentChatMembers.length} учасників, ${onlineCount} в мережі`
   } else {
-      const otherUserId = currentChatMembers[0]
+      const otherUserId = window.currentChatMembers[0]
       if (window.onlineUsers && window.onlineUsers.has(String(otherUserId))) {
           statusLabel.textContent = "в мережі"
       } else {
@@ -50,8 +49,8 @@ function connectWebSocket(chatId) {
   chatSocket.onmessage = function (event) {
     let data = JSON.parse(event.data)
     if (data.action == "chat_message") {
-      
-      const messageElement = renderMessage(data, data.sender, isCurrentChatGroup)
+      console.log(data, "dfvdf")
+      const messageElement = renderMessage(data, data.sender, window.isCurrentChatGroup)
       document.querySelector("#messeages").appendChild(messageElement)
       const messagesContainer = document.querySelector("#messeages")
       messagesContainer.scrollTop = messagesContainer.scrollHeight
@@ -82,9 +81,8 @@ async function openChatById(chatId, chatName) {
 
   if (data.success) {
     currentChatId = data.chat_id
-    isCurrentChatGroup = data.is_group
-    currentChatMembers = data.chat_members
-    onlineMemberCount = data.online_count
+    window.isCurrentChatGroup = data.is_group
+    window.currentChatMembers = data.chat_members
 
     changeStatus(data.is_group, data.chat_members)
 
@@ -96,8 +94,12 @@ async function openChatById(chatId, chatName) {
 
     connectWebSocket(data.chat_id)
     resetMessages(data.chat_id)
+    window.updateUnreadData()
     await loadMessages()
     startObserver()
+
+    const messagesContainer = document.querySelector("#messeages")
+    if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
   }
 }
 
@@ -112,8 +114,8 @@ async function openChatWithUser(userId, username) {
 
   if (data.success) {
     currentChatId = data.chat_id
-    isCurrentChatGroup = data.is_group
-    currentChatMembers = data.chat_members
+    window.isCurrentChatGroup = data.is_group
+    window.currentChatMembers = data.chat_members
 
     changeStatus(data.is_group, data.chat_members)
 
@@ -125,11 +127,17 @@ async function openChatWithUser(userId, username) {
     InsertChatCard(userId, data.chat_card_html)
     window.recheckCard()
     connectWebSocket(data.chat_id)
+    window.updateUnreadData()
     resetMessages(data.chat_id)
     await loadMessages()
     startObserver()
+
+    const messagesContainer = document.querySelector("#messeages")
+    if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
   }
 }
+
+let isSending = false
 
 document.addEventListener('click', async (event) => {
   const chatElement = event.target.closest(".card-contact, .block-card")
@@ -137,42 +145,51 @@ document.addEventListener('click', async (event) => {
   if (chatElement) {
     const userId = chatElement.dataset.chatUser
     const chatId = chatElement.dataset.chatId
+    const chatType = chatElement.dataset.chatType
     const chatName = chatElement.dataset.chatUsername || chatElement.dataset.chatTitle
 
-    if (userId) {
+    if (chatType === 'solo') {
       await openChatWithUser(userId, chatName)
-    } else if (chatId) {
+    } else if (chatType === 'group' || (chatId && !userId)) {
       await openChatById(chatId, chatName)
+    } else if (userId) {
+      await openChatWithUser(userId, chatName)
     }
   }
 })
+messageForm.addEventListener('submit', async (event) => {
+  event.preventDefault()
 
-// messageForm.addEventListener('submit', (event) => {
-//   event.preventDefault()
-//   const messageText = messageInput.value.trim()
-//   if (messageText) {
-//     chatSocket.send(JSON.stringify({ messageText: messageText }))
-//     messageInput.value = ""
-//   }
-// })
+  if (isSending) return
 
-messageForm.addEventListener('submit', async (event)=>{
-  event.preventDefault();
-  const messageText = messageInput.value.trim();
-  if (!messageText && !window.hasSelectedImages()){
+  const messageText = messageInput.value.trim()
+  if (!messageText && !window.hasSelectedImages()) {
     return
   }
 
-  if (window.hasSelectedImages()){
-    const data = await window.sendMessageWithImages(messageText)
-    
-    if (data && !data.success){
-      return
+  isSending = true
+
+  try {
+    if (window.hasSelectedImages()) {
+      const data = await window.sendMessageWithImages(messageText)
+      if (data && !data.success) {
+        return
+      }
+      messageInput.value = ''
+      window.clearSelectedImages()
+    } else {
+      chatSocket.send(JSON.stringify({ 
+        messageText: messageText,
+        action: 'send_message'
+      }))
+      messageInput.value = ""
+      
+      const messagesContainer = document.querySelector("#messeages")
+      if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
     }
-    messageInput.value = ''
-    window.clearSelectedImages()
-  }else{
-    chatSocket.send(JSON.stringify({ messageText: messageText }))
-    messageInput.value = ""
+  } finally {
+    
+    isSending = false
+    if (sendBtn) sendBtn.disabled = false
   }
 })

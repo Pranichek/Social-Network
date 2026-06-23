@@ -100,6 +100,8 @@ class PostForm(forms.ModelForm):
             except forms.ValidationError:
                 self.add_error('images', 'Завантажте , будь ласка, коректне зображення')
 
+        clean_data['images'] = self.images_list
+
         return clean_data
     
     def save(self, author, commit = True):
