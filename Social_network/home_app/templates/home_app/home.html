@@ -1,71 +1,66 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block links %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'css/window_data.css' %}">
-{% endblock links %}
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
 
 {% block title  %}
     Головна Сторінка
 {% endblock  %}
 
+{% block links %}
+    <!-- Стилі головной сторінки -->
+    <link rel="stylesheet" href="{% static 'home_app/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'home_app/css/window_data.css' %}">
+    
+    <!-- Стилі для відображення постів -->
+    <link rel="stylesheet" href="{% static 'post_app/css/posts.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/post_style.css' %}">
+    
+    <!-- Стилі модальних вікон -->
+    <link rel="stylesheet" href="{% static 'post_app/css/modal_form.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_post.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/show_images.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_tag.css' %}">
+    
+    <!-- Стилі для тегів при створені поста -->
+    <link rel="stylesheet" href="{% static 'post_app/css/modal_settings.css' %}">
+{% endblock links %}
+
+{% block modal-windows %}
+    <div id="shadow" class="shadow hidden"></div>
+
+    {% include 'post_app/particles/create_post_form.html' %}
+
+    {% include 'post_app/particles/post/create_tag_cont.html' %}
+{% endblock modal-windows %}
+
 {% block side-menu %}
-    <div class = 'profile-block'>
-        <div class = 'top-data'>
-            <div class = 'indicator'>
-                <img src="{%static 'images/home/avatar.svg'%}" alt="Аватар">
-            </div>
-
-            <div class = 'text-data'>
-                <p class="username">Lina li</p>
-                <p class="nickname">@theli</p>
-            </div>
-        </div>
-
-
-        <div class = 'bottom-data'>
-            <div class = 'user-data border-style' >
-                <p class="number-text">566</p>
-                <p class="text">Дописи</p>
-            </div>
-                
-            <div class = 'user-data border-style'>
-                <p class="number-text">12.1К</p>
-                <p class="text">Читачі</p>
-            </div>
-            
-            <div class = 'user-data'>
-                <p class="number-text">222</p>
-                <p class="text">Друзі</p>
-            </div>
-        </div>
-        </div>
-
-        <div class="request block">
-            <div class="left-part">
-                <img src="{% static 'images/home/chat-icon.svg' %}" alt="chat">
-                <p>Запити</p>
-            </div>
-
-            <div class="right-part">
-                <p>Дивитись всі</p>
-            </div>
-        </div>
-
-        <div class="messages block">
-            <div class="left-part">
-                <img src="{% static 'images/home/message-icon.svg' %}" alt="message">
-                <p>Повідомлення</p>
-            </div>
-
-            <div class="right-part">
-                <p>Дивитись всі</p>
-            </div>
-        </div>
-    </div>
+    {% include 'home_app/particles/side_menu.html' %}
 {% endblock  %}
 
 {% block content %}
-    <h1>Головна Сторінка</h1>
+    <div class="chat-input">
+        <input type="text" class="input-content" placeholder="Текст публікації" id="input-content">
+
+        <div class="bottom-data">
+            <div id="show-form" class="open-form"><span>Перейти до оформлення</span></div>
+        </div>
+    </div>
+
+    {% include 'post_app/particles/post/posts_cicle.html' %}
+
+    {% include 'post_app/particles/post/sentinel.html' %}
 {% endblock content %}
+
+{% block scripts %}
+    <script type="module" src="{% static 'post_app/js/tags_forms.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/post_load.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/createPost.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/clear_form.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/visible_form.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/show_images.js' %}"></script>
+
+    <script src="{% static 'post_app/js/auto_input_text.js' %}"></script>
+{% endblock scripts %}

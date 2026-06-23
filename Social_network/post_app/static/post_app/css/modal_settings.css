@@ -1,0 +1,40 @@
+.modal-settings{
+    flex-direction: column;
+    width: 23.8vw;
+    height: 14.6vh;
+    background-color: #E9E5EE;
+    border-radius: 1.04vh;
+    padding: 1.67vh;
+    gap: 1.67vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.2vw;
+    display: none;
+}
+.section-modal {
+    width: 100%;
+    height: 2.08vh;
+    display: flex;
+    gap: 0.69vw;
+}
+
+.section-modal:hover{
+    cursor: pointer;
+}
+
+.button-close {
+    justify-content: end;
+}
+.line {
+    width: 100%;
+    height: 0.08vw;
+    background-color: #CDCED2;
+}
+.section-modal p {
+    font-weight: 500;
+    font-size: 1.67vh;    
+}
+.section-modal img {
+    height: 100%;
+}

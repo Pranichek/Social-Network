@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+    <meta name = 'csrf-token' content = '{{ csrf_token }}'>
+{% endblock %}
+
+{% block title %}
+Друзі
+{% endblock %}
+
+{% block links %}
+    <!-- для постів -->
+    <link rel="stylesheet" href="{% static 'post_app/css/post_style.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/posts.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/show_images.css' %}">
+
+
+    <link rel = 'stylesheet' href = "{% static 'user_app/css/friends_page/side_block.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/posts.css' %}">
+    <link rel = 'stylesheet' href = "{% static 'user_app/css/friends_page/user_data_buttons.css' %}">
+    <link rel = 'stylesheet' href = "{% static 'user_app/css/friends_page/content_friends.css' %}">
+    <link rel = 'stylesheet' href = "{% static 'user_app/css/friends_page/modal_accepts.css' %}">
+{% endblock %}
+
+{% block modal-windows %}
+    <div id="shadow" class="shadow hidden"></div>
+    
+    {% include 'user_app/particles/friends_page/accept_action.html' %}
+{% endblock modal-windows %}
+
+
+{% block side-menu %}
+    {% include 'user_app/particles/friends_page/friends_nav.html' %}
+
+    {% include 'user_app/particles/friends_page/user_data.html' %}
+{% endblock side-menu %}
+
+{% block content %}
+    {% include 'user_app/particles/friends_page/friends_main.html' %}
+    {% include 'user_app/particles/friends_page/friends_section.html' %}
+
+     {% include 'user_app/particles/friends_page/user_posts.html' %}
+    {% include 'user_app/particles/friends_page/sentinel.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script src = "{% static 'user_app/js/user_app/friends_page/friends_section.js' %}"></script>
+    <script src = "{% static 'user_app/js/user_app/friends_page/listener_buttons.js' %}"></script>
+    <script src="{% static 'user_app/js/user_app/friends_page/change_status.js' %}" ></script>
+    <script src = "{% static 'user_app/js/user_app/friends_page/delete_actions.js' %}"></script>
+{% endblock %}
+

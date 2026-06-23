@@ -1,49 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
 {% block title %}
     Публікації
 {% endblock title %}
 
 {% block links %}
-    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/posts.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/show_images.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_post.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/modal_form.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/create_tag.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/post_style.css' %}">
+    <link rel="stylesheet" href="{% static 'post_app/css/modal_settings.css' %}">
+
 {% endblock links %}
+
+{% block modal-windows %}
+    <div id="shadow" class="shadow hidden"></div>
+
+    {% include 'post_app/particles/create_post_form.html' %}
+
+    {% include 'post_app/particles/post/create_tag_cont.html' %}
+{% endblock modal-windows %}
 
 
 {% block side-menu %}
-    <div class = 'profile-block'>
-        <div class = 'top-data'>
-            <div class = 'indicator'>
-                <img src="{%static 'images/home/avatar.svg'%}" alt="Аватар">
-            </div>
-
-            <div class = 'text-data'>
-                <p class="username">Lina li</p>
-                <p class="nickname">@theli</p>
-            </div>
-        </div>
-
-
-        <div class = 'bottom-data'>
-            <div class = 'user-data border-style' >
-                <p class="number-text">566</p>
-                <p class="text">Дописи</p>
-            </div>
-                
-            <div class = 'user-data border-style'>
-                <p class="number-text">12.1К</p>
-                <p class="text">Читачі</p>
-            </div>
-            
-            <div class = 'user-data'>
-                <p class="number-text">222</p>
-                <p class="text">Друзі</p>
-            </div>
-        </div>
-    </div>
+    {% include 'post_app/particles/side_data.html' %}
 {% endblock side-menu %}
 
 
 {% block content %}
-    <h1>Тут будуть ваші публікації<h1>
+    <div class="chat-input">
+        <input type="text" class="input-content" placeholder="Текст публікації" id="input-content">
+
+        <div class="bottom-data">
+            <div id="show-form" class="open-form"><span>Перейти до оформлення</span></div>
+        </div>
+    </div>
+    
+    
+    {% include 'post_app/particles/post/posts_cicle.html' %}
+
+    {% include 'post_app/particles/post/sentinel.html' %}
 {% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'post_app/js/post_load.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/tags_forms.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/createPost.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/clear_form.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/visible_form.js' %}"></script>
+    <script type="module" src="{% static 'post_app/js/show_images.js' %}"></script>
+    <script src="{% static 'post_app/js/auto_input_text.js' %}"></script>
+    <script src="{% static 'post_app/js/modals_posts.js' %}"></script>
+    <script src="{% static 'post_app/js/greed_images.js' %}"></script>
+{% endblock scripts %}

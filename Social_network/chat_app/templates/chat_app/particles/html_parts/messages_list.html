@@ -1,0 +1,16 @@
+{% load static %}
+{% for message in messages %}   
+    <div class="message" {% if message.sender.id != current_user_id %}other_user{% endif %}>
+        <div class="message-outline">
+            <div class="msg-text">
+                <p>{{ message.text }}</p>
+            </div>
+
+            <div class="data-message">
+                <p>{{ message.created_at|date:"H:i" }}</p>
+
+                <img src="{% static '/chat_app/images/chat_images/check_read.svg' %}" alt="alt_read">
+            </div>
+        </div>
+    </div>  
+{% endfor %}

@@ -1,0 +1,43 @@
+{% load static %}
+<div class="section-register  section"> 
+    
+    <div class = 'toggle'>
+        <div class="register-block active-form" id="ButtonRegister">
+            <p class="register-text">Реєстрація</p>
+        </div>
+
+        <div class="login-block" id="ButtonLogin">
+            <p class = 'login-text'>Авторизація</p>
+        </div>
+    </div>
+
+    <p class="welcom-text">Приєднуйся до World IT</p>
+
+    <form action="{% url 'check_registration' %}" method="post" class="container-input" id="form-registration" novalidate>
+        <div class="form-group">
+            <label >{{ form_register.email.label }}</label>
+            {{ form_register.email }}
+            {{ form_register.email.errors }}
+        </div>
+
+        <div class="form-group">
+            <label >{{ form_register.password.label }}</label>
+            <div class="password-wrapper">
+                {{ form_register.password }}
+                <span id="eye-button" class="eye-icon toggle-password"><img id="eye-img" src="{% static 'user_app/images/fields_images/closed_eye.svg' %}" alt="eye-img"></span> 
+            </div>
+            {{ form_register.password.errors }}
+        </div>
+
+        <div class="form-group">
+            <label>{{ form_register.confirm_password.label }}</label>
+            <div class="password-wrapper">
+                {{ form_register.confirm_password }}
+                <span id="eye-button" class="eye-icon toggle-password"><img id="eye-img" src="{% static 'user_app/images/fields_images/closed_eye.svg' %}" alt="eye-img"></span>
+            </div>
+            {{ form_register.confirm_password.errors }}
+        </div>
+    </form>
+    <button type="submit" id="create-account" class="create-user" form="form-registration">Створити акаунт</button>
+</div>
+

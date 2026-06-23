@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
+{% block title %}
+    Чати
+{% endblock title %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'chat_app/css/side_settings.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/alert_container.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/main_block.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/change_group.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/create_group.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/chat_header.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/message_block.css' %}">
+    <link rel='stylesheet' href="{% static 'chat_app/css/chat_style.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/style_separator.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/card_user_finish.css' %}">
+    <link rel="stylesheet" href="{% static 'chat_app/css/modal_settings.css' %}">
+    
+{% endblock links %}
+
+{% block modal-windows %}
+    <div id="welcome-shadow" class="shadow hidden"></div>
+
+    {% include 'chat_app/particles/modal_forms/create_group.html' %}
+    {% include 'chat_app/particles/modal_forms/create_group_finish.html' %}
+    {% include 'chat_app/particles/modal_forms/change_group.html' %} 
+{% endblock modal-windows %}
+
+{% block side-menu %}
+    {% include 'chat_app/particles/side_settings.html' %}
+{% endblock side-menu %}
+
+{% block content %}
+    {% include 'chat_app/particles/main_block.html' %}
+    {% include 'chat_app/particles/alert_container.html' %}  
+{% endblock content %}
+
+{% block scripts %}
+    <!-- <script src = "{% static 'chat_app/js/chat_app/change_modals.js' %}"></script> -->
+    <script src="{% static 'chat_app/js/chat_app/solo_chat.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/load_messages.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/group_chats.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/close_chat.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/settings_chat.js' %}"></script>
+    <!-- <script src="{% static 'chat_app/js/chat_app/check_status.js' %}"></script> -->
+
+    <script src="{% static 'chat_app/js/chat_app/pagination/pagination_contact.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/pagination/paginations_messages.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/pagination/paginations_groups.js' %}"></script>
+
+    <script src="{% static 'chat_app/js/chat_app/send_images.js' %}"></script>
+    <script src="{% static 'chat_app/js/chat_app/lightning_card.js' %}"></script>
+
+    <!-- <script src="{% static 'chat_app/js/chat_app/online_notifications.js' %}"></script> -->
+
+    <script src="{% static 'chat_app/js/chat_app/group_actions/change_group.js' %}"></script>
+{% endblock scripts %}
+
+<script>
+  window.currentUserId = "{{ request.user.id }}"
+</script>

@@ -1,0 +1,43 @@
+{% load static %}
+<div class="section-login section hidden"> 
+    <!-- <nav>
+        <p id="ButtonRegister">Реєстрація</p>
+        <p id="ButtonLogin">Авторизація</p>
+    </nav> -->
+
+    <div class = 'toggle'>
+        <div class="register-block" id="ButtonRegister">
+            <p class="register-text">Реєстрація</p>
+        </div>
+        <div class="login-block active-form" id="ButtonLogin">
+            <p class = 'login-text'>Авторизація</p>
+        </div>
+    </div>
+
+    <p class="welcom-text">Раді тебе знову бачити!</p>
+
+    <form method="post" id="login-form" class="container-input" action="{% url 'check_login_view' %}">
+        <p id="error-message" class="login-error hidden"></p>
+        <div class="form-group">
+            <label >{{ form_login.username.label_tag }}</label>
+            
+            {{ form_login.username }}
+            {{ form_login.username.errors }}
+        </div>
+        
+        <div class="form-group">
+            <label >{{ form_login.password.label_tag }}</label>
+            
+
+            <div class="password-wrapper">
+                {{ form_login.password }}
+                <span id="eye-button" class="eye-icon toggle-password"><img id="eye-img" src="{% static 'user_app/images/fields_images/closed_eye.svg' %}" alt="eye-img"></span> 
+            </div>
+            
+            {{ form_login.password.errors }}
+        </div>
+    </form>
+
+    <button type="submit" class="login-user" form="login-form">Увійти</button>
+</div>
+

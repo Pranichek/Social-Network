@@ -1,0 +1,186 @@
+.content, .friends-main{
+    display: flex;
+    flex-direction: column;
+    gap: 0.83vh;
+}
+
+.friends-main{
+    width: 100%;
+    height: 100%;
+}
+
+
+.section {
+    width: 100%;
+    /* min-height: 34.3vh; */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    border: 0.08vw #CDCED2 solid;
+    border-radius: 0.694vw;
+    background-color: #FFFFFF; 
+    gap: 1.5vh;
+    padding: 1.5vh 1.5vw;
+
+    flex-shrink: 0;
+}
+
+.section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 0.08vw #CDCED2 solid;
+    border-radius: 0.694vw;
+    background-color: #FFFFFF; 
+    gap: 1.5vh;
+    padding: 1.5vh 1.5vw;
+}
+
+.section-header {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    height: 1.875vh;
+}
+
+.section-cards {
+    align-items: start;
+}
+
+.section-title {
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.section-button {
+    background: none;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #543C52;
+    cursor: pointer;
+}
+
+.section-cards{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 0.55vw;
+    width: 100%;
+}
+
+.person-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.67vh;
+    padding: 1.67vh 1.1vw;
+    border: 0.08vw solid #CDCED2;
+    background-color: #FFFFFF;
+    border-radius: 0.694vw;
+    height: 27.4vh;
+    justify-content: center;
+    width: 100%;
+    /* width: 20vw; */
+    align-items: center;
+}
+
+.top-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 18vh;
+    gap: 2.5vh;
+
+}
+
+.outline-avatar {
+    min-height: 10vh;
+    max-height: 10vh;
+    position: relative;
+}
+
+.outline-avatar img {
+    height: 100%;
+
+}
+
+
+.user-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.04vh;
+    
+}
+
+.user-pseudonym {
+    font-weight: 700;
+    font-size: 2.5vh;
+    color: #070A1C;
+}
+
+.username {
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.username-card{
+    font-weight: 700;
+    font-size: 2.5vh;
+}
+
+.bottom-data {
+    height: 4.17vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.1vw;
+}
+.bottom-data button {
+    height: 100%;
+    border-radius: 128.54vh;
+    padding: 1.04vh 1.1vw;
+    border: 0.08vw #543C52 solid;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.45vh;
+}
+
+.first-button {
+    color: #FFFFFF;
+    background-color: #543C52;
+}
+
+.first-button:hover, .accept-button:hover{
+    background-color: #3E2D3C;
+    cursor: pointer;
+}
+
+.second-button{
+    color: #543C52;
+    background-color: #FFFFFF;
+}
+
+.second-button:hover, .delete-button:hover{
+    cursor: pointer;
+    background-color: #E9E5EE;
+}
+
+
+#loader-line {
+    width: 100%;
+    height: 40px;
+}
+
+
+.hidden{
+    display: none;
+}

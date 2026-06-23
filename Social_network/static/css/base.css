@@ -1,0 +1,31 @@
+* {
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    font-size: 100%; 
+}
+
+
+body, html{
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: #FAF8FF;
+}
+
+
+input{
+    outline: none;
+}

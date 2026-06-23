@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: green; */
+}
+
+
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.side-menu {
+    display: none;
+}
+
+
+
+.hidden{
+    display: none;
+}
+
+
+.laptop-image {
+    height: 54vh;    
+    margin-left: -4.5vw;     
+    position: relative; 
+    z-index: 2; 
+}
+
+.laptop-image img {
+    height: 100%;
+    object-fit: contain;
+}
+
+.section{
+    z-index: 3;
+}
+
+.fetch-error, .login-error{
+    font-weight: 500;
+    font-size: 1.67vh;
+}

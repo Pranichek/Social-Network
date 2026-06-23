@@ -1,0 +1,80 @@
+{% load static %}
+
+<div class="alert-cont">
+
+    <div class="side-block message-cont">
+
+        <div class="block-header">
+            <div class="left-part">
+                <div class="card-outline">
+                    <img src="{% static 'chat_app/images/alert_conteiner/message-icon.svg' %}" alt="message-icon">
+                    <div class="endicator-messages hidden"><p id="personalUnreadCount"></p></div>
+                </div>
+                <p>Повідомлення</p>
+            </div>
+        </div>
+
+        <div class="message-list" id="message-block-cards">
+            {% for item in active_chats_data %}
+                <div class="block-card" data-user-id="{{ item.user.id }}" data-chat-user="{{ item.user.id }}" data-chat-type="solo" data-chat-id="{{ item.chat.id }}" data-chat-username="{{ item.user.userprofile.pseudonym }}">
+                    <div class="avatar-wrapper">
+                        <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon" class="avatar-img">
+                        <span class="status-indicator"></span>
+                    </div>
+
+                    <div class="text-data">
+                        <div class="top-data">
+                            <p class="nickname-card">{{ item.user.userprofile.pseudonym }}</p>
+                            <p class="card-time">{{ item.last_message_data }}</p>
+                        </div>
+
+                        <div class="bottom-data">
+                            <p class="last-message-text">{{ item.last_message_text }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="active-chats-sentinel"></div>
+        </div>
+
+    </div>
+
+    <div class="side-block group-cont">
+
+        <div class="block-header">
+            <div class="left-part">
+                <div class="card-outline">
+                    <img src="{% static 'chat_app/images/alert_conteiner/message-icon.svg' %}" alt="message-icon">
+                    <div class="endicator-messages hidden"><p id="groupUnreadCount"></p></div>
+                </div>
+                
+                <p>Групові чати</p>
+            </div>
+        </div>
+
+        <div class="message-list" id="group-block-cards">
+            {% for group in group_chats_data %}
+                <div class="block-card" data-chat-id="{{ group.chat_object.id }}" data-chat-type="group" data-chat-title="{{ group.chat_object.name }}">
+                    <div class="avatar-wrapper">
+                        <img src="{% static 'chat_app/images/alert_conteiner/group-avatar.svg' %}" alt="avatar-icon">
+                    </div>
+                    
+
+                    <div class="text-data">
+                        <div class="top-data">
+                            <p class="nickname-card">{{ group.chat_object.name }}</p>
+                            <p class="card-time">{{ group.last_message_data }}</p>
+                        </div>
+
+                        <div class="bottom-data">
+                            <p class="last-message-text">{{ group.last_message_text }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="group-sentinel"></div>
+        </div>
+
+    </div>
+
+</div>

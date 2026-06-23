@@ -1,0 +1,26 @@
+{% load static %}
+
+{% for item in active_chats %}
+    <div class="block-card" 
+        data-chat-user="{{ item.user.id }}" 
+        data-chat-type="solo" 
+        data-chat-id="{{ item.chat.id }}" 
+        data-chat-username="{{ item.user.userprofile.pseudonym }}">
+
+        <div class="avatar-wrapper">
+            <img src="{% static 'chat_app/images/alert_conteiner/example-message.svg' %}" alt="avatar-icon" class="avatar-img">
+            <span class="status-indicator"></span>
+        </div>
+
+        <div class="text-data">
+            <div class="top-data">
+                <p class="nickname-card">{{ item.user.userprofile.pseudonym }}</p>
+                <p class="card-time">{{ item.last_message_data }}</p>
+            </div>
+
+            <div class="bottom-data">
+                <p class="last-message-text">{{ item.last_message_text }}</p>
+            </div>
+        </div>
+    </div>
+{% endfor %}

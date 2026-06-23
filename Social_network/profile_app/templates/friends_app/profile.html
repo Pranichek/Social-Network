@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Друзі
+{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'friends_app/css/friends.css' %}">
+{% endblock links %}
+
+{% block side-menu %}
+    <div class = 'side-links'>
+        <div class = 'main-link bottom-line'>
+            <p class = 'main-link-text'>Головна</p>
+        </div>
+
+        <div class = 'request-link'>
+            <p class = 'request-text'>Запити</p>
+        </div>
+        <div class = 'recomendation-link'>
+            <p class = 'recomendation-text'>Рекомендації</p>
+        </div><div class = 'all-friends'>
+            <p class = 'all-friends-text'>Всі друзі</p>
+        </div>
+    </div>
+{% endblock side-menu %}
+
+{% block content %}
+    <h1> Сторінка с Друзями </h1>
+{% endblock %}

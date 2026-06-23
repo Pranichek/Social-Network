@@ -1,0 +1,105 @@
+.create-chat{
+    width: 100%;
+    height: 4.17vh;
+    border-radius: 128.54vh;
+    background-color: #543C52;
+    gap: 0.55vw;
+    padding: 1.04vh 1.11vw;
+    display: flex;
+    flex-direction: row;
+    /* другорядна вісь */
+    align-items: center;
+    /* головна вісь */
+    justify-content: center;
+}
+
+.create-chat img{
+    height: 100%;
+}
+
+.create-chat p{
+    font-weight: 500;
+    font-size: 1.45vh;
+    color: #FFFFFF;
+}
+
+.create-chat:hover {
+    background-color: #3E2D3C;
+    cursor: pointer;
+}
+
+
+.contacts{
+    width: 100%;
+    flex-grow: 1;
+    background-color: #FFFFFF;
+    border-radius: 0.694vw; 
+    border: 0.07vw #CDCED2 solid;
+    padding: 1.67vh;
+    gap: 2.5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+.contact-header{
+    width: 100%;
+    height: 2.4vh;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 0.55vw;
+}
+
+.contact-header img{
+    height: 100%;
+}
+
+.contact-header p{
+    font-weight: 500;
+    font-size: 2.08vh;
+    color: #81818D;
+}
+
+.search-contact{
+    height: 4.375vh;
+    width: 100%;
+    border-radius: 0.694vw; 
+    border: 0.07vw #CDCED2 solid;
+    color: #81818D;
+    padding: 1.04vh 1.11vw;
+    gap: 0.69vw;
+    outline: none;
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+}
+
+.all-contacts{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 100%;
+    height: auto;
+    gap: 1.67vh;
+}
+
+.card-contact{
+    width: 100%;
+    height: 4.8vh;
+    display: flex;
+    justify-content: start;
+    gap: 1.11vw;
+    align-items: center;
+}
+
+.card-contact img{
+    height: 100%;
+}
+
+.card-contact p{
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #070A1C;
+}

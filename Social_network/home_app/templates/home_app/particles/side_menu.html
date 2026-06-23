@@ -1,0 +1,128 @@
+{% load static %}
+
+<div class = 'profile-block'>
+    <div class = 'top-data'>
+        <div class = 'indicator'>
+            <img src="{% static 'home_app/images/home/avatar.svg' %}" alt="Аватар">
+        </div>
+
+        <div class = 'text-data'>
+            <p class="username">Lina li</p>
+            <p class="nickname">@theli</p>
+        </div>
+    </div>
+
+
+    <div class = 'bottom-data'>
+        <div class = 'user-data border-style' >
+            <p class="number-text">566</p>
+            <p class="text">Дописи</p>
+        </div>
+            
+        <div class = 'user-data border-style'>
+            <p class="number-text">12.1К</p>
+            <p class="text">Читачі</p>
+        </div>
+        
+        <div class = 'user-data'>
+            <p class="number-text">222</p>
+            <p class="text">Друзі</p>
+        </div>
+    </div>        
+</div>
+
+<div class="request block">
+    <div class="top-part">
+        <div class="left-part">
+            <img src="{% static 'home_app/images/home/chat-icon1.svg' %}" alt="chat">
+            <p>Запити</p>
+        </div>
+
+        <div class="right-part">
+            <p>Дивитись всі</p>
+        </div>
+    </div>
+
+    <div class="followers">
+        <div class="follow-card">
+            <img src="{% static 'home_app/images/modals_avatars/avatar_1.svg' %}" alt="avatar">
+            <div class="follower-info">
+                <p class="follower-username">Yehor Aung</p>
+                <p class="follower-count">4.3к підписників</p>
+            </div>
+        </div>
+        <div class="follow-card">
+            <img src="{% static 'home_app/images/modals_avatars/avatar_2.svg' %}" alt="avatar">
+            <div class="follower-info">
+                <p class="follower-username">Ann Ann</p>
+                <p class="follower-count">1.6к підписників</p>
+            </div>
+        </div>
+        <div class="follow-card">
+            <img src="{% static 'home_app/images/modals_avatars/avatar_3.svg' %}" alt="avatar">
+            <div class="follower-info">
+                <p class="follower-username">Yeugen Jenua</p>
+                <p class="follower-count">10.3к підписників</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="messages block">
+    <div class="top-part messages-part">
+        <div class="left-part">
+            <img src="{% static 'home_app/images/home/message-icon1.svg' %}" alt="message">
+            <p>Повідомлення</p>
+        </div>
+
+        <div class="right-part">
+            <a href="{% url 'chat_view' %}"><p>Дивитись всі</p></a>
+        </div>
+    </div>
+    
+    <div class="messages-container">
+
+        <div class="message-block active-block">
+            <div class="message-container">
+                <img src="{% static 'home_app/images/modals_avatars/avatar_4.svg' %}" alt="avatar">
+                <div class="messages-info">
+                    <div class="top-info">
+                        <p class="follower-username">Mona Lisa</p>
+                        <p class="time-sent">9:41</p>
+                    </div>
+
+                    <p class="text-message">Привіт, як справи?</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-block active-block">
+            <div class="message-container">
+                <img src="{% static 'home_app/images/modals_avatars/avatar_5.svg' %}" alt="avatar">
+                <div class="messages-info">
+                    <div class="top-info">
+                        <p class="follower-username">Ann Ti</p>
+                        <p class="time-sent">25.04.2025</p>
+                    </div>
+
+                    <p class="text-message">Привіт!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-block">
+            <div class="message-container">
+                <img src="{% static 'home_app/images/modals_avatars/avatar_6.svg' %}" alt="avatar">
+                <div class="messages-info">
+                    <div class="top-info">
+                        <p class="follower-username">Ness Ty</p>
+                        <p class="time-sent">25.04.2025</p>
+                    </div>
+
+                    <p class="text-message">Привіт!</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

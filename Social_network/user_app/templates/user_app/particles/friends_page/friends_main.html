@@ -1,0 +1,15 @@
+<div id="friends-main" class="friends-main">
+    {% for key, section in sections.items  %}
+        <div class="section">
+            <div class="section-header">
+                <p class="section-title">{{ section.title }}</p>
+                <button type="button" class="section-button" data-section-link = "{{ key }}">Дивитись всі</button>
+            </div>
+            
+            <div class="section-cards" id="cards-{{ key }}">
+                {% include 'user_app/particles/friends_page/friends_cards.html' with users=section.users section=key %}
+            </div>
+            
+        </div>
+    {% endfor %}
+</div>

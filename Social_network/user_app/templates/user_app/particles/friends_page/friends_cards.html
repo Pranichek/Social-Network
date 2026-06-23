@@ -1,0 +1,31 @@
+{% load static %}
+
+{% for person in users %}
+    <div class="person-card">
+        
+        <div class="top-data">
+            <div class="outline-avatar">
+                <img src="{% static 'user_app/images/friends/avatar.svg' %}" alt="">
+            </div>
+            
+            <div class="user-data">
+                <p class="user-pseudonym">{{ person.userprofile.pseudonym }}</p>
+                <p class="username">{{ person.username }}</p>
+            </div>
+            
+        </div>
+
+        <div class="bottom-data">
+            {% if section == 'requests' %}
+                <button class="first-button accepted-btn" value="{{ person.id }}" id="button-card">Підтвердити</button>
+            {%elif section == 'recommendations' %}
+                <button class="first-button add-btn" value="{{ person.id }}" id="button-card">Додати</button>
+            {%elif section == 'friends' %}
+                <button class="first-button">Повідомлення</button>
+            {% endif %}
+            
+            <button class="second-button delete_button decline-btn" data-section="{{section}}" id="button-card" value="{{ person.id }}">Видалити</button>
+        </div>
+    
+    </div>
+{% endfor %}

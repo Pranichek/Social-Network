@@ -1,0 +1,40 @@
+.member-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    gap: 1.04vh;
+}
+
+.member {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 4.8vh;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1.04vh;
+    height: 100%;
+}
+
+.user-info img{
+    height: 100%;
+}
+
+.user-info p {
+    font-weight: 500;
+    font-size: 1.67vh;
+    line-height: 1;
+    letter-spacing: 0%;
+    color: #070A1C;
+    margin: 0;
+}
+
+.bin {
+    height: 50%;
+    cursor: pointer;
+}

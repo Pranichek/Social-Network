@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block meta %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock meta %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'user_app/css/registration_section.css' %}">
+    <link rel="stylesheet" href="{% static 'user_app/css/confirm_email.css' %}">
+    <link rel="stylesheet" href="{% static 'user_app/css/auth.css' %}">
+{% endblock links %}
+
+{% block title %}
+    Реєстрація
+{% endblock  %}
+
+{% block content %}
+    {% include 'user_app/particles/form_confirm_email.html' %}
+    {% include 'user_app/particles/form_login.html' %}
+    {% include 'user_app/particles/form_registration.html' %}
+    <div class="laptop-image">
+        <img src="{%static 'user_app/images/registration/Container.svg' %}" alt="">
+    </div>
+{% endblock content %}
+
+
+
+{% block scripts %}
+    <script type="module" src="{% static 'user_app/js/user_app/clear_forms.js' %}"></script>
+    <script type="module" src="{% static 'user_app/js/user_app/change_forms.js' %}"></script>
+    <script src="{% static 'user_app/js/user_app/reveal_password.js' %}"></script>
+    <script src="{% static 'user_app/js/fetch_auth/registration.js' %}"></script>
+    <script src="{% static 'user_app/js/fetch_auth/login.js' %}"></script>
+    <script type="module" src="{% static 'user_app/js/fetch_auth/confirm_email.js' %}"></script>
+    <script type="module" src="{% static 'user_app/js/user_app/confirm_code.js' %}"></script>
+{% endblock scripts %}

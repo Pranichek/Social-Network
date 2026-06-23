@@ -1,21 +1,18 @@
 {% load static %}
-
-
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block meta %}
-            
+
         {% endblock meta %}
-        <title>
-            {% block title %}
-                
-            {% endblock %}    
-        </title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+        <title>{% block title %}{% endblock %}</title>
+        
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/content.css' %}">
+        <link rel="stylesheet" href="{% static 'css/welcome_message.css' %}">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,44 +22,57 @@
         {% endblock links %}
     </head>
 
-    <header>
     <body>
-            <div class="container">
+        {% block modal-windows %}
+            
+        {% endblock modal-windows %}
+        <header>
+            <nav class="container">
 
-                <div class="logo"> 
-                    <img src="{% static 'images/header/logo.svg' %}" alt="logo" width="1000" >
-                </div>
+                <a href="{% url 'home' %}" class="logo"> 
+                    <img src="{% static 'images/header/logo.svg' %}" alt="logo">
+                </a>
                 
-                <nav class="navigation">
-                    <div class="links">
-                        <div class="link-page home-link">
-                            <img class="link-icon" src="{% static 'images/header/house.svg' %}" alt="">
-                            <a href="{% url 'home' %}">Головна</a>
-                        </div>
-                        
-                        <div class="link-page post-link">
-                            <img class="link-icon"src="{% static 'images/header/posts.svg' %}" alt="">
-                            <a href="{% url 'post_view' %}">Мої публікації</a>
-                        </div>
-                        
-                        <div class="link-page friends-link">
-                            <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
-                            <a href="{% url 'friends_view' %}">Друзі</a>
-                        </div>
-                        
-                        <div class="link-page chats-link">
-                            <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
-                            <a href="">Чати</a>
-                        </div>
-                        
-                        <div class="link-page settings-link">
-                            <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
-                            <a href="{% url 'settings_view' %}">Налаштування</a>
-                        </div>
+                
+                {% if request.resolver_match.url_name != 'auth_view'  %}
+                    <div class="navigation">
+                        <div class="links">
+                            <div class="link-page home-link">
+                                <img class="link-icon" src="{% static 'images/header/house.svg' %}" alt="">
+                                <a href="{% url 'home' %}">Головна</a>
+                            </div>
+                            
+                            <div class="link-page post-link">
+                                <img class="link-icon"src="{% static 'images/header/posts.svg' %}" alt="">
+                                <a href="{% url 'post_view' %}">Мої публікації</a>
+                            </div>
+                            
+                            <div class="link-page friends-link">
+                                <div class="card-outline">
+                                    <img class="link-icon" src="{% static 'images/header/friends.svg' %}" alt="">
+                                    <div class="endicator-headers hidden"><p id="friendRequestCount"></p></div>
+                                </div>
+                                
+                                <a href="{% url 'friends_view' %}">Друзі</a>
+                            </div>
+                            
+                            <div class="link-page chats-link">
+                                <div class="card-outline">
+                                    <img class="link-icon" src="{% static 'images/header/chat.svg' %}" alt="">
+                                    <div class="endicator-headers hidden"><p id="headerUnreadCount"></p></div>
+                                </div>
+                                
+                                <a href="{% url 'chat_view' %}">Чати</a>
+                            </div> 
+                            
+                            <div class="link-page settings-link">
+                                <img class="link-icon" src="{% static 'images/header/settings.svg' %}" alt="">
+                                <a href="{% url 'settings_view' %}">Налаштування</a>
+                            </div>
                     </div>
 
                     
-                    <div class="button-leave" onclick="document.getElementById('logout-form').submit(); return false;">
+                    <div class="button-leave" onclick="document.getElementById('logout-form').submit();">
                         <img src="{% static 'images/header/leave.svg' %}" alt="">
                         <p>Вихід</p>
                     </div>
@@ -70,9 +80,13 @@
                     <form action="{% url 'logout_view' %}" id="logout-form" method="post" style="display: none;">
                         {% csrf_token %}
                     </form>
-                    
-                </nav> 
-            </div>
+
+                {% endif %}
+
+                
+
+                </div>
+            </nav> 
         </header>
 
         <main>
@@ -85,14 +99,50 @@
 
             <div class = 'content'>
                 {% block content %}
-                    
+
                 {% endblock %}
             </div>
+            
         </main>
 
 
+        {% if request.user.is_authenticated and not request.user.username %}
+        
+            <div id="welcome-shadow" class="shadow"></div>
+
+            <div id="message" class="welcome-message">
+                <p class="details-text">Додай деталі про себе</p>
+                
+                <form method="post" action='{% url "end_register" %}' id="end-register" class="end-register">
+                    {% csrf_token %}
+                    
+                    <div class="welcome-form">
+                        {{ welcome_form.pseudonym.label_tag }}
+                        
+                        {{ welcome_form.pseudonym }}                        
+                    </div>
+
+                    <div class="welcome-form">
+                        {{ welcome_form.username.label_tag }}
+                        {{ welcome_form.username }}
+                        <p>Або оберіть: <span>Запропоновані варіанти відповідно до Ім’я та Прізвища</span></p>
+                    </div>
+                </form>
+
+                <div class="bottom-button">
+                    <button type="submit" class="submit-btn" form="end-register">Продовжити</button>
+                </div>
+            </div>
+        {% endif %}
+
+       
+
         <script src="{% static 'js/links_page.js' %}"></script>
         <script src = "{% static 'js/lightining_bg.js' %}"></script>
+        <script src = "{% static 'js/fininsh_register.js' %}"></script>
+        <script src="{% static 'chat_app/js/chat_app/status/online_status.js' %}"></script>
+        <script src = "{% static 'chat_app/js/chat_app/unread.js' %}"></script>
+        <script src = "{% static 'user_app/js/user_app/friends_page/friend_requests.js' %}"></script>
         {% block scripts %}
             
         {% endblock scripts %}

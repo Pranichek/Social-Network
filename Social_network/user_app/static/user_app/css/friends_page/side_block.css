@@ -1,0 +1,34 @@
+.side-links{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.67vh;
+}
+
+.main-link, .request-link, .recomendation-link, .all-friends{
+    height: 2.7vh;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    font-size: 1.67vh;
+    cursor: pointer;
+}
+
+.bottom-line{
+    border-bottom: 0.2vh solid #543c52; 
+}
+
+.bottom-line p{
+    font-weight: 700;    
+    color: #070A1C;
+}
+
+.request-link, .recomendation-link, .all-friends, .main-link{
+    font-weight: 500;
+    color: #79797c;
+}
+
+
+

@@ -1,0 +1,8 @@
+{% load static %}
+
+{% for friend in friends %}
+    <div class="card-contact" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.userprofile.pseudonym }}">
+        <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
+        <p>{{ friend.userprofile.pseudonym }}</p>
+    </div>
+{% endfor %}

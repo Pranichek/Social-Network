@@ -1,0 +1,55 @@
+.header-chat{
+    width: 100%;
+    height: 6.04vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.04vh;
+    border-bottom: 0.07vw #CDCED2 solid;
+}
+
+
+
+.chat-data{
+    display: flex;
+    height: 100%;
+    gap: 1.67vw;
+}
+
+.arrow-cont, .icon-settings{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.arrow-cont img, .icon-settings img{
+    height: 50%;
+}
+
+.text-data-header{
+    display: flex;
+    flex-direction: row;
+    gap: 0.694vw;
+    height: 100%;
+} 
+
+.title-chat{
+    font-size: 2.5vh;
+    font-weight: 500;
+    color: #070A1C;
+}
+
+.status-chat{
+    font-size: 1.45vh;
+    font-weight: 400;
+    color: #81818D;
+}
+
+.check-status{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

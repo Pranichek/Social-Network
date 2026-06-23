@@ -1,29 +1,40 @@
 main {
-    flex: 1;
+    /* flex: 1; */
+    width: 100vw;
+    height: calc(100vh - 9.17vh);
     display: flex;
     justify-content: center;
     width: 100vw;
-    padding: 0 5.6vw;
-    max-width: 1440px;
-    /* background-color: green; */
+    margin: 0 auto;
+    padding: 0 5.55vw; 
+    flex-direction: row;
+    gap: 0.55vw;
     position: relative;
 }
 
 .side-menu {
-    width: 24.3vw;
-    height: 100%;
+    width: 24.375vw;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    padding: 1.7vh 0;
-    /* background-color: blue; */
-    min-width: 24.3vw;
-    gap: 0.8vh;
+    padding: 1.67vh 0;
+    gap: 0.84vh;
 }
 
 .content {
     flex: 1;
-    /* background-color: pink; */
-    height: 100%;
+    height: calc(100vh - 9.17vh);
+    padding: 1.67vh 0 1.67vh 0;
+    overflow-y: scroll;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center; */
 }
+
+::-webkit-scrollbar {
+    display: none;
+} 
+    

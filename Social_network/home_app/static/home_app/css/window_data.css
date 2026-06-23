@@ -1,0 +1,173 @@
+.block{
+    width: 100%;
+    /* min-height: 2.81rem; */
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.694vw; 
+    border: 0.08vw solid #CDCED2;
+    padding: 1.67vh 1.11vw;
+    gap: 2.5vh;
+    /* background-color: green; */
+}
+
+.messages{
+    padding: 1.67vh 0;
+}
+
+.top-part{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 2.39vh;
+    /* background-color: green; */
+}
+
+.messages-part{
+    padding: 0 1.11vw;
+}
+
+.left-part{
+    display: flex;
+    gap: 0.55vw;
+    height: 100%;
+    align-items: center;
+    /* background-color: red; */
+}
+
+.left-part p{
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #81818D;
+}
+
+.left-part img{
+    height: 100%;
+    /* background-color: green; */
+}
+
+.right-part{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.right-part p{
+    font-weight: 500;
+    font-size: 1.67vh;
+    color: #543C52;
+}
+
+
+.followers, .messages-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1.67vh;
+    width: 100%;
+}
+
+.messages-container{
+    gap: 0;
+}
+
+.followers:empty, .messages-container:empty{
+    display: none;
+}
+
+.follow-card{
+    width: 100%;
+    height: 4.792vh;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1.11vw;
+}
+
+.follow-card img{
+    height: 100%;
+    object-fit: contain;
+}
+
+.follower-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 0.42vh;
+    /* background-color: green; */
+    flex: 1;
+}
+
+.follower-username{
+    font-weight: 500;
+    font-size: 1.67vh;
+    /* margin: 0; */
+}
+
+.follower-count{
+    font-weight: 400;
+    font-size: 1.46vh;
+    color: #81818D;
+    /* margin: 0; */
+}
+
+
+.message-block{
+    width: 100%;
+    height: 6.458vh;
+    padding: 0.83vh 1.11vh;
+    gap: 1.67vh;
+    /* background-color: pink; */
+}
+
+.active-block{
+    background-color: #E9E5EE;
+}
+
+.message-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 0.83vw;
+    /* background-color: green; */
+}
+
+.message-container img{
+    height: 100%;
+    object-fit: contain;
+}
+
+.messages-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.top-info{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.time-sent{
+    font-weight: 400;
+    font-size: 1.25vh;
+    color: #81818D;
+}
+
+.text-message{
+    font-weight: 400;
+    font-size: 1.46vh;
+    /* color: pink; */
+}
+
+
+
+@media (max-height: 900px){
+    
+}

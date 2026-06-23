@@ -1,0 +1,54 @@
+{% load static %}
+<form method="post" enctype="multipart/form-data" class="modal-form-create hidden" id="finish-create-modal">
+    <div class="cross-part">
+        <img id="cancel-group-modal" class="close-modals" src="{% static 'chat_app/images/modals_chat/cross-icon.svg' %}" alt="close">
+    </div>
+
+    <p class="main-text">Нова група</p>
+
+    <div class="input-data">
+        <label for="group-name">Назва</label>
+        <input type="text" id="group-name" placeholder="Введіть назву">
+    </div>
+
+    <div class="group-member">
+        
+        <div class="circle-icon">
+            <p>NG</p>
+        </div>
+
+        <div class="group-details">
+
+            <div>
+                <img src="{% static 'chat_app/images/modals_chat/plus-icon.svg' %}" alt="plus">
+                <button type="button">Додайте фото</button>
+            </div>
+
+            <div>
+                <img src="{% static 'chat_app/images/modals_chat/img-icon.svg' %}" alt="img">
+                <button type="button">Оберіть фото</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="members memebers-finish">
+
+        <div class="member-header">
+            <p>Учасники</p>
+        </div>
+
+        <div class="member-list" id="selected-users-list">
+
+        
+
+        </div>
+
+    </div>
+
+    <div class="action-buttons">
+        <button type="button" class="first-button change-modal" id="back-group-step">Назад</button>
+        <button type="button" class="second-button" id="create-group">Створити групу</button>
+    </div>
+</form>

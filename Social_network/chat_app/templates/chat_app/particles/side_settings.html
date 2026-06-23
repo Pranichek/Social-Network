@@ -1,0 +1,31 @@
+{% load static %}
+
+
+<div class="create-chat">
+    <img src="{% static 'chat_app/images/side_settings/plus-img.svg' %}" alt="plust-img">
+    <p>Створити груповий чат</p>
+</div>
+
+<div class="contacts">
+
+    <div class="contact-header">
+        <img src="{% static 'chat_app/images/side_settings/people.svg' %}" alt="people">
+        <p>Контакти</p>
+    </div>
+
+    <div class="search-container">
+        <img src="{% static 'chat_app/images/modals_chat/search-icon.svg' %}" class="search-icon" alt="search">
+        <input type="text" class="search-input search-contact" placeholder="Пошук">
+    </div>
+
+
+    <div class="all-contacts" id="all-contacts">
+        {% for friend in friends %}
+            <div class="card-contact" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.userprofile.pseudonym }}">
+                <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
+                <p>{{ friend.userprofile.pseudonym }}</p>
+            </div>
+        {% endfor %}
+        <div id="contact-load-sentinel"></div>
+    </div>
+</div>

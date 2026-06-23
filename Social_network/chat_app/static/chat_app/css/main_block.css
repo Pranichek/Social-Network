@@ -1,0 +1,38 @@
+.content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.55vw;
+}
+
+.texting-box{
+    flex: 1;
+    border-radius: 0.694vw; 
+    border: 0.07vw #CDCED2 solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 1.67vh 1.11vw;
+    gap: 1.67vh;
+}
+
+.show-chat{
+    justify-content: space-between;
+}
+
+.start-talk{
+    font-weight: 500;
+    font-size: 2.5vh;
+    color: #070A1C;
+}
+
+.select-chat{
+    font-weight: 400;
+    font-size: 1.67vh;
+    color: #070A1C;
+    width: 100%;
+    text-align: center;
+}
+

@@ -1,0 +1,42 @@
+{% load static %}
+
+<form method="post" enctype="multipart/form-data" class="modal-form-create hidden" id="first-modal-creat">
+    <div class="cross-part">
+        <img id="close-modals" class="close-modals" src="{% static 'chat_app/images/modals_chat/cross-icon.svg' %}" alt="">
+    </div>
+
+    <p class="main-text">Нова група</p>
+
+    <div class="search-container">
+        <img src="{% static 'chat_app/images/modals_chat/search-icon.svg' %}" class="search-icon" alt="search">
+        <input type="text" class="search-input" placeholder="Пошук">
+    </div>
+
+    <div class="chocie-cont">
+        <p class="text-choice">Вибрано: <span id="selected-count">0</span></p>
+    </div>
+    
+    <div class="choicen-list">
+        <div class="people-list">
+
+            {% for friend in friends %}
+                <div class="participant-item">
+                    <div class="avatar-wrap">
+                        <p>{{ friend.userprofile.pseudonym|slice:":2"|upper }}</p>
+                    </div>
+
+                    <div class="user-details">
+                        <span class="participant-name">{{ friend.userprofile.pseudonym }}</span>
+                        <input type="checkbox" class="custom-checkbox group-user-checkbox" value="{{ friend.id }}" data-user-name="{{ friend.userprofile.pseudonym }}">
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <button type="button" id="close-modals-cancel" class="first-button">Скасувати</button>
+        <button type="button" class="second-button change-modal" id="next-group-step">Далі</button>
+    </div>
+</form>

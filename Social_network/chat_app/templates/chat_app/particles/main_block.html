@@ -1,0 +1,57 @@
+{% load static %}
+
+<div class="texting-box">
+
+    <div class="header-chat hidden" id="header-chat">
+        <div class="chat-data">
+            <div class="arrow-cont">
+                <img src="{% static 'chat_app/images/chat_images/arrow_icon.svg' %}" alt="arrow" class="arrow-icon" id = "close-chat">
+            </div>
+
+
+            <div class="text-data-header">
+                <div class="circle-icon">
+                    <p>NG</p>
+                </div>
+                <div class="check-status">
+                    <p class="title-chat" id="title-chat">New Group</p>
+                    <p class="status-chat">в мережі</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="icon-settings">
+            <img id="settings-chat" class="settings-chat" src="{% static 'chat_app/images/chat_images/settings_icon.svg' %}" alt="settings">
+
+
+            <div id="modal-settings" class = 'modal-settings hidden' data-user-id = "{{ request.user.id }}"> 
+                <button class = 'media-button'>Медіа</button>
+                <button class = 'delete-chat' id="delete-chat">Видалити чат</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-text" id="main-text">
+        <p class="start-talk" id="chat-title">Почніть нове спілкування</p>
+        <p class="select-chat" id="chat-status">Оберіть контакт зі списку ліворуч <br> або створіть групу, щоб почати спілкування</p>
+    </div>
+    
+
+    <div id="chat-window" class="chat-window hidden">
+        <div class="messages" id="messeages">
+        </div>
+        
+        <form id="messeage-form" class="messeage-form">
+            <input type="text" id="messeage-input" class="message-input" placeholder="Повідомлення">
+            
+            <input type="file" id="message-images" accept="images/*" multiple hidden>
+            <button class="select-icon" type="button" id="message-button"><img src="{% static 'chat_app/images/chat_images/gallery-icon.svg' %}" alt="gallery-icon"></button>
+
+            <button class="send-btn"><img src="{% static 'chat_app/images/chat_images/send_icon.svg' %}" alt="send-text"></button>
+        </form>
+    </div>
+
+</div>
+

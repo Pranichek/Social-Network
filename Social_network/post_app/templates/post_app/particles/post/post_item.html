@@ -1,0 +1,88 @@
+{% load static %}
+<div class="cont-post">
+    <div class="data-user">
+        <div class="outline-data">
+
+            <div class= 'post-avatar' >
+                <div class="avatar-sect" data-user-id="{{ post.author.id }}">
+                    <img src="{% static 'post_app/images/view_posts/avatar_user.svg' %}" alt="">
+                    <span class="status-indicator"></span>
+                </div>
+                
+                <p>{{ post.author.username }}</p>
+            </div>
+
+
+            {% if post.author == request.user %}
+                <div class= 'settings-post' id="settings-post">
+                    <img src="{% static 'post_app/images/view_posts/settings_btn.svg' %}" alt="settings">
+                </div>
+
+                <div class = 'modal-settings' id="modal-settings">
+                    <div class = 'button-close section-modal'>
+                        <img src="{% static 'post_app/images/view_posts/settings_btn.svg' %}" alt="settings">
+                    </div>
+                    <div class = 'change-post section-modal'>
+                        <img src="{% static 'post_app/images/view_posts/can.svg' %}" alt="settings">
+                        <p>Редагувати допис</p>
+                    </div>
+                    <div class = 'line'></div>
+
+                    <div class = 'delete-post section-modal' id="{{ post.id }}">
+                        <img src="{% static 'post_app/images/view_posts/pencil.svg' %}" alt="settings">
+                        <p>Видалити публікацію</p> 
+                    </div>
+                </div>
+            {% endif %}
+            
+        </div>
+    </div>
+
+    <div class="post-data">
+        
+        <p class = 'title-post'>{{ post.title }}</p>
+        {% if post.content %}
+        <div class="cont-tags">
+            <p class = 'content-post'>{{ post.content }}</p>
+            <div class="tags-outline">
+                {% for tag in post.tags.all %}
+                    <p class="tag-post">#{{ tag.name }} </p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        {% endif %}
+
+        {% if post.links.all %}
+            <div class = 'links-post'>
+                {% for link in post.links.all %}
+                    <a href="{{ link.url }}"><span class="link-text">{{ link.url }}</span></a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% if post.images.all %}
+            <div class="images-post">
+                {% for image in post.images.all %}
+                    <img src="{{ image.compressed_image.url }}" alt="Зображення поста">
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="info-post">
+            <div class="block-info">
+                <img src="{% static 'post_app/images/view_posts/heart.svg' %}" alt="">
+                <p>120 Вподобань</p>
+            </div>
+            <div class="block-info">
+                <img src="{% static 'post_app/images/view_posts/like.svg' %}" alt="">
+                <p>120 Вподобань</p>
+            </div>
+            <div class="block-info">
+                <img src="{% static 'post_app/images/view_posts/eye.svg' %}" alt="">
+                <p>890 Переглядів</p>
+            </div>
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,13 @@
+.modal-settings{
+    background-color: #E9E5EE;
+    display: flex;
+    gap: 1.67vh;
+    flex-direction: column;
+    position: absolute;
+
+    left: 0;
+    top: 0;
+}
+
+
+
