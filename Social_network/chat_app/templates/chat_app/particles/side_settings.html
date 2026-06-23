@@ -12,6 +12,7 @@
         <img src="{% static 'chat_app/images/side_settings/people.svg' %}" alt="people">
         <p>Контакти</p>
     </div>
+<<<<<<< HEAD
 
     <div class="search-container">
         <img src="{% static 'chat_app/images/modals_chat/search-icon.svg' %}" class="search-icon" alt="search">
@@ -21,11 +22,34 @@
 
     <div class="all-contacts" id="all-contacts">
         {% for friend in friends %}
+<<<<<<< HEAD
             <div class="card-contact" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.userprofile.pseudonym }}">
+=======
+            <div class="card-contact" data-chat-user="{{ friend.id }}" data-chat-username="{{ friend.email }}">
+=======
+    <div class="search-box">
+        <img src="{% static 'chat_app/images/alert_conteiner/search-icon.svg' %}" alt="search" class = 'search-icon'>
+        <input class="search-contact" type="text" placeholder="Пошук">
+    </div>
+    
+
+    <div class="all-contacts">
+        {% for friend in users_list %}
+            <div class="card-contact">
+>>>>>>> 327763feee5ff2d1497068b77b46fb689f75891b
+>>>>>>> a23d8e9c303e958a9869e6d1f45402b7669bf5d9
                 <img src="{% static 'chat_app/images/side_settings/example-avatar.svg' %}" alt="people">
                 <p>{{ friend.userprofile.pseudonym }}</p>
             </div>
         {% endfor %}
+<<<<<<< HEAD
         <div id="contact-load-sentinel"></div>
+=======
+<<<<<<< HEAD
+=======
+
+        
+>>>>>>> 327763feee5ff2d1497068b77b46fb689f75891b
+>>>>>>> a23d8e9c303e958a9869e6d1f45402b7669bf5d9
     </div>
 </div>

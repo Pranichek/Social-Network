@@ -10,6 +10,7 @@ const chatWindow = document.querySelector("#chat-window")
 const messageForm = document.querySelector("#messeage-form")
 const messageInput = document.getElementById("messeage-input")
 
+<<<<<<< HEAD
 function changeStatus(isGroup, members){
   window.isCurrentChatGroup = isGroup
   window.currentChatMembers = members || []
@@ -101,7 +102,15 @@ async function openChatById(chatId, chatName) {
     const messagesContainer = document.querySelector("#messeages")
     if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
   }
+=======
+
+function scrollToBottom() {
+    const messagesContainer = document.getElementById("messeages")
+    messagesContainer.scrollTop = messagesContainer.scrollHeight
+>>>>>>> a23d8e9c303e958a9869e6d1f45402b7669bf5d9
 }
+
+
 
 async function openChatWithUser(userId, username) {
   const response = await fetch(`/chat/chat_with/${userId}/`, {

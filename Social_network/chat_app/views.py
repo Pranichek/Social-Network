@@ -15,9 +15,16 @@ from .models import Chat
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, View
 from .forms import AddChatMemberForm, CreateGroupChatForm, GroupChatUpdateForm
+<<<<<<< HEAD
 from django.urls import reverse_lazy
+<<<<<<< HEAD
 from django.http import HttpRequest
 from django.utils import timezone
+=======
+=======
+from user_app.services.friends_queries import get_friends
+>>>>>>> 327763feee5ff2d1497068b77b46fb689f75891b
+>>>>>>> a23d8e9c303e958a9869e6d1f45402b7669bf5d9
 
 
 class ChatView(LoginRequiredMixin, TemplateView):
@@ -28,6 +35,11 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['add_member_form'] = AddChatMemberForm()
         context['create_group_form'] = CreateGroupChatForm()
         context['group_chat_update_form'] = GroupChatUpdateForm()
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        context["friends"] = get_friends(self.request.user)
+>>>>>>> a23d8e9c303e958a9869e6d1f45402b7669bf5d9
 
 
         context["friends"] = get_friends(self.request.user)[:20]
@@ -108,6 +120,9 @@ class ChatView(LoginRequiredMixin, TemplateView):
         context['group_chats_data'] = group_chats_data[:10]
 
 
+=======
+        context['users_list'] = get_friends(self.request.user)
+>>>>>>> 327763feee5ff2d1497068b77b46fb689f75891b
         return context
     
 class SoloChatView(View):
