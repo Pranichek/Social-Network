@@ -2,14 +2,23 @@ const headerUnreadCount = document.querySelector("#headerUnreadCount");
 const personalUnreadCount = document.querySelector("#personalUnreadCount");
 const groupUnreadCount = document.querySelector("#groupUnreadCount");
 
-function unreadText(count) {
-    if (count == 0) return "";
-    return `(${count})`;
+// для текущих загруженных карточек, потому что остальные мы загружаем через пагинацию
+let lastUnreadData = null;
+
+function unreadText(element, count) {
+    if (count == 0){
+        element.parentElement.classList.add("hidden")
+    }else{
+        if (element.parentElement.classList.contains("hidden")){
+            element.parentElement.classList.remove("hidden")
+        }
+    }
+    return count;
 }
 
 function setUnreadText(element, count) {
     if (element) {
-        element.textContent = unreadText(count);
+        element.textContent = unreadText(element, count);
     }
 }
 
@@ -55,31 +64,58 @@ function updateChatButton(chat) {
 
     if (chat.unread > 0) {
         button.classList.add("chat-has-unread");
-        let badge = button.querySelector(".unread-badge");
+
+        // card.querySelector(".avatar-wrapper").insertAdjacentHTML('beforeend', `
+        //     <span class="indicator-avatar">
+        //         <p>1</p>
+        //     </span>
+        // `)
+
+        // let badge = button.querySelector(".unread-badge");
+        let badge = button.querySelector(".indicator-avatar");
+        let badgeText = null
+        button.classList.add("chat-has-unread");
+        
         if (!badge) {
+            
             badge = document.createElement("span");
-            badge.classList.add("unread-badge");
-            button.querySelector(".bottom-data").appendChild(badge);
+            badge.classList.add("indicator-avatar");
+            badgeText = document.createElement("p")
+
+            badge.appendChild(badgeText)
+            
+            button.querySelector(".avatar-wrapper").appendChild(badge);
+        }else{
+            badgeText = badge.querySelector("p")
         }
-        badge.textContent = chat.unread;
+        
+        badgeText.textContent = chat.unread;
         
         // Переміщуємо картку вгору
         const list = button.parentElement;
         list.prepend(button);
     } else {
         button.classList.remove("chat-has-unread");
-        const badge = button.querySelector(".unread-badge");
+        const badge = button.querySelector(".indicator-avatar");
         if (badge) badge.remove();
     }
 }
 
 function showUnreadData(data) {
+    lastUnreadData = data;
     setUnreadText(headerUnreadCount, data.total);
     setUnreadText(personalUnreadCount, data.personal_total);
     setUnreadText(groupUnreadCount, data.group_total);
     data.chats.forEach((chat) => {
         updateChatButton(chat);
     });
+}
+
+// делаем глобальной
+window.reapplyUnreadData = function() {
+    if (lastUnreadData) {
+        showUnreadData(lastUnreadData);
+    }
 }
 
 const unreadSocket = new WebSocket(`ws://${window.location.host}/chat/unread/`);

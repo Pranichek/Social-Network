@@ -39,7 +39,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         action = data.get("action", "")
 
         if action == "send_message":
-            message_text = data.get("messageText", "").strip()
+            message_text = data.get("messageText", "Немає повідомлень").strip()
 
             if message_text:
                 message_data = await self.save_message(message_text)
@@ -85,22 +85,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
             pass
 
     async def send_chat_message(self, event):
-        await self.mark_message_read(event['id'])
+        message_id = event.get('id') or event.get('message_id')
+
+        if message_id:
+            await self.mark_message_read(message_id)
+
         await self.channel_layer.group_send(
-            f'unread_{self.scope['user'].id}', {
+            f'unread_{self.scope["user"].id}', {
                 'type': 'unread_update'
             }
         )
 
-
         is_me = self.user_pseudonym == event['sender']
-        
+
         images = event.get("images", [])
-        message_id = event.get("message_id")
-        
+
         if not images and message_id:
             images = await self.get_message_images(message_id)
-        
+
         await self.send(text_data=json.dumps({
             'action': 'chat_message',
             'message_text': event['message_text'],
@@ -282,6 +284,7 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
             await self.close()
             return
 
+
         self.user_id = str(self.user.id)
         self.group_name = "online_users"
 
@@ -383,21 +386,27 @@ class UnreadConsumer(AsyncWebsocketConsumer):
             
             if last_message:
                 if last_message.text:
-                    last_text = last_message.text[:20]
+                    last_text = last_message.text[:50]
                 else:
                     last_text = 'Зображення'
+            else:
+                last_text = 'Немає повідомлень'
             
             unread = chat.messages.exclude(sender = self.user).exclude(readers = self.user).count()
+            
             if chat.is_group:
-                group_total += unread
+                if unread > 0:
+                    group_total += 1
             else:
-                personal_total += unread
+                if unread > 0:
+                    personal_total += 1
+
             
             chat_data.append({
                 'id': chat.id,
                 'unread': unread,
                 'last': last_text,
-                'last_time': timezone.localtime(last_message.created_at).isoformat() if last_message else ''
+                'last_time': timezone.localtime(last_message.created_at).isoformat() if last_message else '',
             })
 
         return {
