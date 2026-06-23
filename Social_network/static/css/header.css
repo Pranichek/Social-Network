@@ -66,7 +66,7 @@ header {
     cursor: pointer;
 }
 
-.active, .last-messages{
+.active, .last-messages, .chat-has-unread{
     background-color: #E9E5EE;
 }
 
@@ -78,10 +78,44 @@ header {
     font-size: 1.67vh;
 }
 
+.card-outline{
+    height: 100%;
+    width: auto;
+    position: relative;
+}
+
+.card-outline img{
+    height: 100%;
+}
+
+.endicator-headers{
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    transform: translateX(-40%) translateY(40%);
+    width: 1.7vh;       
+    height: 1.7vh;       
+    background-color: #FF4C4C; 
+    border-radius: 50%;
+    border: 0.2vh solid #FFFFFF; 
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.endicator-headers p{
+    font-weight: 400;
+    font-size: 1.04vh;
+    color: #FFFFFF;
+}
+
 .link-icon{
     height: 100%;
     object-fit: contain;
 }
+
+
 
 .button-leave {
     border-radius: 85.69vw;

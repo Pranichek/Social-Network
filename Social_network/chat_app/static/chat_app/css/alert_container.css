@@ -69,7 +69,11 @@
     align-items: center;
 }
 
-.endicator-messages-bottom{
+.indicator-avatar{
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(30%, -30%); 
     width: 1.8vh;       
     height: 1.8vh;       
     background-color: #FF4C4C; 
@@ -81,7 +85,8 @@
     align-items: center;
 }
 
-.endicator-messages p, .endicator-messages-bottom p{
+
+.endicator-messages p, .indicator-avatar p{
     font-weight: 400;
     font-size: 1.04vh;
     color: #FFFFFF;
@@ -136,8 +141,18 @@
 
 .avatar-wrapper{
     height: 100%;
-    width: auto;
+    width: fit-content;    
     position: relative;
+    display: inline-flex; 
+    justify-content: center;
+    align-items: center;
+    line-height: 0;          
+    font-size: 0;
+}
+
+
+.avatar-wrapper img{
+    height: 100%;
 }
 
 .status-indicator {
@@ -387,3 +402,4 @@
 .other-message-outline.change-dir {
     max-width: 100%;        
 }
+

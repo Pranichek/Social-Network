@@ -32,47 +32,58 @@ class ChatView(LoginRequiredMixin, TemplateView):
 
         context["friends"] = get_friends(self.request.user)[:20]
 
-        active_chats_users = User.objects.filter(
-            chats__users=self.request.user,
-            chats__is_group=False
-        ).exclude(id=self.request.user.id).distinct()[:10]
+        # Соло чаты
+        solo_chats = Chat.objects.filter(
+            users=self.request.user,
+            is_group=False
+        ).prefetch_related('messages', 'users')
 
         active_chats_data = []
 
-        for user in active_chats_users:
-            chat = Chat.objects.filter(
-                users=self.request.user,
-                is_group=False
-            ).filter(users=user).first()
-            
-            message = chat.messages.order_by('-created_at').first() if chat else None
-            
+        for chat in solo_chats:
+            other_user = chat.users.exclude(id=self.request.user.id).first()
+            if not other_user:
+                continue
+
+            message = chat.messages.order_by('-created_at').first()
+
             if message:
-                if message.text:
-                    last_message_text = message.text
-                else:
-                    last_message_text = 'Зображення'
+                last_message_text = message.text if message.text else 'Зображення'
+                last_message_data = timezone.localtime(message.created_at).strftime('%H:%M')
             else:
                 last_message_text = 'Немає повідомлень'
-            
+                last_message_data = ''
+
+            unread_count = chat.messages.exclude(
+                sender=self.request.user
+            ).exclude(
+                readers=self.request.user
+            ).count()
+
             active_chats_data.append({
-                'user': user,
+                'user': other_user,
                 'chat': chat,
                 'last_message_text': last_message_text,
-                'last_message_data': timezone.localtime(message.created_at).strftime('%H:%M') if message else '',
+                'last_message_data': last_message_data,
+                'unread_count': unread_count,
             })
 
-        context['active_chats_data'] = active_chats_data
+        # сортируем по непрочитанным, потом берём первые 10
+        active_chats_data.sort(key=lambda x: x['unread_count'], reverse=True)
+        context['active_chats_data'] = active_chats_data[:10]
 
-        chats = Chat.objects.filter(
-            users = self.request.user,
-            is_group = True
-        ).order_by('-id')[:10]
+
+        # Групповые чаты
+        solo_group_chats = Chat.objects.filter(
+            users=self.request.user,
+            is_group=True
+        ).prefetch_related('messages')
 
         group_chats_data = []
 
-        for chat in chats:
+        for chat in solo_group_chats:
             message = chat.messages.order_by('-created_at').first()
+
             if message:
                 last_message_text = message.text if message.text else 'Зображення'
                 last_message_data = timezone.localtime(message.created_at).strftime('%H:%M')
@@ -80,13 +91,21 @@ class ChatView(LoginRequiredMixin, TemplateView):
                 last_message_text = "Немає повідомлень"
                 last_message_data = ""
 
+            unread_count = chat.messages.exclude(
+                sender=self.request.user
+            ).exclude(
+                readers=self.request.user
+            ).count()
+
             group_chats_data.append({
                 'chat_object': chat,
                 'last_message_text': last_message_text,
                 'last_message_data': last_message_data,
+                'unread_count': unread_count,
             })
 
-        context['group_chats_data'] = group_chats_data
+        group_chats_data.sort(key=lambda x: x['unread_count'], reverse=True)
+        context['group_chats_data'] = group_chats_data[:10]
 
 
         return context

@@ -17,9 +17,9 @@ def cloudinary_url_from_field(image_field) -> str:
     return f"https://res.cloudinary.com/{cloud_name}/image/upload/{name}"
 
 sio = socketio.AsyncClient(logger=True, engineio_logger=True)
-# EXPRESS_URL = "https://unreprimanded-unavidly-margene.ngrok-free.dev"
+EXPRESS_URL = "https://unreprimanded-unavidly-margene.ngrok-free.dev"
 
-EXPRESS_URL = "http://192.168.0.148:8000"
+# EXPRESS_URL = "http://192.168.0.148:8000"
 
 
 background_loop = None
@@ -178,16 +178,29 @@ async def on_server_event(data):
             member_ids = await get_chat_members_ids(chat_id)
             for member_id in member_ids:
                 await channel_layer.group_send(
-                    f"user_notifications_{member_id}",
+                    f"unread_{member_id}",
                     {
-                        "type": "new_message_notification",
-                        "chat_id": chat_id,
-                        "sender": sender_pseudonym,
-                        "message_text": message_data.get("text", ""),
-                        "created_at": message_data.get("created_at"),
+                        "type": "unread_update"
                     }
                 )
+        return
+    if event_type == "friend:request":
+        to_user_id = data.get("toUserId")
+        from_user_id = data.get("fromUserId")
+        pseudonym = data.get("pseudonym", "")
+        username = data.get("username", "")
 
+        if to_user_id:
+            await channel_layer.group_send(
+                f"friend_request_{to_user_id}",
+                {
+                    "type": "friend_request_update",
+                    "from_user_id": from_user_id,
+                    "pseudonym": pseudonym,
+                    "username": username,
+                }
+            )
+        return
 
 def start_socket_client():
     global background_loop

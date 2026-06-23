@@ -290,3 +290,17 @@ class FriendPostsView(LoginRequiredMixin, ListView):
             })
         
         return JsonResponse({"error": "Помилка"}, status=400)
+    
+
+class SingleCardView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user_id = request.GET.get('user_id')
+        section = request.GET.get('section')
+        user_object = get_object_or_404(User, id=user_id)
+
+        html = render_to_string(
+            'user_app/particles/friends_page/friends_cards.html',
+            context={'users': [user_object], 'section': section},
+            request=request
+        )
+        return JsonResponse({'html': html})

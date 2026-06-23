@@ -94,25 +94,16 @@ async function openChatById(chatId, chatName) {
 
     connectWebSocket(data.chat_id)
     resetMessages(data.chat_id)
+    window.updateUnreadData()
     await loadMessages()
     startObserver()
+
+    const messagesContainer = document.querySelector("#messeages")
+    if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
   }
 }
 
 async function openChatWithUser(userId, username) {
-  const card = document.querySelector(`.block-card[data-chat-user="${userId}"]`)
-  
-  if (card) {
-    card.classList.remove("last-messages")
-    window.checkMessages()
-
-    if (card.querySelector(".bottom-data .endicator-messages-bottom")) {
-      card.querySelector(".bottom-data .endicator-messages-bottom").remove()
-      const bottomData = card.querySelector(".bottom-data")
-      bottomData.style.justifyContent = 'start'
-    }
-  }
-
   const response = await fetch(`/chat/chat_with/${userId}/`, {
     method: 'POST',
     headers: { 'X-CSRFToken': CSRFToken },
@@ -136,11 +127,17 @@ async function openChatWithUser(userId, username) {
     InsertChatCard(userId, data.chat_card_html)
     window.recheckCard()
     connectWebSocket(data.chat_id)
+    window.updateUnreadData()
     resetMessages(data.chat_id)
     await loadMessages()
     startObserver()
+
+    const messagesContainer = document.querySelector("#messeages")
+    if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
   }
 }
+
+let isSending = false
 
 document.addEventListener('click', async (event) => {
   const chatElement = event.target.closest(".card-contact, .block-card")
@@ -162,26 +159,37 @@ document.addEventListener('click', async (event) => {
 })
 messageForm.addEventListener('submit', async (event) => {
   event.preventDefault()
+
+  if (isSending) return
+
   const messageText = messageInput.value.trim()
   if (!messageText && !window.hasSelectedImages()) {
     return
   }
 
-  if (window.hasSelectedImages()) {
-    const data = await window.sendMessageWithImages(messageText)
-    if (data && !data.success) {
-      return
+  isSending = true
+
+  try {
+    if (window.hasSelectedImages()) {
+      const data = await window.sendMessageWithImages(messageText)
+      if (data && !data.success) {
+        return
+      }
+      messageInput.value = ''
+      window.clearSelectedImages()
+    } else {
+      chatSocket.send(JSON.stringify({ 
+        messageText: messageText,
+        action: 'send_message'
+      }))
+      messageInput.value = ""
+      
+      const messagesContainer = document.querySelector("#messeages")
+      if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
     }
-    messageInput.value = ''
-    window.clearSelectedImages()
-  } else {
-    chatSocket.send(JSON.stringify({ 
-      messageText: messageText,
-      action: 'send_message'
-    }))
-    messageInput.value = ""
+  } finally {
     
-    // чтобы блок с сообщениями скролился вниз при отпрвке нового
-    messages.scrollTop = messages.scrollHeight;
+    isSending = false
+    if (sendBtn) sendBtn.disabled = false
   }
 })

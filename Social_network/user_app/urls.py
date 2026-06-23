@@ -10,6 +10,7 @@ urlpatterns = [
     path('auth/', AuthUser.as_view(), name='auth_view'),
 
     path('friends/', FriendsView.as_view(), name='friends_view'),
+    path('friends/card/', SingleCardView.as_view(), name='single_card'), 
     
     path('friends/user_data/', UserData.as_view(), name='user_data'),
     path('friends/friend_posts/', FriendPostsView.as_view(), name='friend_posts'), 

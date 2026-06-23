@@ -2,6 +2,7 @@ let currentPageGroupChats = 2;
 let isLoadingGroupChats = false;
 let preloadedDataGroupChats = null;
 
+
 const sentinelGroupChats = document.getElementById("group-sentinel");
 const scrollContainerGroupChats = document.getElementById("group-block-cards");
 
@@ -42,6 +43,7 @@ const observerGroupChats = new IntersectionObserver(async (entries) => {
             if (preloadedDataGroupChats.html) {
                 sentinelGroupChats.insertAdjacentHTML("beforebegin", preloadedDataGroupChats.html);
                 window.reloadDict()
+                window.reapplyUnreadData()
             }
 
             if (!preloadedDataGroupChats.has_next) {

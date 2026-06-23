@@ -14,20 +14,27 @@ notificationSocket.onmessage = function(event) {
     const data = JSON.parse(event.data)
 
     if (data.action == "new_message_notification") {
-        if (String(data.chat_id) != String(currentChatId)) {
+        const checkHeader = document.querySelector(".header-chat")
+        console.log(checkHeader.classList)
+        if (String(data.chat_id) != String(currentChatId) || checkHeader.classList.contains("hidden")) {
+            console.log("dada")
             const endicatorMessage = document.querySelector(".endicator-messages")
             endicatorMessage.classList.remove("hidden")
+
             endicatorMessage.querySelector("p").textContent = '1'
 
             const card = document.querySelector(`.block-card[data-chat-id="${data.chat_id}"]`)
-            if (card && !card.querySelector(".endicator-messages-bottom")) {
+
+            if (card && !card.querySelector(".indicator-avatar")) {
                 card.classList.add("last-messages")
-                card.querySelector(".bottom-data").insertAdjacentHTML('beforeend', `
-                    <div class="endicator-messages-bottom">
-                        <p style='color: #FFFFFF; font-size: 1.04vh; font-weight: 400;'>1</p>
-                    </div>
+                card.querySelector(".avatar-wrapper").insertAdjacentHTML('beforeend', `
+                    <span class="indicator-avatar">
+                        <p>1</p>
+                    </span>
                 `)
-                card.querySelector(".bottom-data").style.justifyContent = 'space-between'
+            }else{
+                const counter =  Number(card.querySelector(".indicator-avatar p").textContent) + 1
+                card.querySelector(".indicator-avatar p").textContent = counter
             }
         }
     }

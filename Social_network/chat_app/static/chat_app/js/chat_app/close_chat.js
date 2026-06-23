@@ -21,7 +21,12 @@ function showMainPrevview(){
 window.showMainPrevview = showMainPrevview
 
 closeChat.addEventListener('click', (event) => {
-    showMainPrevview();
+    if (chatSocket) {
+        chatSocket.close()
+        chatSocket = null
+    }
+    currentChatId = null
 
+    showMainPrevview()
 })
 
