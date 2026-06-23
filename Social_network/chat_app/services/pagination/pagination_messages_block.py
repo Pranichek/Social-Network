@@ -7,34 +7,51 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 
 def paginate_active_chats(request: HttpRequest):
-    page_number = request.GET.get('page', 1)
+    page_number = int(request.GET.get('page', 1))
 
-    active_chats_list = User.objects.filter(
-        chats__users=request.user,
-        chats__is_group=False
-    ).exclude(
-        id=request.user.id
-    ).select_related(
-        'userprofile'
-    ).distinct().order_by('-id')
+    solo_chats = Chat.objects.filter(
+        users=request.user,
+        is_group=False
+    ).prefetch_related('messages', 'users')
 
-    paginator = Paginator(active_chats_list, 10)
+    active_chats_data = []
+
+    for chat in solo_chats:
+        other_user = chat.users.exclude(id=request.user.id).first()
+        if not other_user:
+            continue
+
+        message = chat.messages.order_by('-created_at').first()
+
+        if message:
+            last_message_text = message.text if message.text else 'Зображення'
+            last_message_data = timezone.localtime(message.created_at).strftime('%H:%M')
+        else:
+            last_message_text = 'Немає повідомлень'
+            last_message_data = ''
+
+        unread_count = chat.messages.exclude(
+            sender=request.user
+        ).exclude(
+            readers=request.user
+        ).count()
+
+        active_chats_data.append({
+            'user': other_user,
+            'chat': chat,
+            'last_message_text': last_message_text,
+            'last_message_data': last_message_data,
+            'unread_count': unread_count,
+        })
+
+    active_chats_data.sort(key=lambda x: x['unread_count'], reverse=True)
+
+    paginator = Paginator(active_chats_data, 10)
 
     try:
         page_obj = paginator.page(page_number)
     except EmptyPage:
         return JsonResponse({'html': '', 'has_next': False})
-
-    for user in page_obj.object_list:
-        chat = Chat.objects.filter(
-            is_group=False,
-            users=request.user
-        ).filter(users=user).first()
-
-        message = chat.messages.order_by('-created_at').first() if chat else None
-
-        user.last_message_text = message.text if message else 'Немає повідомлень'
-        user.last_message_data = timezone.localtime(message.created_at) if message else ''
 
     html = render_to_string(
         'chat_app/particles/html_parts/active_chats_list.html',

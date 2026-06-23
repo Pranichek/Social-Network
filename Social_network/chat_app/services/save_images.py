@@ -51,6 +51,7 @@
 #     })
 
 from ..models import Chat, Message, MessageImage
+from ..socket_client import sio, background_loop
 
 from django.http import JsonResponse
 from django.http import HttpRequest
@@ -58,7 +59,7 @@ from django.utils import timezone
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from ..socket_client import cloudinary_url_from_field
-
+import asyncio
 
 # def message_images(request: HttpRequest, chat_id: int):
 #     if not Chat.objects.filter(id=chat_id, users=request.user).exists():
@@ -99,9 +100,6 @@ from ..socket_client import cloudinary_url_from_field
 #     return JsonResponse({'success': True})
 
 def message_images(request: HttpRequest, chat_id: int):
-    from ..socket_client import sio, background_loop
-    import asyncio
-
     if not Chat.objects.filter(id=chat_id, users=request.user).exists():
         return JsonResponse({'success': False}, status=403) 
     
@@ -128,12 +126,19 @@ def message_images(request: HttpRequest, chat_id: int):
         {
             'type': 'send_chat_message',
             'message_id': message.id,        
-            'message_text': message.text,
+            'message_text': message.text or '',
             'sender': message.sender.userprofile.pseudonym,
             'created_at': timezone.localtime(message.created_at).isoformat(),
             'images': image_urls,
         }
     )
+
+    chat = Chat.objects.get(id=chat_id)
+    for user in chat.users.all():
+        async_to_sync(channel_layer.group_send)(
+            f'unread_{user.id}',
+            {'type': 'unread_update'}
+        )
 
     if background_loop:
         payload = {

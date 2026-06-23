@@ -99,4 +99,4 @@ def populate_database(count=40):
     print("\n✅ Генерация успешно завершена!")
 
 # Запускаем функцию
-populate_database(100)
+populate_database(10)

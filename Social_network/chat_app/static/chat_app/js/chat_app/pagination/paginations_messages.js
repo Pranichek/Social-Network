@@ -42,6 +42,7 @@ const observerChats = new IntersectionObserver(async (entries) => {
                 window.reloadDict()
                 console.log(currentId)
                 window.recheckCard(currentId)
+                window.reapplyUnreadData()
             }
 
             if (!preloadedDataChats.has_next) {
