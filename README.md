@@ -767,7 +767,7 @@ class ChangeStatusView(LoginRequiredMixin, View):
 
 ### WebSocket-сповіщення про запити в друзі
 
-На відміну від `chat_app`, тут є окремий WebSocket-маршрут та консьюмер (`FriendRequestConsumer`), який відстежує запити в друзі в реальному часі.
+Тут також є окремий WebSocket-маршрут та консьюмер (`FriendRequestConsumer`), який відстежує запити в друзі в реальному часі.
 
 ```python
 # routing.py
