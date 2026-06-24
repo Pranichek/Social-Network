@@ -893,7 +893,7 @@ def compress_image(self, original_image):
 - **Стрічка (Feed) та пагінація:** `PostListView` віддає пости пачками по 3 штуки. Якщо запит приходить через AJAX (перевірка на `XMLHttpRequest`), view повертає JSON із уже згенерованим HTML наступних постів та прапорцем `has_next`. Це дозволяє легко реалізувати нескінченну прокрутку (infinite scroll).
 - **Оптимізація бази:** Для уникнення проблеми N+1 запитів при формуванні стрічки активно використовуються `select_related('author')` та `prefetch_related('tags', 'links', 'images')`.
 
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/post_app)
+[link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network/post_app)
 
 <details>
 <summary>English version</summary>
@@ -914,21 +914,73 @@ This module is responsible for creating, displaying, and managing user posts. It
 
 <a name="home_app"><h1>home_app</h1></a>
 
-Модуль реалізує головну стрічку (фід) із динамічним підвантаженням нових публікацій через AJAX (`post_load.js`) без перезавантаження сторінки.
+Модуль є головною точкою входу для авторизованих користувачів. Він відповідає за відображення глобальної стрічки новин (публікацій від усіх користувачів) та фіналізацію процесу онбордингу (завершення реєстрації).
 
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/home_app)
+### Завершення реєстрації (`EndRegistrationView`)
+
+Після першого входу користувач має заповнити глобальну `WelcomeForm`. Ця view обробляє POST-запит (через `fetch`), додає префікс `@` до обраного юзернейму, зберігає його в основній моделі `User` і створює пов'язаний об'єкт `Profile` з псевдонімом користувача:
 
 ```python
-# views.py (приклад)
-def load_more_posts(request):
-    '''AJAX-ендпоінт для підвантаження наступної порції постів стрічки'''
-    # TODO: вставити реальний код функції
-    pass
+class EndRegistrationView(View):
+    def post(self, request, *args, **kwargs):
+        form = WelcomeForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            user.username = f"@{form.cleaned_data.get('username')}"
+            
+            user_profile = Profile(
+                user = request.user,
+                pseudonym = form.cleaned_data.get('pseudonym')
+            )
+            user_profile.save()
+            user.save()
+
+            return JsonResponse({'success': True, 'message': 'Дані успішно оновлено'})
+        # ... обробка помилок
 ```
+
+### Глобальна стрічка та пагінація (`HomeView`)
+
+Як і в `post_app`, відображення постів оптимізовано для запобігання N+1 запитам (`select_related`, `prefetch_related`). Але на відміну від профілю, `HomeView` віддає публікації **усіх** користувачів системи. Сторінка підтримує асинхронну пагінацію: якщо приходить AJAX-запит, бекенд повертає JSON із відрендереними HTML-фрагментами наступних публікацій та прапорцем `has_next`.
+
+### Нескінченна прокрутка (Frontend)
+
+Для автоматичного завантаження нових постів на клієнті (`post_load.js`) реалізовано патерн "Infinite Scroll" за допомогою сучасного Web API — `IntersectionObserver`. Скрипт слідкує за невидимим елементом-маркером (`#post-load-sentinel`) унизу списку. Щойно маркер потрапляє в зону видимості (з відступом `200px`), надсилається `fetch`-запит за наступною сторінкою:
+
+```javascript
+const observer = new IntersectionObserver(async (entries) => {
+  if (entries[0].isIntersecting && isLoading == false) {
+    isLoading = true;
+    currentPage++;
+    const response = await fetch(`${window.location.pathname}?page=${currentPage}`, ...);
+    const data = await response.json();
+
+    if (data.html) {
+      postList.insertAdjacentHTML("beforeend", data.html);
+    }
+
+    if (!data.has_next) {
+      observer.disconnect();
+      sentinel.remove();
+    }
+    isLoading = false;
+  }
+}, {rootMargin: "200px"});
+```
+
+[link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network/home_app)
 
 <details>
 <summary>English version</summary>
-This module implements the home feed with dynamic loading of new posts via AJAX (`post_load.js`) without a page reload.
+
+This module serves as the main hub for authenticated users. It handles the global news feed (displaying posts from all users) and the final step of the user onboarding process.
+
+**Finalizing Registration.** The `EndRegistrationView` handles the submission of the `WelcomeForm` (via AJAX). It updates the `User` model by setting the username with an `@` prefix and creates the associated `Profile` model with the user's chosen pseudonym.
+
+**Global Feed & Pagination.** `HomeView` retrieves and serves all posts across the platform. It is highly optimized using `select_related` and `prefetch_related` to avoid N+1 query performance issues. It serves data in chunks, responding to AJAX requests with pre-rendered HTML post fragments and a `has_next` boolean flag.
+
+**Infinite Scroll (Frontend).** The `post_load.js` script implements an infinite scroll mechanism using the browser's `IntersectionObserver` API. It monitors a sentinel element at the bottom of the feed. Once the sentinel comes into view, the script automatically triggers a `fetch` request for the next page, appends the new HTML directly into the DOM, and disconnects the observer if there are no more posts to load.
+
 </details>
 
 [⬆️ Table of contents](#articles)
