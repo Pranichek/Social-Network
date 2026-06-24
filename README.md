@@ -26,6 +26,11 @@
 
 [Getting started](#getting_started)
 
+# Environment Variables (.env)
+<h5>Змінні середовища</h5>
+
+[Environment variables](#env)
+
 # Modules Description
 <h5>Опис модулей</h5>
 
@@ -94,7 +99,9 @@ This project will help you understand:
 
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="team"><h1>Information about our team</h1></a>
 
@@ -104,7 +111,9 @@ This project will help you understand:
 4. GitHub - [Valentin Portyanko - Developer](https://github.com/Valentin5944)
 5. GitHub - [Vadim Kobzar - Developer](https://github.com/Vadim-Kobzar2010)
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="structure"><h1>Structure of project</h1></a>
 
@@ -138,13 +147,15 @@ This project will help you understand:
         media-->readme_images;
 ```
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="getting_started"><h1>Getting started</h1></a>
 
 Нижче наведена інструкція, як запустити сайт.
 
-## Installing python
+## Installing Python
 
 Якщо ви ніколи не встановлювали Python:
 - Завантажте інсталятор Python
@@ -162,7 +173,8 @@ This project will help you understand:
   - Після встановлення відкрийте термінал або командний рядок.
     <details>
     <summary>Operating system</summary>
-    - On Windows: Press Win + R, type cmd, and press Enter.
+
+    - On Windows: Press `Win + R`, type `cmd`, and press Enter.
     - On macOS/Linux: Open the Terminal application.
     </details>
   - Введіть `python --version` або `python3 --version` та натисніть Enter.
@@ -170,7 +182,7 @@ This project will help you understand:
 
 Якщо ви все ще не розумієте, як встановити Python, можете подивитися [тут](https://www.youtube.com/watch?v=uge4A1LHsNk)
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
 
 ## Installing this project
 
@@ -178,16 +190,19 @@ This project will help you understand:
    - Перейдіть на головну сторінку проєкту на GitHub.
    - Натисніть зелену кнопку «Code», розташовану вгорі праворуч.
    - Виберіть параметр HTTPS і скопіюйте URL-адресу проєкту.
+
 2. Відкрийте проєкт у IDE
    - Запустіть бажану IDE (VS Code, PyCharm або іншу).
-   - Натисніть Control + J або просто створіть новий термінал і напишіть:
+   - Натисніть `Control + J` або просто створіть новий термінал і напишіть:
      ```
      git clone https://github.com/Pranichek/Social-Network.git
      ```
+
 3. Підготуйте проєкт до використання
    ```
    cd Social-Network
    ```
+
 4. Створіть віртуальне середовище
 
    Для macOS/Linux:
@@ -198,6 +213,7 @@ This project will help you understand:
    ```
    python -m venv venv
    ```
+
 5. Активуйте віртуальне середовище
 
    На macOS/Linux:
@@ -208,11 +224,15 @@ This project will help you understand:
    ```
    venv\Scripts\activate
    ```
+
 6. Встановіть модулі проєкту
    ```
    pip install -r requirements.txt
    ```
-7. Запуск програми
+
+7. Створіть файл `.env` — детальні інструкції у розділі [Environment Variables](#env)
+
+8. Запуск програми
    ```
    cd Social_network
    python manage.py runserver
@@ -239,7 +259,8 @@ If you've never installed Python before:
   - After installation, open a terminal or command prompt.
     <details>
     <summary>Operating system</summary>
-    - On Windows: Press Win + R, type cmd, and press Enter.
+
+    - On Windows: Press `Win + R`, type `cmd`, and press Enter.
     - On macOS/Linux: Open the Terminal application.
     </details>
   - Type `python --version` or `python3 --version` and press Enter.
@@ -253,16 +274,19 @@ If you still don't understand how to install Python, you can watch [this video](
    - Go to the project's main page on GitHub.
    - Click the green "Code" button in the top right corner.
    - Select the HTTPS option and copy the project's URL.
+
 2. Open the project in an IDE
    - Launch your preferred IDE (VS Code, PyCharm, etc.).
-   - Press Control + J or create a new terminal and type:
+   - Press `Control + J` or create a new terminal and type:
      ```
      git clone https://github.com/Pranichek/Social-Network.git
      ```
+
 3. Prepare the project
    ```
    cd Social-Network
    ```
+
 4. Create a virtual environment
 
    For macOS/Linux:
@@ -273,6 +297,7 @@ If you still don't understand how to install Python, you can watch [this video](
    ```
    python -m venv venv
    ```
+
 5. Activate the virtual environment
 
    On macOS/Linux:
@@ -283,11 +308,15 @@ If you still don't understand how to install Python, you can watch [this video](
    ```
    venv\Scripts\activate
    ```
+
 6. Install the project's modules
    ```
    pip install -r requirements.txt
    ```
-7. Run the application
+
+7. Create the `.env` file — see the [Environment Variables](#env) section for details
+
+8. Run the application
    ```
    cd Social_network
    python manage.py runserver
@@ -295,7 +324,192 @@ If you still don't understand how to install Python, you can watch [this video](
 
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
+
+<a name="env"><h1>Environment Variables (.env)</h1></a>
+
+### Де створювати
+
+Файл `.env` створюється у **кореневій директорії проєкту**, поруч з `manage.py`:
+
+```
+Social-Network/
+├── Social_network/
+│   ├── settings.py
+│   └── ...
+├── chat_app/
+├── user_app/
+├── manage.py
+└── .env              ← сюди
+```
+
+---
+
+### Мінімальний `.env` для локального запуску
+
+```env
+# Пошта — Gmail-акаунт, з якого надсилаються листи підтвердження email
+EMAIL_HOST_USER=your@gmail.com
+
+# Пароль застосунку Google (не звичайний пароль акаунту).
+# Отримати: Google Account → Безпека → Паролі застосунків
+EMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
+
+# Cloudinary — хмарне сховище для зображень (аватари, пости, повідомлення).
+# Отримати: https://cloudinary.com → Dashboard
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=123456789012345
+CLOUDINARY_API_SECRET=your_secret_key
+```
+
+> ✅ Для локального запуску цього достатньо. База даних буде SQLite (файл `db.sqlite3`).
+
+---
+
+### Підключення до віддаленої бази даних (PythonAnywhere)
+
+Якщо хочеш використовувати віддалену PostgreSQL через SSH-тунель — додай у `.env` також:
+
+```env
+# SSH-тунель до PythonAnywhere
+SSH_LOGIN=your_pythonanywhere_username
+SSH_PASSWORD=your_ssh_password
+
+# Віддалена PostgreSQL база даних
+REMOTE_DB_ENGINE=django.db.backends.postgresql
+REMOTE_DB_NAME=your_db_name
+REMOTE_DB_USER=your_pythonanywhere_username
+REMOTE_DB_PASSWORD=your_db_password
+REMOTE_DB_HOST=your_username.postgres.pythonanywhere-services.com
+REMOTE_DB_PORT=5432
+```
+
+І заміни блок `DATABASES` у `Social_network/settings.py` на:
+
+```python
+from sshtunnel import SSHTunnelForwarder
+
+tunnel = SSHTunnelForwarder(
+    ('ssh.pythonanywhere.com', 22),
+    ssh_username=os.getenv("SSH_LOGIN"),
+    ssh_password=os.getenv("SSH_PASSWORD"),
+    remote_bind_address=(
+        os.getenv("REMOTE_DB_HOST"),
+        int(os.getenv("REMOTE_DB_PORT"))
+    )
+)
+tunnel.start()
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv("REMOTE_DB_ENGINE"),
+        'NAME': os.getenv("REMOTE_DB_NAME"),
+        'USER': os.getenv("REMOTE_DB_USER"),
+        'PASSWORD': os.getenv("REMOTE_DB_PASSWORD"),
+        'HOST': '127.0.0.1',
+        'PORT': tunnel.local_bind_port,
+    }
+}
+```
+
+> ⚠️ За замовчуванням у `settings.py` вже налаштований локальний SQLite. Міняй лише якщо потрібна віддалена БД.
+
+<details>
+<summary>English version</summary>
+
+### Where to create it
+
+Create the `.env` file in the **root directory of the project**, next to `manage.py`:
+
+```
+Social-Network/
+├── Social_network/
+│   ├── settings.py
+│   └── ...
+├── chat_app/
+├── user_app/
+├── manage.py
+└── .env              ← here
+```
+
+---
+
+### Minimal `.env` for local development
+
+```env
+# Email — Gmail account used to send email confirmation letters
+EMAIL_HOST_USER=your@gmail.com
+
+# Google App Password (not your regular account password).
+# Get it at: Google Account → Security → App Passwords
+EMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
+
+# Cloudinary — cloud storage for images (avatars, posts, messages).
+# Get it at: https://cloudinary.com → Dashboard
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=123456789012345
+CLOUDINARY_API_SECRET=your_secret_key
+```
+
+> ✅ This is enough for local development. The database will be SQLite (`db.sqlite3`).
+
+---
+
+### Connecting to a remote database (PythonAnywhere)
+
+If you want to use a remote PostgreSQL database via SSH tunnel — also add to `.env`:
+
+```env
+# SSH tunnel to PythonAnywhere
+SSH_LOGIN=your_pythonanywhere_username
+SSH_PASSWORD=your_ssh_password
+
+# Remote PostgreSQL database
+REMOTE_DB_ENGINE=django.db.backends.postgresql
+REMOTE_DB_NAME=your_db_name
+REMOTE_DB_USER=your_pythonanywhere_username
+REMOTE_DB_PASSWORD=your_db_password
+REMOTE_DB_HOST=your_username.postgres.pythonanywhere-services.com
+REMOTE_DB_PORT=5432
+```
+
+And replace the `DATABASES` block in `Social_network/settings.py` with:
+
+```python
+from sshtunnel import SSHTunnelForwarder
+
+tunnel = SSHTunnelForwarder(
+    ('ssh.pythonanywhere.com', 22),
+    ssh_username=os.getenv("SSH_LOGIN"),
+    ssh_password=os.getenv("SSH_PASSWORD"),
+    remote_bind_address=(
+        os.getenv("REMOTE_DB_HOST"),
+        int(os.getenv("REMOTE_DB_PORT"))
+    )
+)
+tunnel.start()
+
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv("REMOTE_DB_ENGINE"),
+        'NAME': os.getenv("REMOTE_DB_NAME"),
+        'USER': os.getenv("REMOTE_DB_USER"),
+        'PASSWORD': os.getenv("REMOTE_DB_PASSWORD"),
+        'HOST': '127.0.0.1',
+        'PORT': tunnel.local_bind_port,
+    }
+}
+```
+
+> ⚠️ By default, `settings.py` is already configured to use local SQLite. Only change this if you need a remote database.
+
+</details>
+
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="modules"><h1>MODULES FOR PROGRAM</h1></a>
 
@@ -340,7 +554,11 @@ If you still don't understand how to install Python, you can watch [this video](
 
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
+
+<a name="package_description"><h1>Package Description</h1></a>
 
 <a name="core"><h1>Social_network (core)</h1></a>
 
@@ -349,15 +567,15 @@ If you still don't understand how to install Python, you can watch [this video](
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network)
 
 ```python
-    # asgi.py — точка входу для ASGI-сервера (Daphne),
-    # яка дозволяє обробляти HTTP і WebSocket в одному застосунку
+# asgi.py — точка входу для ASGI-сервера (Daphne),
+# яка дозволяє обробляти HTTP і WebSocket в одному застосунку
 
-    application = ProtocolTypeRouter({
-        "http": django_asgi_app,
-        "websocket": AuthMiddlewareStack(
-            URLRouter(chat_app.routing.websocket_urlpatterns)
-        ),
-    })
+application = ProtocolTypeRouter({
+    "http": django_asgi_app,
+    "websocket": AuthMiddlewareStack(
+        URLRouter(chat_app.routing.websocket_urlpatterns)
+    ),
+})
 ```
 
 <details>
@@ -365,26 +583,25 @@ If you still don't understand how to install Python, you can watch [this video](
 The root application package. This is where the main project instance is created, operating parameters are configured via `settings.py`, routes are registered (`urls.py`), and the ASGI server is configured (`asgi.py`), allowing both regular HTTP requests and long-lived WebSocket connections to be handled simultaneously.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="user_app"><h1>user_app</h1></a>
 
 Модуль відповідає за користувачів і автентифікацію: кастомну модель користувача (замінює стандартну Django-модель), реєстрацію з AJAX-валідацією, вхід без перезавантаження сторінки, керування сесіями та підтвердження email через код. Власний шар `services/` обробляє логіку соціальних зв'язків (друзі/підписки) та генерацію токенів підтвердження.
 
-<!-- TODO: додати gif реєстрації/входу, наприклад:
-![registration](media/readme_images/registration.gif) -->
-
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/user_app)
 
 ```python
-    # views.py (приклад)
-    def register_user(request):
-        '''
-        Обробка AJAX-реєстрації: перевірка унікальності email,
-        створення коду підтвердження та надсилання його на пошту
-        '''
-        # TODO: вставити реальний код функції
-        pass
+# views.py (приклад)
+def register_user(request):
+    '''
+    Обробка AJAX-реєстрації: перевірка унікальності email,
+    створення коду підтвердження та надсилання його на пошту
+    '''
+    # TODO: вставити реальний код функції
+    pass
 ```
 
 <details>
@@ -392,22 +609,22 @@ The root application package. This is where the main project instance is created
 This module handles users and authentication: a custom user model, AJAX-validated registration, login without a page reload, session management, and email confirmation codes. A dedicated `services/` layer processes the social graph logic (friends/subscriptions) and confirmation token generation.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="profile_app"><h1>profile_app</h1></a>
 
 Модуль керує персональною сторінкою користувача: відображенням основної інформації, налаштуваннями профілю (`settings.html`) та списком друзів.
 
-<!-- TODO: додати gif редагування профілю -->
-
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/profile_app)
 
 ```python
-    # views.py (приклад)
-    def render_profile(request, user_id):
-        '''Рендер персональної сторінки користувача та списку друзів'''
-        # TODO: вставити реальний код функції
-        pass
+# views.py (приклад)
+def render_profile(request, user_id):
+    '''Рендер персональної сторінки користувача та списку друзів'''
+    # TODO: вставити реальний код функції
+    pass
 ```
 
 <details>
@@ -415,22 +632,22 @@ This module handles users and authentication: a custom user model, AJAX-validate
 This module manages the user's personal page: displaying core information, profile settings (`settings.html`), and the friends list.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="post_app"><h1>post_app</h1></a>
 
 Модуль відповідає за публікації — створення постів, обробку тегів і загальну взаємодію користувача з контентом.
 
-<!-- TODO: додати gif створення поста -->
-
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/post_app)
 
 ```python
-    # views.py (приклад)
-    def create_post(request):
-        '''Обробка створення нового поста: текст, теги, медіафайли'''
-        # TODO: вставити реальний код функції
-        pass
+# views.py (приклад)
+def create_post(request):
+    '''Обробка створення нового поста: текст, теги, медіафайли'''
+    # TODO: вставити реальний код функції
+    pass
 ```
 
 <details>
@@ -438,22 +655,22 @@ This module manages the user's personal page: displaying core information, profi
 This module is responsible for publications — post creation, tag processing, and general content interaction.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="home_app"><h1>home_app</h1></a>
 
 Модуль реалізує головну стрічку (фід) із динамічним підвантаженням нових публікацій через AJAX (`post_load.js`) без перезавантаження сторінки.
 
-<!-- TODO: додати gif стрічки -->
-
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/home_app)
 
 ```python
-    # views.py (приклад)
-    def load_more_posts(request):
-        '''AJAX-ендпоінт для підвантаження наступної порції постів стрічки'''
-        # TODO: вставити реальний код функції
-        pass
+# views.py (приклад)
+def load_more_posts(request):
+    '''AJAX-ендпоінт для підвантаження наступної порції постів стрічки'''
+    # TODO: вставити реальний код функції
+    pass
 ```
 
 <details>
@@ -461,23 +678,23 @@ This module is responsible for publications — post creation, tag processing, a
 This module implements the home feed with dynamic loading of new posts via AJAX (`post_load.js`) without a page reload.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="chat_app"><h1>chat_app</h1></a>
 
 Модуль реалізує месенджер у реальному часі. `consumers.py` містить асинхронні WebSocket-консюмери, які приймають і надсилають повідомлення без перезавантаження сторінки; `routing.py` відповідає за маршрутизацію сокет-з'єднань. Окремий шар `services/` реалізує кастомну пагінацію для списків чатів, груп та повідомлень.
 
-<!-- TODO: додати gif чату -->
-
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/chat_app)
 
 ```python
-    # consumers.py (приклад)
-    class ChatConsumer(AsyncWebsocketConsumer):
-        '''Асинхронний консюмер для обміну повідомленнями в реальному часі'''
-        async def receive(self, text_data):
-            data = json.loads(text_data)
-            # TODO: вставити реальну логіку збереження та розсилки повідомлення
+# consumers.py (приклад)
+class ChatConsumer(AsyncWebsocketConsumer):
+    '''Асинхронний консюмер для обміну повідомленнями в реальному часі'''
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        # TODO: вставити реальну логіку збереження та розсилки повідомлення
 ```
 
 <details>
@@ -485,7 +702,9 @@ This module implements the home feed with dynamic loading of new posts via AJAX 
 This module implements the real-time messenger. `consumers.py` contains asynchronous WebSocket consumers that send and receive messages without reloading the page; `routing.py` handles socket connection routing. A separate `services/` layer implements custom pagination for chat lists, groups, and messages.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="media"><h1>media</h1></a>
 
@@ -498,7 +717,9 @@ This module implements the real-time messenger. `consumers.py` contains asynchro
 Directory for storing user-uploaded files — avatars and images attached to posts and messages.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="static"><h1>static</h1></a>
 
@@ -511,7 +732,9 @@ Directory for storing user-uploaded files — avatars and images attached to pos
 Static interface assets — CSS, JS scripts, and images that don't change dynamically.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="templates"><h1>templates</h1></a>
 
@@ -524,11 +747,11 @@ HTML-шаблони, які використовуються Django для ре�
 HTML templates used by Django to render pages for all applications in the project.
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="prbl_project"><h2>Problems during development</h2></a>
-
-<!-- TODO: команда, замініть цей розділ на реальні труднощі, з якими ви зіткнулись -->
 
 Під час створення цього проєкту ми зіштовхнулися з рядом викликів. Реалізація обміну повідомленнями в реальному часі через WebSockets та Django Channels вимагала більш глибокого розуміння асинхронного коду, ніж звичайна синхронна робота з Django. Окремою складністю стало коректне розмежування застосунків (apps) на ранньому етапі — частину логіки довелося переносити з одного модуля в інший вже під час розробки. Команді також знадобився час, щоб налаштувати збереження та коректне відображення медіафайлів (аватари, зображення постів) у поєднанні з ASGI-сервером.
 
@@ -539,11 +762,11 @@ During the creation of this project, we encountered a number of challenges. Impl
 
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
+
+---
 
 <a name="conclusions"><h2>Conclusion</h2></a>
-
-<!-- TODO: команда, замініть цей розділ на власні висновки -->
 
 Робота над цим проєктом дала команді практичний досвід створення сучасного вебзастосунку на Django з підтримкою реального часу. Ми навчилися працювати з кастомною моделлю користувача та системою автентифікації, реалізовувати обмін повідомленнями через WebSockets і Django Channels, організовувати дані для соціальної мережі (пости, профілі, чати, друзі) та розподіляти проєкт на окремі модулі для зручної підтримки й масштабування.
 
@@ -558,4 +781,4 @@ Going forward, the project could be extended with real-time notifications, group
 
 </details>
 
-[⬆️Table of contents](#articles)
+[⬆️ Table of contents](#articles)
