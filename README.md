@@ -353,18 +353,18 @@ Social-Network/
 # Пошта — Gmail-акаунт, з якого надсилаються листи підтвердження email
 EMAIL_HOST_USER=your@gmail.com
 
-# Пароль застосунку Google (не звичайний пароль акаунту).
+# Пароль застосунку Google (не звичайний пароль акаунту)
 # Отримати: Google Account → Безпека → Паролі застосунків
 EMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
 
-# Cloudinary — хмарне сховище для зображень (аватари, пости, повідомлення).
+# Cloudinary — хмарне сховище для зображень (аватари, пости, повідомлення)
 # Отримати: https://cloudinary.com → Dashboard
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=123456789012345
 CLOUDINARY_API_SECRET=your_secret_key
 ```
 
-> ✅ Для локального запуску цього достатньо. База даних буде SQLite (файл `db.sqlite3`).
+> Для локального запуску цього достатньо. База даних буде SQLite (файл `db.sqlite3`).
 
 ---
 
@@ -414,7 +414,7 @@ DATABASES = {
 }
 ```
 
-> ⚠️ За замовчуванням у `settings.py` вже налаштований локальний SQLite. Міняй лише якщо потрібна віддалена БД.
+> За замовчуванням у `settings.py` вже налаштований локальний SQLite. Міняй лише якщо потрібна віддалена БД.
 
 <details>
 <summary>English version</summary>
