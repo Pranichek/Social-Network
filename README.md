@@ -641,6 +641,9 @@ class User(AbstractUser):
 
 Дружба між користувачами реалізована окремою моделлю `Friendship` із полем `status` (`pending`, `accepted`, `dismissed`), що дозволяє в одній таблиці зберігати як запити в друзі, так і "проігноровані" рекомендації:
 
+<img src="./Social_network/media/readme_images/friend_request.gif" alt="Main page" width="800">
+
+
 ```python
 class Friendship(models.Model):
     from_user = models.ForeignKey(User, related_name='sent_friendships', on_delete=models.CASCADE)
@@ -920,8 +923,6 @@ This module manages the user's personal page: displaying core information, profi
 <a name="post_app"><h1>post_app</h1></a>
 
 <img src="./Social_network/media/readme_images/post_app.gif" alt="Main page" width="800">
-
-
 Модуль відповідає за створення, відображення та керування публікаціями (постами) користувачів. Він підтримує мультимедійні вкладення, тегування та асинхронну підвантаження стрічки.
 
 ### Моделі (`models.py`)
