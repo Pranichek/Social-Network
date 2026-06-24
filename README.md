@@ -38,7 +38,7 @@
 
 # Package Description
 -   [Package description](#package_description)
-    - [describe Social_network (core) package](#core)
+    - [describe Social_network package](#core)
     - [describe user_app package](#user_app)
     - [describe profile_app package](#profile_app)
     - [describe post_app package](#post_app)
@@ -580,7 +580,7 @@ DATABASES = {
 
 <a name="package_description"><h1>Package Description</h1></a>
 
-<a name="core"><h1>Social_network (core)</h1></a>
+<a name="core"><h1>Social_network</h1></a>
 
 Кореневий пакет застосунку. Тут зберігається головна конфігурація проєкту:
 
@@ -817,21 +817,40 @@ This module handles users, authentication, and the friend system — one of the 
 
 <a name="profile_app"><h1>profile_app</h1></a>
 
-Модуль керує персональною сторінкою користувача: відображенням основної інформації, налаштуваннями профілю (`settings.html`) та списком друзів.
+Модуль керує персональною сторінкою користувача: відображенням основної інформації, налаштуваннями профілю (зміна особистих даних) та переглядом альбомів.
 
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/profile_app)
+### Моделі (`models.py`)
+
+Профіль користувача розширюється за допомогою окремої моделі `Profile`, яка пов'язана з основною моделлю користувача через зв'язок один-до-одного (`OneToOneField`). Тут зберігається вся додаткова інформація, яку користувач може змінювати в налаштуваннях: дата народження, аватарка, псевдонім, а також дані про підпис (текстовий чи графічний):
 
 ```python
-# views.py (приклад)
-def render_profile(request, user_id):
-    '''Рендер персональної сторінки користувача та списку друзів'''
-    # TODO: вставити реальний код функції
-    pass
+class Profile(models.Model):
+    user = models.OneToOneField('user_app.User', on_delete=models.CASCADE, related_name="userprofile")
+    birth_date = models.DateField(null=True, blank=True)
+    signature = models.CharField(max_length=255, blank=True)
+    avatar = models.ImageField(upload_to='profile_app/avatars/', null=True, blank=True)
+    pseudonym = models.CharField(max_length=50)
+    is_image_signature = models.BooleanField(default=False)
+    is_text_signature = models.BooleanField(default=False)
 ```
+
+### Відображення та налаштування (`views.py`)
+
+Застосунок відповідає за рендер сторінки профілю (наприклад, базова структура через `FriendView`, що успадковується від `TemplateView`), де відображається сторінка користувача та його фотоальбоми. 
+
+Окремою частиною модуля є логіка налаштувань профілю: користувач має змогу редагувати свої особисті дані (псевдонім, дату народження), оновлювати аватар (який завантажується у визначену директорію або хмарне сховище, таке як Cloudinary) та кастомізувати свій підпис.
+
+[link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network/profile_app)
 
 <details>
 <summary>English version</summary>
-This module manages the user's personal page: displaying core information, profile settings (`settings.html`), and the friends list.
+
+This module manages the user's personal page: displaying core information, profile settings (editing personal data), and viewing photo albums.
+
+**Models.** The user profile is extended using the `Profile` model, which is linked to the main user model via a `OneToOneField`. It stores all the additional information that the user can change in their settings: birth date, avatar, pseudonym, and signature preferences (text or image).
+
+**Views & Logic.** The app handles rendering the profile page (e.g., the base structure via `FriendView` which extends `TemplateView`), displaying the user's page and photo albums. A significant part of the module's logic is dedicated to profile settings, allowing users to edit their personal data, update their avatar, and customize their signature.
+
 </details>
 
 [⬆️ Table of contents](#articles)
