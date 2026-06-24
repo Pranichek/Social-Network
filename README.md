@@ -890,7 +890,7 @@ def compress_image(self, original_image):
 
 Усі ключові взаємодії з постами відбуваються без перезавантаження сторінки (через `fetch`):
 - **Створення та видалення:** Працюють через POST-запити та повертають `JsonResponse`. При успішному створенні бекенд відразу рендерить готовий HTML-фрагмент нового поста (`post_item.html`) і віддає його на фронтенд для миттєвої вставки у DOM.
-- **Стрічка (Feed) та пагінація:** `PostListView` віддає пости пачками по 3 штуки. Якщо запит приходить через AJAX (перевірка на `XMLHttpRequest`), view повертає JSON із уже згенерованим HTML наступних постів та прапорцем `has_next`. Це дозволяє легко реалізувати нескінченну прокрутку (infinite scroll).
+- **Стрічка (Feed) та пагінація:** `PostListView` віддає пости пачками по 3 штуки. Якщо запит приходить через fetch (перевірка на `XMLHttpRequest`), view повертає JSON із уже згенерованим HTML наступних постів та прапорцем `has_next`. Це дозволяє легко реалізувати нескінченну прокрутку (infinite scroll).
 - **Оптимізація бази:** Для уникнення проблеми N+1 запитів при формуванні стрічки активно використовуються `select_related('author')` та `prefetch_related('tags', 'links', 'images')`.
 
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network/post_app)
@@ -904,7 +904,7 @@ This module is responsible for creating, displaying, and managing user posts. It
 
 **Forms & Image Compression.** The `PostForm` handles multiple file uploads seamlessly. A key feature is the `compress_image` method, which uses the `Pillow` (PIL) library to dynamically resize and compress images to under 2MB before saving them to the database. The form's `save()` method also parses and creates custom tags on the fly.
 
-**Asynchronous Feed & Views.** All major interactions happen without page reloads via `fetch`. Creating or deleting a post returns a `JsonResponse`. On creation, Django renders the HTML for the new post (`post_item.html`) and sends it back to be inserted into the DOM. The feed (`PostListView`) supports infinite scrolling: AJAX requests return the next batch of rendered posts and a `has_next` boolean. Database queries are highly optimized using `select_related` and `prefetch_related` to prevent N+1 issues.
+**Asynchronous Feed & Views.** All major interactions happen without page reloads via `fetch`. Creating or deleting a post returns a `JsonResponse`. On creation, Django renders the HTML for the new post (`post_item.html`) and sends it back to be inserted into the DOM. The feed (`PostListView`) supports infinite scrolling: fetch requests return the next batch of rendered posts and a `has_next` boolean. Database queries are highly optimized using `select_related` and `prefetch_related` to prevent N+1 issues.
 
 </details>
 
@@ -914,7 +914,7 @@ This module is responsible for creating, displaying, and managing user posts. It
 
 <a name="home_app"><h1>home_app</h1></a>
 
-Модуль є головною точкою входу для авторизованих користувачів. Він відповідає за відображення глобальної стрічки новин (публікацій від усіх користувачів) та фіналізацію процесу онбордингу (завершення реєстрації).
+Модуль є головною точкою входу для авторизованих користувачів. Він відповідає за відображення глобальної стрічки новин (публікацій від усіх користувачів) та фіналізацію процесу завершення реєстрації.
 
 ### Завершення реєстрації (`EndRegistrationView`)
 
@@ -941,7 +941,7 @@ class EndRegistrationView(View):
 
 ### Глобальна стрічка та пагінація (`HomeView`)
 
-Як і в `post_app`, відображення постів оптимізовано для запобігання N+1 запитам (`select_related`, `prefetch_related`). Але на відміну від профілю, `HomeView` віддає публікації **усіх** користувачів системи. Сторінка підтримує асинхронну пагінацію: якщо приходить AJAX-запит, бекенд повертає JSON із відрендереними HTML-фрагментами наступних публікацій та прапорцем `has_next`.
+Як і в `post_app`, відображення постів оптимізовано для запобігання N+1 запитам (`select_related`, `prefetch_related`). Але на відміну від профілю, `HomeView` віддає публікації **усіх** користувачів системи. Сторінка підтримує асинхронну пагінацію: якщо приходить fetch-запит, бекенд повертає JSON із відрендереними HTML-фрагментами наступних публікацій та прапорцем `has_next`.
 
 ### Нескінченна прокрутка (Frontend)
 
@@ -975,9 +975,9 @@ const observer = new IntersectionObserver(async (entries) => {
 
 This module serves as the main hub for authenticated users. It handles the global news feed (displaying posts from all users) and the final step of the user onboarding process.
 
-**Finalizing Registration.** The `EndRegistrationView` handles the submission of the `WelcomeForm` (via AJAX). It updates the `User` model by setting the username with an `@` prefix and creates the associated `Profile` model with the user's chosen pseudonym.
+**Finalizing Registration.** The `EndRegistrationView` handles the submission of the `WelcomeForm` (fetch). It updates the `User` model by setting the username with an `@` prefix and creates the associated `Profile` model with the user's chosen pseudonym.
 
-**Global Feed & Pagination.** `HomeView` retrieves and serves all posts across the platform. It is highly optimized using `select_related` and `prefetch_related` to avoid N+1 query performance issues. It serves data in chunks, responding to AJAX requests with pre-rendered HTML post fragments and a `has_next` boolean flag.
+**Global Feed & Pagination.** `HomeView` retrieves and serves all posts across the platform. It is highly optimized using `select_related` and `prefetch_related` to avoid N+1 query performance issues. It serves data in chunks, responding to fetch requests with pre-rendered HTML post fragments and a `has_next` boolean flag.
 
 **Infinite Scroll (Frontend).** The `post_load.js` script implements an infinite scroll mechanism using the browser's `IntersectionObserver` API. It monitors a sentinel element at the bottom of the feed. Once the sentinel comes into view, the script automatically triggers a `fetch` request for the next page, appends the new HTML directly into the DOM, and disconnects the observer if there are no more posts to load.
 
@@ -989,26 +989,68 @@ This module serves as the main hub for authenticated users. It handles the globa
 
 <a name="chat_app"><h1>chat_app</h1></a>
 
-Модуль реалізує месенджер у реальному часі. `consumers.py` містить асинхронні WebSocket-консюмери, які приймають і надсилають повідомлення без перезавантаження сторінки; `routing.py` відповідає за маршрутизацію сокет-з'єднань. Окремий шар `services/` реалізує кастомну пагінацію для списків чатів, груп та повідомлень.
+Модуль відповідає за систему обміну повідомленнями у реальному часі, керування особистими та груповими чатами, а також відстеження статусу користувачів (онлайн/офлайн) та кількості непрочитаних повідомлень. 
 
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/chat_app)
+**Ключова особливість фронтенду:** Усі без винятку взаємодії з клієнтом (створення груп, видалення чатів, завантаження історії повідомлень, пагінація контактів, оновлення налаштувань групи) відбуваються асинхронно через `fetch`-запити. Бекенд повертає `JsonResponse` або готові HTML-фрагменти для миттєвої вставки в DOM без перезавантаження сторінки.
+
+**Інтеграція з мобільним додатком (Express.js):** У цьому застосунку реалізовано унікальний механізм синхронізації (`socket_client.py`). Django виступає клієнтом (`socketio.AsyncClient`), який підключається до зовнішнього Express.js сервера через WebSocket. Це створює "міст" (bridge) між веб-версією та мобільним додатком, дозволяючи синхронізувати статуси онлайну, нові повідомлення та запити в друзі між двома різними платформами.
+
+### Логіка та відображення (`views.py` та `services/`)
+
+Головна `ChatView` попередньо завантажує особисті та групові чати користувача, автоматично сортуючи їх за кількістю непрочитаних повідомлень (`unread_count`). Уся важка логіка винесена у сервіси (наприклад, `group_actions.py`), де обробляються POST/GET запити з `fetch`:
+- **Відкриття чату:** `open_chat_by_id_service` генерує HTML списку повідомлень та повертає кількість користувачів онлайн у конкретній групі.
+- **Керування групами:** `create_group_service` та `update_group_service` обробляють додавання користувачів та зміну даних чату з перевіркою прав адміністратора.
+
+### WebSockets (`consumers.py`)
+
+Застосунок використовує Django Channels для забезпечення real-time функцій через декілька консьюмерів:
+- **`ChatConsumer`:** Обробляє відправку повідомлень, зберігає їх у базу, надсилає WebSocket-сповіщення іншим учасникам чату та тригерить Express-сервер (`sio.emit("django_event", ...)`). Також відповідає за позначення повідомлень прочитаними.
+- **`OnlineStatusConsumer`:** Відстежує підключення користувачів, об'єднує локальний онлайн зі списком онлайну з мобільного додатку (через Express) та розсилає актуальні статуси клієнтам.
+- **`UnreadConsumer`:** Динамічно підраховує кількість непрочитаних повідомлень у всіх чатах користувача та пушить оновлені лічильники на клієнт при кожній зміні.
+
+### Зв'язок з Express (`socket_client.py`)
+
+Окремий фоновий цикл (`background_loop`) підтримує постійне з'єднання з Express:
 
 ```python
-# consumers.py (приклад)
-class ChatConsumer(AsyncWebsocketConsumer):
-    '''Асинхронний консюмер для обміну повідомленнями в реальному часі'''
-    async def receive(self, text_data):
-        data = json.loads(text_data)
-        # TODO: вставити реальну логіку збереження та розсилки повідомлення
+# Приклад обробки події від Express-сервера (мобільного додатку)
+@sio.on("server_event", namespace="/django-bridge")
+async def on_server_event(data):
+    event_type = data.get("type")
+    
+    # Якщо користувач зайшов з мобільного додатку — робимо його онлайн у веб-версії
+    if event_type == "user:online":
+        user_id = data.get("userId")
+        all_online_users.add(str(user_id))
+        await channel_layer.group_send(
+            "online_users",
+            {"type": "online_status", "user_id": str(user_id), "status": "online"}
+        )
+    
+    # Синхронізація повідомлень, відправлених з телефону
+    if event_type == "message:new":
+        # Логіка трансляції повідомлення у Django Channels
+        ...
 ```
+
+[link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network/chat_app)
 
 <details>
 <summary>English version</summary>
-This module implements the real-time messenger. `consumers.py` contains asynchronous WebSocket consumers that send and receive messages without reloading the page; `routing.py` handles socket connection routing. A separate `services/` layer implements custom pagination for chat lists, groups, and messages.
+
+This module is the core of the real-time messaging system, handling solo/group chats, online/offline statuses, and unread message counters.
+
+**100% Fetch-Driven Frontend:** All client-server interactions — such as creating groups, loading paginated messages, updating chat settings, or fetching contacts — are executed asynchronously via `fetch` requests. The backend processes these and returns `JsonResponse` objects or pre-rendered HTML fragments for seamless DOM updates without page reloads.
+
+**Express.js Mobile App Bridge:** A standout feature of this app is its integration with a mobile application via a Node/Express.js backend (`socket_client.py`). Django acts as a Socket.IO client (`socketio.AsyncClient`), establishing a real-time "bridge" with the Express server. This ensures that online statuses, new messages, and friend requests are instantly synchronized between the web platform and the mobile app.
+
+**WebSockets (Channels).** Real-time functionality is split into specialized consumers: `ChatConsumer` (handles message broadcasting and read receipts), `OnlineStatusConsumer` (manages combined web and mobile online states), and `UnreadConsumer` (pushes dynamic unread counters to the UI). 
+
+**Views & Services.** `ChatView` intelligently preloads and sorts user chats based on unread activity. Complex operations are offloaded to dedicated services (like `group_actions.py`), keeping the views clean and strictly focused on handling incoming `fetch` requests and returning structured JSON data.
+
 </details>
 
 [⬆️ Table of contents](#articles)
-
 ---
 
 <a name="media"><h1>media</h1></a>
