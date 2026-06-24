@@ -525,11 +525,21 @@ DATABASES = {
 
 * **asgiref** — набір інструментів для взаємодії між асинхронним (async) та синхронним (sync) кодом у Python. Використовується для виклику ORM-запитів у сокетах.
 
+* **cloudinary** — SDK для роботи з хмарним сервісом Cloudinary, де зберігаються зображення (аватари, фото в постах і повідомленнях).
+
+* **django-cloudinary-storage** — інтеграція Cloudinary як файлового storage-бекенду для Django, щоб `ImageField` зберігав файли в хмарі, а не локально.
+
+* **python-socketio** (`socketio`) — клієнт/сервер для протоколу Socket.IO. Використовується, щоб Django підключався як клієнт до Express-сервера й обмінювався подіями (наприклад, статуси онлайн, нові повідомлення) у реальному часі.
+
+* **python-dotenv** — завантаження змінних середовища з файлу `.env` (ключі Cloudinary, дані для пошти, URL Express-сервера тощо).
+
 ### BASE MODULES
 
 * **os** — модуль, який використовується для побудови шляхів до файлів, роботи з директоріями (наприклад, для збереження медіафайлів).
 
 * **json** — вбудований модуль Python для серіалізації/десеріалізації даних, що передаються через WebSocket.
+
+* **asyncio** — вбудований модуль Python для написання асинхронного коду; використовується для запуску окремого event loop, який підтримує з'єднання Socket.IO у фоновому режимі.
 
 <details>
 <summary>English version</summary>
@@ -546,11 +556,21 @@ DATABASES = {
 
 * **asgiref** — a set of tools for async/sync interoperability in Python. Used to call ORM queries inside sockets.
 
+* **cloudinary** — SDK for working with the Cloudinary cloud service, where images are stored (avatars, post photos, message images).
+
+* **django-cloudinary-storage** — integrates Cloudinary as a file storage backend for Django, so `ImageField` stores files in the cloud instead of locally.
+
+* **python-socketio** (`socketio`) — Socket.IO client/server library. Used so Django can connect as a client to the Express server and exchange real-time events (e.g. online statuses, new messages).
+
+* **python-dotenv** — loads environment variables from the `.env` file (Cloudinary keys, email credentials, Express server URL, etc.).
+
 ### BASE MODULES
 
 * **os** — used for building file paths and working with directories (e.g. for storing media files).
 
 * **json** — a built-in Python module for serializing/deserializing data sent over WebSocket.
+
+* **asyncio** — a built-in Python module for writing asynchronous code; used to run a separate event loop that keeps the Socket.IO connection running in the background.
 
 </details>
 
