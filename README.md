@@ -859,21 +859,53 @@ This module manages the user's personal page: displaying core information, profi
 
 <a name="post_app"><h1>post_app</h1></a>
 
-Модуль відповідає за публікації — створення постів, обробку тегів і загальну взаємодію користувача з контентом.
+Модуль відповідає за створення, відображення та керування публікаціями (постами) користувачів. Він підтримує мультимедійні вкладення, тегування та асинхронну підвантаження стрічки.
+
+### Моделі (`models.py`)
+
+Дані публікації розділені на кілька пов'язаних моделей для зручності: основна модель `Post`, `Tag` (через `ManyToManyField`), `PostLink` для прикріплених URL-адрес та `PostImage`. Цікавою деталлю є те, що для зображень зберігається як оригінал, так і стиснена копія:
+
+```python
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images')
+    original_image = models.ImageField(upload_to='post_app/original_images/', null=True, blank=True)
+    compressed_image = models.ImageField(upload_to='post_app/compressed_images/', null=True, blank=True)
+```
+
+### Форми та стиснення зображень (`forms.py`)
+
+Форма `PostForm` кастомізована для підтримки завантаження кількох файлів одночасно (`MultipleFilesField`). Головна особливість — метод `compress_image`, який використовує бібліотеку `Pillow` (PIL) для автоматичного зменшення якості та розміру фотографій "на льоту" перед їх збереженням у базу:
+
+```python
+def compress_image(self, original_image):
+    # Логіка стиснення через PIL (Image.open, resize, зміна quality)
+    # Зменшує роздільну здатність та якість, поки файл не стане < 2MB
+    ...
+    return compressed_image
+```
+
+Також метод `save()` цієї форми вміє автоматично створювати нові кастомні теги, якщо їх ще немає в базі (через `get_or_create`), та прив'язувати посилання.
+
+### Асинхронна стрічка та дії (`views.py`)
+
+Усі ключові взаємодії з постами відбуваються без перезавантаження сторінки (через `fetch`):
+- **Створення та видалення:** Працюють через POST-запити та повертають `JsonResponse`. При успішному створенні бекенд відразу рендерить готовий HTML-фрагмент нового поста (`post_item.html`) і віддає його на фронтенд для миттєвої вставки у DOM.
+- **Стрічка (Feed) та пагінація:** `PostListView` віддає пости пачками по 3 штуки. Якщо запит приходить через AJAX (перевірка на `XMLHttpRequest`), view повертає JSON із уже згенерованим HTML наступних постів та прапорцем `has_next`. Це дозволяє легко реалізувати нескінченну прокрутку (infinite scroll).
+- **Оптимізація бази:** Для уникнення проблеми N+1 запитів при формуванні стрічки активно використовуються `select_related('author')` та `prefetch_related('tags', 'links', 'images')`.
 
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/post_app)
 
-```python
-# views.py (приклад)
-def create_post(request):
-    '''Обробка створення нового поста: текст, теги, медіафайли'''
-    # TODO: вставити реальний код функції
-    pass
-```
-
 <details>
 <summary>English version</summary>
-This module is responsible for publications — post creation, tag processing, and general content interaction.
+
+This module is responsible for creating, displaying, and managing user posts. It supports multimedia attachments, tagging, and asynchronous feed loading.
+
+**Models.** Post data is divided into several related models: `Post`, `Tag` (M2M), `PostLink` for attached URLs, and `PostImage`. Notably, `PostImage` stores both the original and a compressed version of each uploaded picture.
+
+**Forms & Image Compression.** The `PostForm` handles multiple file uploads seamlessly. A key feature is the `compress_image` method, which uses the `Pillow` (PIL) library to dynamically resize and compress images to under 2MB before saving them to the database. The form's `save()` method also parses and creates custom tags on the fly.
+
+**Asynchronous Feed & Views.** All major interactions happen without page reloads via `fetch`. Creating or deleting a post returns a `JsonResponse`. On creation, Django renders the HTML for the new post (`post_item.html`) and sends it back to be inserted into the DOM. The feed (`PostListView`) supports infinite scrolling: AJAX requests return the next batch of rendered posts and a `has_next` boolean. Database queries are highly optimized using `select_related` and `prefetch_related` to prevent N+1 issues.
+
 </details>
 
 [⬆️ Table of contents](#articles)
