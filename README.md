@@ -767,7 +767,7 @@ class ChangeStatusView(LoginRequiredMixin, View):
 
 ### WebSocket-сповіщення про запити в друзі
 
-На відміну від `chat_app`, тут окремий WebSocket-маршрут саме для сповіщень про дружбу:
+На відміну від `chat_app`, тут є окремий WebSocket-маршрут та консьюмер (`FriendRequestConsumer`), який відстежує запити в друзі в реальному часі.
 
 ```python
 # routing.py
@@ -776,7 +776,65 @@ websocket_urlpatterns = [
 ]
 ```
 
-Цей маршрут підключається в `asgi.py` поряд із маршрутами чату, тож обидва модулі обслуговують WebSocket-з'єднання в межах одного ASGI-застосунку.
+Цей консьюмер підключається до персональної групи користувача і при кожному оновленні (наприклад, коли хтось надсилає запит) відправляє клієнту актуальну кількість очікуючих запитів та дані про нового підписника. Це дозволяє миттєво оновлювати лічильники та інтерфейс:
+
+```python
+from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+import json
+
+from .models import Friendship
+
+
+class FriendRequestConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.user = self.scope["user"]
+
+        if not self.user.is_authenticated:
+            await self.close()
+            return
+        
+        self.group_name = f'friend_request_{self.user.id}'
+        await self.channel_layer.group_add(
+            self.group_name, 
+            self.channel_name
+        )
+        await self.accept()
+        await self.send_count()
+
+    async def disconnect(self, code):
+        await self.channel_layer.group_discard(
+            self.group_name,
+            self.channel_name
+        )
+
+    async def friend_request_update(self, event):
+        await self.send_count()
+        
+        if event.get('from_user_id'):
+            await self.send(text_data=json.dumps({
+                'type': 'new_request',
+                'from_user_id': event['from_user_id'],
+                'pseudonym': event['pseudonym'],
+                'username': event['username'],
+            }))
+
+    async def send_count(self):
+        count = await self.get_pending_count()
+        await self.send(text_data=json.dumps({
+            'type': 'count_update',
+            'count': count
+        }))
+
+    @database_sync_to_async
+    def get_pending_count(self):
+        return Friendship.objects.filter(
+            to_user = self.user,
+            status = "pending",
+        ).count()
+```
+
+Маршрут підключається в `asgi.py` поряд із маршрутами чату, тож обидва модулі обслуговують WebSocket-з'єднання в межах одного ASGI-застосунку.
 
 ### Глобальна форма у шаблонах
 
@@ -805,7 +863,7 @@ This module handles users, authentication, and the friend system — one of the 
 
 **Friend system.** Logic is split into `friends_queries.py` (read queries: requests, recommendations, accepted friends) and `friend_actions.py` (write actions: send/accept/delete request, dismiss recommendation). Every action that changes a friendship status immediately broadcasts a WebSocket event via `channel_layer.group_send()` to the group `friend_request_{user_id}`, so the recipient's friend list updates instantly without a page reload. All actions are unified behind a single `ChangeStatusView`, which reads the action from the URL and returns a ready-to-insert HTML fragment, fetched and inserted by the frontend via `fetch`. The friends page loads three sections at once (requests, recommendations, friends), each independently paginated and fetched the same way.
 
-**WebSocket notifications.** Unlike `chat_app`, this module has its own WebSocket route dedicated to friend-request notifications (`FriendRequestConsumer`), registered alongside the chat routes in the project's `asgi.py`.
+**WebSocket notifications.** Unlike `chat_app`, this module has its own WebSocket route and a dedicated consumer (`FriendRequestConsumer`) to track friend requests in real time. It connects to the user's personal group and immediately broadcasts the current pending request count alongside new request details. It is registered alongside the chat routes in the project's `asgi.py`.
 
 **Global template form.** A context processor injects the `WelcomeForm` (used for setting a nickname on first login) into every template's context automatically, without passing it explicitly from each view.
 
