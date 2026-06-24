@@ -582,25 +582,38 @@ DATABASES = {
 
 <a name="core"><h1>Social_network (core)</h1></a>
 
-Кореневий пакет застосунку. Тут створюється головний екземпляр проєкту, налаштовуються параметри роботи через `settings.py`, реєструються маршрути (`urls.py`) та конфігурується ASGI-сервер (`asgi.py`), що дозволяє одночасно обробляти звичайні HTTP-запити та довготривалі WebSocket-з'єднання.
+Кореневий пакет застосунку. Тут зберігається головна конфігурація проєкту:
 
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network)
+- **`settings.py`** — підключає змінні середовища через `python-dotenv`, реєструє застосунки в `INSTALLED_APPS` (`post_app`, `home_app`, `user_app`, `profile_app`, `chat_app`), задає кастомну модель користувача (`AUTH_USER_MODEL = 'user_app.User'`), налаштовує `CHANNEL_LAYERS` (наразі `InMemoryChannelLayer` — підходить для розробки, але не для кількох процесів одночасно) та підключає Cloudinary як основне сховище медіафайлів через `STORAGES`.
+- **`urls.py`** — головний роутер проєкту, який підключає (`include`) маршрути кожного застосунку окремим префіксом (`/post/`, `/settings/`, `/profile/`, `/chat/`), а в режимі `DEBUG` додає віддачу медіафайлів напряму через Django.
+- **`asgi.py`** — точка входу для ASGI-сервера (Daphne), яка дозволяє обробляти HTTP і WebSocket в одному застосунку. WebSocket-маршрути двох застосунків (`chat_app` та `user_app`) об'єднуються в один `URLRouter`, а `AuthMiddlewareStack` додає до WebSocket-з'єднань інформацію про автентифікованого користувача (`scope["user"]`).
+
+[link to file](https://github.com/Pranichek/Social-Network/tree/main/Social_network/Social_network)
 
 ```python
 # asgi.py — точка входу для ASGI-сервера (Daphne),
 # яка дозволяє обробляти HTTP і WebSocket в одному застосунку
 
 application = ProtocolTypeRouter({
-    "http": django_asgi_app,
-    "websocket": AuthMiddlewareStack(
-        URLRouter(chat_app.routing.websocket_urlpatterns)
-    ),
+    'http': get_asgi_application(),
+    'websocket': AuthMiddlewareStack(
+        URLRouter(
+            chat_app.routing.websocket_urlpatterns +
+            user_app.routing.websocket_urlpatterns
+        )
+    )
 })
 ```
 
 <details>
 <summary>English version</summary>
-The root application package. This is where the main project instance is created, operating parameters are configured via `settings.py`, routes are registered (`urls.py`), and the ASGI server is configured (`asgi.py`), allowing both regular HTTP requests and long-lived WebSocket connections to be handled simultaneously.
+
+The root application package. It stores the project's core configuration:
+
+- **`settings.py`** — loads environment variables via `python-dotenv`, registers apps in `INSTALLED_APPS` (`post_app`, `home_app`, `user_app`, `profile_app`, `chat_app`), sets a custom user model (`AUTH_USER_MODEL = 'user_app.User'`), configures `CHANNEL_LAYERS` (currently `InMemoryChannelLayer` — fine for development, but not suitable for multiple processes), and sets Cloudinary as the default media storage backend via `STORAGES`.
+- **`urls.py`** — the project's main router, which includes each app's routes under its own prefix (`/post/`, `/settings/`, `/profile/`, `/chat/`), and serves media files directly through Django when `DEBUG` is enabled.
+- **`asgi.py`** — the entry point for the ASGI server (Daphne), allowing both HTTP and WebSocket traffic to be handled by a single application. WebSocket routes from two apps (`chat_app` and `user_app`) are merged into a single `URLRouter`, while `AuthMiddlewareStack` attaches the authenticated user to the WebSocket connection scope (`scope["user"]`).
+
 </details>
 
 [⬆️ Table of contents](#articles)
