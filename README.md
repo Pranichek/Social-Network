@@ -1127,12 +1127,13 @@ This module is the core of the real-time messaging system, handling solo/group c
 
 <a name="prbl_project"><h2>Problems during development</h2></a>
 
-Під час створення цього проєкту ми зіштовхнулися з рядом викликів. Реалізація обміну повідомленнями в реальному часі через WebSockets та Django Channels вимагала більш глибокого розуміння асинхронного коду, ніж звичайна синхронна робота з Django. Окремою складністю стало коректне розмежування застосунків (apps) на ранньому етапі — частину логіки довелося переносити з одного модуля в інший вже під час розробки. Команді також знадобився час, щоб налаштувати збереження та коректне відображення медіафайлів (аватари, зображення постів) у поєднанні з ASGI-сервером.
+Перша проблема, яка виникла, — це нестикування графіка роботи з співкомандниками, але ця проблема дуже швидко вирішилась, коли всі надали свої графіки занять. Друга проблема в тому, що подібний проєкт ми робимо вперше, тому виникали своєрідні невеликі труднощі та питання. У деяких моментах ми могли що-небудь забути або не знати, і доводилось шукати й гуглити інформацію по проєкту, а також пробувати купу різних варіантів, щоб виправити ту чи іншу помилку. Ще одна проблема виникла, коли хтось міг щось не записати в конспект на уроці або пропустити минулу зустріч, і доводилось вводити людину в курс справи.
+
 
 <details>
 <summary>English version</summary>
 
-During the creation of this project, we encountered a number of challenges. Implementing real-time messaging via WebSockets and Django Channels required a deeper understanding of asynchronous code compared to regular synchronous Django development. Another difficulty was correctly separating the apps at an early stage — part of the logic had to be moved between modules during development. The team also needed time to set up proper storage and display of media files (avatars, post images) together with the ASGI server.
+The first problem that arose was a scheduling conflict with my teammates, but this issue was resolved very quickly once everyone shared their class schedules. The second problem was that we are doing this kind of project for the first time, so we faced some minor difficulties and questions. At certain points, we could forget or not know something, so we had to search and google information about the project, as well as try a bunch of different options to fix a particular error. Another problem arose when someone might have missed something in their class notes or missed the previous meeting, so we had to bring them up to speed.
 
 </details>
 
@@ -1140,18 +1141,26 @@ During the creation of this project, we encountered a number of challenges. Impl
 
 ---
 
-<a name="conclusions"><h2>Conclusion</h2></a>
+<a name="conclusion"><h2>Conclusion</h2></a>
 
-Робота над цим проєктом дала команді практичний досвід створення сучасного вебзастосунку на Django з підтримкою реального часу. Ми навчилися працювати з кастомною моделлю користувача та системою автентифікації, реалізовувати обмін повідомленнями через WebSockets і Django Channels, організовувати дані для соціальної мережі (пости, профілі, чати, друзі) та розподіляти проєкт на окремі модулі для зручної підтримки й масштабування.
+Завершення роботи над цією соціальною мережею стало для нас не просто фіналом проєкту, а потужним етапом професійного зростання. Озираючись назад, можна з упевненістю сказати, що ми досягли поставленої мети — створили повноцінну платформу для спілкування в реальному часі. Одним із найважливіших рішень на старті був вибір фреймворку. Ми обрали саме Django через його філософію "батарейки в комплекті" (batteries-included). Це дозволило нам не витрачати час на "винайдення велосипеда" — написання з нуля систем автентифікації, безпеки чи адмін-панелі, а натомість зосередитися на бізнес-логіці та унікальних фічах нашої мережі. Потужна ORM-система значно спростила взаємодію з базою даних, а екосистема Django Channels дозволила елегантно поєднати надійний класичний бекенд із WebSockets для миттєвого обміну повідомленнями.
 
-У подальшому проєкт можна розвивати, додавши систему сповіщень у реальному часі, групові чати з розширеними правами, стрічку рекомендацій, а також покриття тестами.
+У процесі розробки ми здобули колосальний практичний досвід. Ми навчилися проєктувати складні реляційні бази даних, будувати правильну архітектуру застосунків (MVT) та "оживляти" інтерфейс, пов'язуючи бекенд із фронтенд-скриптами. Найбільшим відкриттям став перехід від класичного синхронного коду до асинхронного програмування. Робота з ASGI та налаштування споживачів (consumers) суттєво розширили наше розуміння того, як працюють сучасні високоінтерактивні веб-додатки. Крім суто технічних навичок (hard skills), ми навчилися працювати в команді, ефективно використовувати Git, уникати конфліктів при злитті коду та читати об'ємну технічну документацію.
+
+Цей проєкт має велику цінність для нас у майбутньому. Насамперед, це сильний елемент портфоліо, який демонструє здатність доводити складну ідею до працюючого продукту. Крім того, створена нами архітектура є чудовим фундаментом: тепер у нас є власна кодова база і готові модулі (наприклад, система чатів чи управління профілями), які ми зможемо легко адаптувати або перевикористати як шаблон у своїх наступних стартапах. Навіть зараз ми можемо розгорнути цей проєкт на власному сервері, створивши закритий і безпечний простір для спілкування з друзями.
+
+Звісно, межі досконалості немає, і проєкт має величезний простір для розвитку. У майбутньому його можна значно покращити, додавши систему push-сповіщень, підтримку групових чатів, глобальний пошук по контенту та систему хештегів для постів. З технічної точки зору наступним логічним кроком стала б контейнеризація проєкту за допомогою Docker для швидкого розгортання на будь-якому сервері, написання автоматизованих тестів для перевірки стабільності та налаштування CI/CD пайплайнів. Створення цієї платформи вимагало значних зусиль, часу та наполегливості, але фінальний результат та отримані знання повністю виправдали цей шлях.
 
 <details>
 <summary>English version</summary>
 
-Working on this project gave the team hands-on experience building a modern real-time Django web application. We learned to work with a custom user model and authentication system, implement messaging via WebSockets and Django Channels, structure data for a social network (posts, profiles, chats, friends), and split the project into separate modules for easier maintenance and scalability.
+Completing this social network was not just the end of a project for us, but a powerful stage of professional growth. Looking back, we can confidently say that we achieved our goal — creating a fully-fledged platform for real-time communication. One of the most important decisions at the start was the choice of framework. We chose Django specifically because of its "batteries-included" philosophy. This allowed us to avoid "reinventing the wheel" — writing authentication, security, or admin systems from scratch — and instead focus on the business logic and unique features of our network. The powerful ORM system significantly simplified database interactions, and the Django Channels ecosystem allowed us to elegantly combine a reliable classic backend with WebSockets for instant messaging.
 
-Going forward, the project could be extended with real-time notifications, group chats with advanced permissions, a recommendation feed, and automated test coverage.
+During development, we gained tremendous practical experience. We learned how to design complex relational databases, build proper application architectures (MVT), and "bring to life" the interface by connecting the backend with frontend scripts. The biggest revelation was the transition from classic synchronous code to asynchronous programming. Working with ASGI and configuring consumers substantially broadened our understanding of how modern, highly interactive web applications operate. Beyond hard skills, we learned how to work in a team, use Git effectively, resolve code merge conflicts, and navigate extensive technical documentation.
+
+This project holds great value for us in the future. First and foremost, it is a strong portfolio piece that demonstrates our ability to bring a complex idea to a working product. Furthermore, the architecture we created serves as an excellent foundation: we now have our own codebase and ready-to-use modules (such as the chat system or profile management) that we can easily adapt or reuse as a template in our future startups. Even now, we can deploy this project on a private server, creating a closed and secure communication space for our friends.
+
+Of course, there is no limit to perfection, and the project has huge room for growth. In the future, it could be significantly improved by adding a push notification system, group chat support, global content search, and a hashtag system for posts. From a technical perspective, the next logical step would be dockerizing the project for quick deployment on any server, writing automated tests to ensure stability, and setting up CI/CD pipelines. Creating this platform required significant effort, time, and persistence, but the final result and the knowledge gained completely justified the journey.
 
 </details>
 
