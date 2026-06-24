@@ -42,9 +42,6 @@
     - [describe post_app package](#post_app)
     - [describe home_app package](#home_app)
     - [describe chat_app package](#chat_app)
-    - [describe media package](#media)
-    - [describe static package](#static)
-    - [describe templates package](#templates)
 
 # Problems when creating a project
 [Problems during development](#prbl_project)
