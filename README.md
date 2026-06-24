@@ -790,7 +790,7 @@ def global_form(request):
 
 (підключається в `settings.py` через `TEMPLATES['OPTIONS']['context_processors']`).
 
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/user_app)
+[link to file](https://github.com/Pranichek/Social-Network/user_app)
 
 <details>
 <summary>English version</summary>
