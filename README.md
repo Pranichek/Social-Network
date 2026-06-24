@@ -622,24 +622,193 @@ The root application package. It stores the project's core configuration:
 
 <a name="user_app"><h1>user_app</h1></a>
 
-Модуль відповідає за користувачів і автентифікацію: кастомну модель користувача (замінює стандартну Django-модель), реєстрацію з AJAX-валідацією, вхід без перезавантаження сторінки, керування сесіями та підтвердження email через код. Власний шар `services/` обробляє логіку соціальних зв'язків (друзі/підписки) та генерацію токенів підтвердження.
+Модуль відповідає за користувачів, автентифікацію та систему друзів — це один із найбільших застосунків проєкту.
+
+### Моделі (`models.py`)
+
+Кастомна модель користувача успадковується від `AbstractUser`, але авторизація відбувається за email замість username:
+
+```python
+class User(AbstractUser):
+    username = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(unique=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+```
+
+Дружба між користувачами реалізована окремою моделлю `Friendship` із полем `status` (`pending`, `accepted`, `dismissed`), що дозволяє в одній таблиці зберігати як запити в друзі, так і "проігноровані" рекомендації:
+
+```python
+class Friendship(models.Model):
+    from_user = models.ForeignKey(User, related_name='sent_friendships', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, related_name='received_friendships', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, default='pending')
+
+    class Meta:
+        unique_together = ('from_user', 'to_user')
+```
+
+### Реєстрація та підтвердження email
+
+Реєстрація реалізована у два кроки через `fetch`-запити, без перезавантаження сторінки. Спочатку перевіряється форма (`CheckRegistration`), генерується 6-значний код, лист надсилається у фоновому потоці (`threading.Thread`), а самі дані реєстрації тимчасово зберігаються в сесії, доки користувач не введе код:
+
+```python
+class CheckRegistration(View):
+    def post(self, request, *args, **kwargs):
+        form = RegistrationForm(request.POST)
+
+        if form.is_valid():
+            code = generate_user_code()
+
+            email_thread = threading.Thread(
+                target=generate_mail,
+                kwargs={
+                    'request': request,
+                    'recipient_email': request.POST.get('email'),
+                    'code': code
+                }
+            )
+            email_thread.start()
+
+            request.session['confirm_code'] = code
+            request.session['reg_data'] = {
+                'email': form.cleaned_data.get('email'),
+                'password': form.cleaned_data.get('password'),
+                'confirm_password': form.cleaned_data.get('confirm_password')
+            }
+
+            return JsonResponse({'success': True, 'message': 'Користувача успішно разеєстровано'})
+
+        return JsonResponse({'success': False, 'errors': form.errors.get_json_data()}, status=400)
+```
+
+Сам код генерується дуже просто (`services/generate_code.py`):
+
+```python
+def generate_user_code() -> str:
+    code = ''
+    for number in range(6):
+        code += str(random.randint(0, 9))
+    return code
+```
+
+Тільки після підтвердження коду (`ConfirmEmail`) дані з сесії валідуються повторно і користувач реально створюється в базі (`form.save()`), а пароль хешується через `set_password()` у методі `save()` форми `RegistrationForm`.
+
+### Вхід
+
+Логін кастомізований через `AuthenticationForm`, де `username` замінено на `email`. Запит на вхід також надсилається через `fetch` (`CheckLogin`), без перезавантаження сторінки:
+
+```python
+class LoginForm(AuthenticationForm):
+    username = forms.EmailField(label='Електронна пошта', ...)
+    password = forms.CharField(label='Пароль', ...)
+
+    def clean(self):
+        email = self.cleaned_data.get("username")
+        password = self.cleaned_data.get("password")
+
+        if email and password:
+            self.user_cache = authenticate(self.request, username=email, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError("Неправильна пошта або пароль")
+            self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
+```
+
+### Система друзів
+
+Логіка друзів розбита на два сервісні файли:
+
+- **`services/friends_queries.py`** — вибірки користувачів: запити в друзі, рекомендації (всі, з ким немає жодного зв'язку та хто не сам користувач) і список вже прийнятих друзів.
+- **`services/friend_actions.py`** — дії над зв'язками: надіслати запит, прийняти запит, видалити/відхилити, пропустити рекомендацію. Кожна дія, що змінює статус дружби, одразу розсилає подію через `channel_layer.group_send()` у групу `friend_request_{user_id}`, щоб у потрібного користувача миттєво (через WebSocket) оновився список запитів — без перезавантаження сторінки:
+
+```python
+def add_friend_request(current_user, other_user):
+    Friendship.objects.get_or_create(
+        from_user=current_user, to_user=other_user, defaults={'status': 'pending'}
+    )
+
+    async_to_sync(channel_layer.group_send)(
+        f"friend_request_{other_user.id}",
+        {
+            "type": "friend_request_update",
+            "from_user_id": current_user.id,
+            "pseudonym": current_user.userprofile.pseudonym,
+            "username": current_user.username,
+        }
+    )
+
+    return {'label': 'Очікування'}
+```
+
+Усі дії об'єднані в одну view `ChangeStatusView`, яка приймає статус прямо з URL (`/friends/change_status/<str:status>/`) і повертає готовий HTML-фрагмент картки для підстановки на фронтенді (відповідь обробляється через `fetch` на клієнті):
+
+```python
+class ChangeStatusView(LoginRequiredMixin, View):
+    def get(self, request, status, *args, **kwargs):
+        user_object = get_object_or_404(User, id=request.GET.get('id', 1))
+
+        if status == 'add':
+            add_friend_request(current_user=self.request.user, other_user=user_object)
+        elif status == 'accepted':
+            accept_friend_request(current_user=self.request.user, other_user=user_object)
+        elif status == "delete":
+            any_delete(current_user=self.request.user, to_user=user_object)
+        elif status == "dismiss":
+            dismiss_recommendation(current_user=self.request.user, other_user=user_object)
+
+        return JsonResponse({'success': True, 'html': html})
+```
+
+Сторінка друзів (`FriendsView`) одразу підвантажує три секції — запити, рекомендації, друзі (`SectionsView` дає пагінацію по 12 карток на сторінку для кожної секції окремо й також підвантажується через `fetch`), а також показує пости конкретного друга (`FriendPostsView`) і коротку статистику профілю — кількість постів і друзів (`UserData`).
+
+### WebSocket-сповіщення про запити в друзі
+
+На відміну від `chat_app`, тут окремий WebSocket-маршрут саме для сповіщень про дружбу:
+
+```python
+# routing.py
+websocket_urlpatterns = [
+    path('ws/friend_requests/', FriendRequestConsumer.as_asgi())
+]
+```
+
+Цей маршрут підключається в `asgi.py` поряд із маршрутами чату, тож обидва модулі обслуговують WebSocket-з'єднання в межах одного ASGI-застосунку.
+
+### Глобальна форма у шаблонах
+
+Через `context_processors.py` форма `WelcomeForm` (встановлення нікнейму при першому вході) доступна у **всіх** шаблонах проєкту без явної передачі в кожній view:
+
+```python
+def global_form(request):
+    form = WelcomeForm(request.POST)
+    return {'welcome_form': form}
+```
+
+(підключається в `settings.py` через `TEMPLATES['OPTIONS']['context_processors']`).
 
 [link to file](https://github.com/Pranichek/Social-Network/tree/main/user_app)
 
-```python
-# views.py (приклад)
-def register_user(request):
-    '''
-    Обробка AJAX-реєстрації: перевірка унікальності email,
-    створення коду підтвердження та надсилання його на пошту
-    '''
-    # TODO: вставити реальний код функції
-    pass
-```
-
 <details>
 <summary>English version</summary>
-This module handles users and authentication: a custom user model, AJAX-validated registration, login without a page reload, session management, and email confirmation codes. A dedicated `services/` layer processes the social graph logic (friends/subscriptions) and confirmation token generation.
+
+This module handles users, authentication, and the friend system — one of the largest apps in the project.
+
+**Models.** The custom user model extends `AbstractUser` but authenticates by email instead of username. Friendships are stored in a separate `Friendship` model with a `status` field (`pending`, `accepted`, `dismissed`), which lets a single table represent both friend requests and dismissed recommendations.
+
+**Registration & email confirmation.** Registration is a two-step flow using `fetch` requests, with no page reload. The form is validated, a 6-digit code is generated, and the email is sent in a background thread (`threading.Thread`) while the submitted data is temporarily kept in the session until the user enters the code. The account is only created in the database once the code is confirmed, with the password hashed via `set_password()`.
+
+**Login.** A custom `AuthenticationForm` replaces `username` with an `email` field for authentication; the login request is also sent via `fetch`, without a page reload.
+
+**Friend system.** Logic is split into `friends_queries.py` (read queries: requests, recommendations, accepted friends) and `friend_actions.py` (write actions: send/accept/delete request, dismiss recommendation). Every action that changes a friendship status immediately broadcasts a WebSocket event via `channel_layer.group_send()` to the group `friend_request_{user_id}`, so the recipient's friend list updates instantly without a page reload. All actions are unified behind a single `ChangeStatusView`, which reads the action from the URL and returns a ready-to-insert HTML fragment, fetched and inserted by the frontend via `fetch`. The friends page loads three sections at once (requests, recommendations, friends), each independently paginated and fetched the same way.
+
+**WebSocket notifications.** Unlike `chat_app`, this module has its own WebSocket route dedicated to friend-request notifications (`FriendRequestConsumer`), registered alongside the chat routes in the project's `asgi.py`.
+
+**Global template form.** A context processor injects the `WelcomeForm` (used for setting a nickname on first login) into every template's context automatically, without passing it explicitly from each view.
+
 </details>
 
 [⬆️ Table of contents](#articles)
