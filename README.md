@@ -180,7 +180,7 @@ This project will help you understand:
   - Введіть `python --version` або `python3 --version` та натисніть Enter.
 - Якщо Python встановлено правильно, ви побачите встановлену версію.
 
-Якщо ви все ще не розумієте, як встановити Python, можете подивитися [тут](https://www.youtube.com/watch?v=uge4A1LHsNk)
+Якщо ви все ще не розумієте, як встановити Python, можете подивитися [тут](https://www.youtube.com/watch?v=rc1BNaK609s)
 
 [⬆️ Table of contents](#articles)
 
