@@ -621,6 +621,9 @@ The root application package. It stores the project's core configuration:
 
 <a name="user_app"><h1>user_app</h1></a>
 
+<img src="./Social_network/media/readme_images/user_app.gif" alt="Main page" width="800">
+
+
 Модуль відповідає за користувачів, автентифікацію та систему друзів — це один із найбільших застосунків проєкту.
 
 ### Моделі (`models.py`)
@@ -915,6 +918,9 @@ This module manages the user's personal page: displaying core information, profi
 ---
 
 <a name="post_app"><h1>post_app</h1></a>
+
+<img src="./Social_network/media/readme_images/post_app.gif" alt="Main page" width="800">
+
 
 Модуль відповідає за створення, відображення та керування публікаціями (постами) користувачів. Він підтримує мультимедійні вкладення, тегування та асинхронну підвантаження стрічки.
 
