@@ -1,7 +1,6 @@
 <h1>Social Network</h1>
 
 <img src="./Social_network/media/readme_images/main_demo.gif" alt="Main page" width="800">
----
 
 <a name="articles"><h3>Table of contents</h3></a>
 
