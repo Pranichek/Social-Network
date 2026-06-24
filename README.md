@@ -1,7 +1,6 @@
 <h1>Social Network</h1>
 
-![Main page](media/readme_images/main_screen.png)
-
+<img src="./Social_network/media/readme_images/main_demo.gif" alt="Main page" width="800">
 ---
 
 <a name="articles"><h3>Table of contents</h3></a>
@@ -1106,50 +1105,6 @@ This module is the core of the real-time messaging system, handling solo/group c
 
 **Views & Services.** `ChatView` intelligently preloads and sorts user chats based on unread activity. Complex operations are offloaded to dedicated services (like `group_actions.py`), keeping the views clean and strictly focused on handling incoming `fetch` requests and returning structured JSON data.
 
-</details>
-
-[⬆️ Table of contents](#articles)
----
-
-<a name="media"><h1>media</h1></a>
-
-Директорія для збереження завантажених користувачами файлів — аватарів та зображень, прикріплених до постів і повідомлень.
-
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/media)
-
-<details>
-<summary>English version</summary>
-Directory for storing user-uploaded files — avatars and images attached to posts and messages.
-</details>
-
-[⬆️ Table of contents](#articles)
-
----
-
-<a name="static"><h1>static</h1></a>
-
-Статичні ресурси інтерфейсу — CSS, JS-скрипти та зображення, які не змінюються динамічно.
-
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/static)
-
-<details>
-<summary>English version</summary>
-Static interface assets — CSS, JS scripts, and images that don't change dynamically.
-</details>
-
-[⬆️ Table of contents](#articles)
-
----
-
-<a name="templates"><h1>templates</h1></a>
-
-HTML-шаблони, які використовуються Django для рендерингу сторінок усіх застосунків проєкту.
-
-[link to file](https://github.com/Pranichek/Social-Network/tree/main/templates)
-
-<details>
-<summary>English version</summary>
-HTML templates used by Django to render pages for all applications in the project.
 </details>
 
 [⬆️ Table of contents](#articles)
