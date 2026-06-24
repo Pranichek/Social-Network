@@ -117,33 +117,37 @@ This project will help you understand:
 <a name="structure"><h1>Structure of project</h1></a>
 
 ```mermaid
-    graph LR;
-        SocialNetwork-->env;
-        SocialNetwork-->gitignore;
-        SocialNetwork-->manage_py;
-        SocialNetwork-->requirements_txt;
-        SocialNetwork-->db_sqlite3;
-        SocialNetwork-->chat_app;
-        SocialNetwork-->home_app;
-        SocialNetwork-->media;
-        SocialNetwork-->post_app;
-        SocialNetwork-->profile_app;
-        SocialNetwork-->core;
-        SocialNetwork-->static;
-        SocialNetwork-->templates;
-        SocialNetwork-->user_app;
-        core-->settings;
-        core-->urls;
-        core-->asgi;
-        chat_app-->consumers;
-        chat_app-->routing;
-        chat_app-->services_chat[services];
-        user_app-->models_user[models];
-        user_app-->views_user[views];
-        user_app-->services_user[services];
-        media-->images;
-        media-->post_images;
-        media-->readme_images;
+    graph TD;
+    SocialNetwork-->env;
+    SocialNetwork-->gitignore;
+    SocialNetwork-->manage_py;
+    SocialNetwork-->requirements_txt;
+    SocialNetwork-->db_sqlite3;
+    SocialNetwork-->chat_app;
+    SocialNetwork-->home_app;
+    SocialNetwork-->media;
+    SocialNetwork-->post_app;
+    SocialNetwork-->profile_app;
+    SocialNetwork-->core;
+    SocialNetwork-->static;
+    SocialNetwork-->templates;
+    SocialNetwork-->user_app;
+    
+    core-->settings;
+    core-->urls;
+    core-->asgi;
+    
+    chat_app-->consumers;
+    chat_app-->routing;
+    chat_app-->services_chat[services];
+    
+    user_app-->models_user[models];
+    user_app-->views_user[views];
+    user_app-->services_user[services];
+    
+    media-->images;
+    media-->post_images;
+    media-->readme_images;
 ```
 
 [⬆️ Table of contents](#articles)
@@ -452,7 +456,7 @@ CLOUDINARY_API_KEY=123456789012345
 CLOUDINARY_API_SECRET=your_secret_key
 ```
 
-> ✅ This is enough for local development. The database will be SQLite (`db.sqlite3`).
+> This is enough for local development. The database will be SQLite (`db.sqlite3`).
 
 ---
 
