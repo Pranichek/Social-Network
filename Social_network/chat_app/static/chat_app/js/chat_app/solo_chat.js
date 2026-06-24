@@ -188,7 +188,7 @@ messageForm.addEventListener('submit', async (event) => {
       if (messagesContainer) messagesContainer.scrollTop = messagesContainer.scrollHeight
     }
   } finally {
-    
+    const sendBtn = document.querySelector(".send-btn") 
     isSending = false
     if (sendBtn) sendBtn.disabled = false
   }

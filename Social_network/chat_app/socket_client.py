@@ -7,7 +7,7 @@ from django.conf import settings
 
 all_online_users: set = set()
 
-def cloudinary_url_from_field(image_field) -> str:
+def cloudinary_url_from_field(image_field):
     name = getattr(image_field, "name", "") or str(image_field)
     if not name:
         return ""
@@ -17,9 +17,9 @@ def cloudinary_url_from_field(image_field) -> str:
     return f"https://res.cloudinary.com/{cloud_name}/image/upload/{name}"
 
 sio = socketio.AsyncClient(logger=True, engineio_logger=True)
-EXPRESS_URL = "https://unreprimanded-unavidly-margene.ngrok-free.dev"
 
-# EXPRESS_URL = "http://192.168.0.148:8000"
+
+EXPRESS_URL = "https://unreprimanded-unavidly-margene.ngrok-free.dev"
 
 
 background_loop = None
@@ -45,31 +45,12 @@ def get_message_images_by_id(message_id):
         return []
 
 
-# @sio.event(namespace="/django-bridge")
-# async def connect():
-#     from .consumers import OnlineStatusConsumer
-#     print("✅ Django підключився до Express")
-#     print("Online users at connect:", OnlineStatusConsumer.online_users)
-
-#     # Отправляем Express всех онлайн-юзеров Django
-#     for user_id in OnlineStatusConsumer.online_users:
-#         await sio.emit("django_event", {
-#             "type": "user:online",
-#             "userId": int(user_id)
-#         }, namespace="/django-bridge")
-
-#     # Запрашиваем у Express его онлайн-юзеров
-#     await sio.emit("django_event", {
-#         "type": "users:request_online"
-#     }, namespace="/django-bridge")
-
 @sio.event(namespace="/django-bridge")
 async def connect():
     from .consumers import OnlineStatusConsumer
-    print("✅ Django підключився до Express")
+    print("Django підключився до Express")
 
     online = set(OnlineStatusConsumer.online_users) | all_online_users
-    print("Відправляємо Express повний список онлайн:", online)
 
     await sio.emit("django_event", {
         "type": "sync",
@@ -78,17 +59,16 @@ async def connect():
 
 @sio.event(namespace="/django-bridge")
 async def disconnect():
-    print("❌ Django відключився від Express")
+    print("Django відключився від Express")
 
 
 @sio.on("server_event", namespace="/django-bridge")
 async def on_server_event(data):
-    print("📨 Подія від Express:", data)
+    print("Подія від Express:", data)
 
     event_type = data.get("type")
     channel_layer = get_channel_layer()
 
-    # Express запросил список онлайн-юзеров Django
     if event_type == "users:request_online":
         from .consumers import OnlineStatusConsumer
         online = set(OnlineStatusConsumer.online_users)
@@ -100,7 +80,6 @@ async def on_server_event(data):
             }, namespace="/django-bridge")
         return
 
-    # Express сообщает что юзер онлайн
     if event_type == "user:online":
         user_id = data.get("userId") or data.get("id")
         if user_id:
@@ -113,7 +92,7 @@ async def on_server_event(data):
     
     if event_type == "sync":
         ids = data.get("onlineUsers", [])
-        print("📥 Отримали від Express повний список онлайн:", ids)
+        print("Отримали від Express повний список онлайн:", ids)
         channel_layer = get_channel_layer()
         for uid in ids:
             suid = str(uid)
@@ -125,7 +104,6 @@ async def on_server_event(data):
                 )
         return
 
-    # Express сообщает что юзер оффлайн
     if event_type == "user:offline":
         user_id = data.get("userId") or data.get("id")
         if user_id:
@@ -138,7 +116,6 @@ async def on_server_event(data):
             )
         return
 
-    # Новое сообщение от Express
     if event_type == "message:new":
         chat_id = data.get("chatId")
         message_data = data.get("message", {})
